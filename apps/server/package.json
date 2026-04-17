@@ -1,7 +1,13 @@
 {
+  "name": "server",
+  "type": "module",
+
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@headquarters/shared": "workspace:*"
   }
 }

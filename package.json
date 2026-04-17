@@ -1,16 +1,19 @@
 {
-  "name": "fullstack-ts-project",
+  "name": "headquarters",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
-    "build": "npm run build --workspaces"
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build"
   },
   "dependencies": {
     "cors": "^2.8.6",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "lucide-react": "^1.8.0",
+    "react-router": "^7.14.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
