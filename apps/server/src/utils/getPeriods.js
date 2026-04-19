@@ -21,12 +21,12 @@ export const getPeriods = (inn, order, begin, end) => {
         if (!errors[inn]) errors[inn] = []
         errors[inn].push(order)
     } else {
-        numPeriods[0].forEach((el, i)=> {
+        numPeriods[0].forEach((el, i) => {
             if (el > numPeriods[1][i]) {
                 if (!errors[inn]) errors[inn] = []
                 errors[inn].push(order)
             } else {
-                for (let j = el; j <= numPeriods[1][i]; j+=86400000) {
+                for (let j = el; j <= numPeriods[1][i]; j += 86400000) {
                     if (!result[j]) result[j] = []
                     result[j].push(order)
                 }

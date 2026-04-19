@@ -1,31 +1,29 @@
-import {createBrowserRouter} from "react-router";
-import {AboutPage, Main, MainLayout, Work} from "../pages";
-import {healthLoader} from "./loaders/healthLoader.ts";
-import {taskLoader} from "./loaders/taskLoader.ts";
+import {createBrowserRouter} from 'react-router'
+import {AboutPage, Main, MainLayout, Work} from '../pages'
+import {taskLoader} from './loaders/taskLoader.ts'
 
 
 export const router = createBrowserRouter([
         {
-            path: "/",
+            path: '/',
             element: <MainLayout/>, // Головний компонент
             children: [
                 {
-                    path: "/about",
+                    path: '/about',
                     element: <AboutPage/>,
                     loader: taskLoader,
                 },
                 {
-                    path: "/main",
+                    path: '/main',
                     element: <Main/>,
-                    loader: healthLoader, // Прив'язуємо лоадер до маршруту
+                    // loader: healthLoader, // Прив'язуємо лоадер до маршруту
                     errorElement: <div>Ой! Користувача не існує.</div>, // Обробка помилок
                 },
                 {
-                    path: "/work",
+                    path: '/work',
                     element: <Work/>,
                     errorElement: <div>Ой! Користувача не існує.</div>, // Обробка помилок
                 },
             ]
         }
     ])
-;

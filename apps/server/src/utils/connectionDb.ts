@@ -1,23 +1,23 @@
 import {MongoClient} from 'mongodb'
-import {getEnv} from './getEnv.js'
+import {getEnv} from './getEnv.ts'
 
 let cachedClient = null
 let cachedDb = null
 
-export const connectionDb = async ()=> {
+export const connectionDb = async () => {
     if (cachedClient && cachedDb) {
-        return { client: cachedClient, db: cachedDb }
+        return {client: cachedClient, db: cachedDb}
     }
 
     const client = new MongoClient('mongodb://localhost:27017')
 
     await client.connect()
-    const db =  client.db(getEnv().db)
+    const db = client.db(getEnv().db)
 
     cachedClient = client
     cachedDb = db
 
     console.log('Нове підключення до MongoDB встановлено')
 
-    return { client, db }
+    return {client, db}
 }

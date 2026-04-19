@@ -11,7 +11,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@headquarters/shared": ["../../packages/shared/index.ts"]
+      "@headquarters/shared": [
+        "../../packages/shared/index.ts"
+      ]
     }
   }
 }

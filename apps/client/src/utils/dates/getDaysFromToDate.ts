@@ -10,7 +10,7 @@ export const getDaysFromToDate = (date: string) => {
     switch (select) {
         case 'd': {
             const dayOfWeek = dayjs().day()
-            if (num === dayOfWeek) return [0,[today.format('YYYY-MM-DD'), date]]
+            if (num === dayOfWeek) return [0, [today.format('YYYY-MM-DD'), date]]
             const thisDay = dayjs().day(num)
             const nextDay = thisDay.add(1, 'week')
             return [
@@ -25,6 +25,6 @@ export const getDaysFromToDate = (date: string) => {
         }
 
         default:
-            return [[ dayjs(date).diff(today, 'day'), date.slice(0,10), '---']]
+            return [[dayjs(date).diff(today, 'day'), date.slice(0, 10), '---']]
     }
 }

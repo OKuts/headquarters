@@ -1,8 +1,8 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
-import saver from "vite-plugin-svgr";
-import path from 'path';
-import tailwindcss from '@tailwindcss/vite'; // Додаємо цей імпорт
+import saver from 'vite-plugin-svgr'
+import path from 'path'
+import tailwindcss from '@tailwindcss/vite' // Додаємо цей імпорт
 
 // https://vite.dev/config/
 export default defineConfig({
