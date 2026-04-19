@@ -3,7 +3,7 @@
 export interface HealthStatus {
     status: string;
     uptime: number;
-    timestamp: string;
+    time: string;
 }
 
 // Якщо у тебе є тестова змінна для перевірки:

@@ -1,16 +1,9 @@
-import { useEffect, useState } from 'react';
-/* 1. Імпортуємо необхідні іконки */
 import { Server, Activity, LayoutDashboard, CheckCircle2, Loader2 } from 'lucide-react';
 import type {HealthStatus} from "@headquarters/shared";
+import {useLoaderData} from "react-router";
 
-function App() {
-    const [data, setData] = useState<{ status: string; time: string } | null>(null);
-
-    useEffect(() => {
-        fetch('/api/health')
-            .then((res) => res.json())
-            .then((result: HealthStatus) => setData(result));
-    }, []);
+export const Main = ()=> {
+    const data: HealthStatus = useLoaderData()
 
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50 flex flex-col items-center justify-center p-6 font-sans">
@@ -73,4 +66,3 @@ function App() {
     );
 }
 
-export default App;

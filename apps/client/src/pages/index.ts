@@ -1,0 +1,4 @@
+export * from './Main.tsx'
+export * from './Work'
+export * from './MainLayout'
+export * from './AboutPage'
