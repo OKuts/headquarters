@@ -1,6 +1,6 @@
-import type {TTaskType} from '@headquarters/shared'
+import type {ITask} from '@headquarters/shared'
 
-export const createTask = async (taskData: { title: string; type: 'once' | 'monthly' | 'weekly'; deadline: Date }) => {
+export const createTask = async (taskData: { title: string; type: 'once' | 'monthly' | 'weekly'; deadline: string }) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/task/add`, {
             method: 'POST',

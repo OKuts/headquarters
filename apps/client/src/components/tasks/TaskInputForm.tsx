@@ -1,22 +1,26 @@
-import {useState} from 'react'
+import React, {useState} from 'react'
 import {Calendar, Clock, Hash, PlusCircle} from 'lucide-react'
-import type {TTaskType} from '@headquarters/shared'
+import {ETaskType, EWeek} from '@headquarters/shared'
 import {createTask} from '../../utils/api/createTask.ts'
 
 export const TaskInputForm = () => {
     const [taskName, setTaskName] = useState('')
     const [taskDescription, setTaskDescription] = useState('')
-    const [repeatType, setRepeatType] = useState<TTaskType>('once') // 'once', 'monthly', 'weekly'
+    const [repeatType, setRepeatType] = useState<ETaskType>(ETaskType.ONCE)
     const [value, setValue] = useState('')
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         const taskData = {
             title: taskName,
             type: repeatType,
-            deadline: new Date(value),
+            deadline: value,
+            description: taskDescription,
         }
-        console.log('Збереження завдання:', taskData)
+        setValue('')
+        setRepeatType(ETaskType.ONCE)
+        setTaskDescription('')
+        setTaskName('')
         const result = await createTask(taskData)
         console.log(result)
     }
@@ -75,9 +79,9 @@ export const TaskInputForm = () => {
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                         {[
-                            {id: 'once', label: 'Дата', icon: Calendar},
-                            {id: 'monthly', label: 'Щомісяця', icon: Hash},
-                            {id: 'weekly', label: 'Щотижня', icon: Clock},
+                            {id: ETaskType.ONCE, label: 'Дата', icon: Calendar},
+                            {id: ETaskType.MONTHLY, label: 'Щомісяця', icon: Hash},
+                            {id: ETaskType.WEEKLY, label: 'Щотижня', icon: Clock},
                         ].map((type) => (
                             <button
                                 key={type.id}
@@ -139,14 +143,8 @@ export const TaskInputForm = () => {
                                 onChange={(e) => setValue(e.target.value)}
                                 className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                             >
-                                <option value="" disabled className="dark:bg-gray-900">Оберіть день</option>
-                                <option value="1" className="dark:bg-gray-900">Понеділок</option>
-                                <option value="2" className="dark:bg-gray-900">Вівторок</option>
-                                <option value="3" className="dark:bg-gray-900">Середа</option>
-                                <option value="4" className="dark:bg-gray-900">Четвер</option>
-                                <option value="5" className="dark:bg-gray-900">П'ятниця</option>
-                                <option value="6" className="dark:bg-gray-900">Субота</option>
-                                <option value="0" className="dark:bg-gray-900">Неділя</option>
+                                {Object.entries(EWeek).map(([key, value], i) =>
+                                    <option key={value} value={value} disabled={!i} className="dark:bg-gray-900">{key}</option>)}
                             </select>
                         </div>
                     )}

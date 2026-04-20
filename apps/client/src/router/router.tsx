@@ -1,6 +1,6 @@
 import {createBrowserRouter} from 'react-router'
 import {AboutPage, Main, MainLayout, Work} from '../pages'
-import {taskLoader} from './loaders/taskLoader.ts'
+// import {taskLoader} from './loaders/taskLoader.ts'
 
 
 export const router = createBrowserRouter([
@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
                 {
                     path: '/about',
                     element: <AboutPage/>,
-                    loader: taskLoader,
+                    // loader: taskLoader,
                 },
                 {
                     path: '/main',
