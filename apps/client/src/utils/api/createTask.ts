@@ -1,4 +1,3 @@
-import type {ITask} from '@headquarters/shared'
 
 export const createTask = async (taskData: { title: string; type: 'once' | 'monthly' | 'weekly'; deadline: string }) => {
     try {

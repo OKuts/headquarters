@@ -1,9 +1,7 @@
-import dotenv from "dotenv"
-
-dotenv.config()
+import 'dotenv/config'
 
 export const getEnv = () => {
-    const folder = process.env.FOLDER
+    const db = process.env.DB
 
-    return {folder}
+    return {db}
 }

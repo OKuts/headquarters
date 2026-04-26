@@ -1,19 +1,19 @@
-
 import {useNavigation,} from 'react-router'
-import {LogoKuts} from '../components/logoKuts/LogoKuts.tsx'
 import {TaskInputForm} from '../components/tasks/TaskInputForm.tsx'
+import React from 'react'
+import {LogoKuts} from '../components/logo/LogoKuts.tsx'
 
 export const AboutPage = () => {
     const navigation = useNavigation()
 
-
+    const [isAdd, setIsAdd] = React.useState<boolean>(false)
 
     if (navigation.state === 'loading') return null
 
     return (
         <div>
             <LogoKuts/>
-            <TaskInputForm/>
+            {isAdd && <TaskInputForm setIsAdd={setIsAdd}/>}
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import { mongoConnection } from '../utils/mongodb'
 import { ITask } from '@headquarters/shared'
 
-export class TaskRepository {
+export class TasksClass {
     private static collectionName = 'tasks'
 
     static async findAll(): Promise<ITask[]> {

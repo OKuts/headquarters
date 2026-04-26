@@ -3,8 +3,10 @@ import {ToggleThemeButton} from './ToggleThemeButton.tsx'
 import {NavLink} from 'react-router'
 import {AuthSection} from './AuthSection.tsx'
 import {useAuthStore} from '../../../store/useAuthStore.ts'
+import money from '../../../assets/branding-image-ua-clear-white.png'
 
 const nav = [
+    ['/todo', 'Tasks'],
     ['/main', 'Main'],
     ['/work', 'Work'],
 ]
@@ -21,9 +23,9 @@ const Navbar: React.FC = () => {
                 {/* Логотип проєкту */}
                 {isLoggedIn && <div className="flex items-center gap-2">
                     <div
-                        className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white font-bold">
+                        className="flex h-8 w-8 items-center justify-center rounded-lg  text-white font-bold">
                          <NavLink to={'/about'}>
-                            <img src={'https://icsbpc.mod.gov.ua/logon_ui_resources/layout/branding-image.jpg'} alt=""/>
+                            <img src={money} alt=""/>
                         </NavLink>
                     </div>
                     <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Headquarters</span>

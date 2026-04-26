@@ -14,12 +14,14 @@ export default defineConfig({
     resolve: {
         alias: {
             // Пряме посилання на вхідний файл спільного пакета
-            '@headquarters/shared': path.resolve(__dirname, '../../packages/shared/index.ts'),
+            '@headquarters/shared': path.resolve(__dirname, '../../packages/shared'),
         },
     },
     server: {
-        proxy: {
-            '/api': 'http://localhost:3000'
-        }
-    }
+        host: '0.0.0.0', // Дозволяє підключення ззовні контейнера
+        port: 5174,
+        watch: {
+            usePolling: true, // Потрібно для HMR, якщо ви працюєте на Windows/WSL2
+        },
+    },
 })

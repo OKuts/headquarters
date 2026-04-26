@@ -1,22 +1,25 @@
-import {TaskRepository} from '../repositories/TaskRepository'
+import {TasksClass} from '../repositories/tasksClass'
+import { Request, Response } from 'express'
 
 export const taskAddApi = async (req: Request, res: Response) => {
     try {
+
+        console.log(req.body)
           // 2. Виклик функції репозиторію для збереження в MongoDB
-        const result = await TaskRepository.create({...req.body, createdAt: new Date()});
+        const result = await TasksClass.create({...req.body, createdAt: new Date()})
 
         // 3. Відповідь клієнту
         return res.status(201).json({
             success: true,
             data: result
-        });
+        })
 
     } catch (error) {
-        console.error('Помилка в обробнику add-task:', error);
+        console.error('Помилка в обробнику add-task:', error)
         return res.status(500).json({
             success: false,
             message: 'Внутрішня помилка сервера'
-        });
+        })
     }
 }
 

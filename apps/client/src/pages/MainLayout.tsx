@@ -1,5 +1,4 @@
 import {Outlet, useNavigation} from 'react-router'
-// import {NavMain} from '../router/nav/NavMain.tsx'
 import Navbar from '../components/total/navbar/Navbar.tsx'
 
 export const MainLayout = () => {

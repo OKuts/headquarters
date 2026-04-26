@@ -1,19 +1,30 @@
 import {useAuthStore} from '../../../store/useAuthStore.ts'
 import {LogOut, User} from 'lucide-react'
-import {UserRole} from '@headquarters/shared'
+import {useEffect, useState} from 'react'
+import {useNavigate} from 'react-router'
 
 export const AuthSection = () => {
-    const {user, isLoggedIn, logout, login} = useAuthStore()
+    const {user, isLoggedIn, logout} = useAuthStore()
+    const [toLogin, setToLogin] = useState<boolean>(false)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (toLogin && !isLoggedIn) {
+            navigate('auth')
+        } else {
+            navigate('/')
+        }
+    }, [toLogin, isLoggedIn, navigate])
 
     return <>
-        {isLoggedIn && user ? (
+        {isLoggedIn ? (
             <div className="flex items-center gap-4">
                 <div className="hidden flex-col items-end md:flex">
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  {user.name}
+                  {user?.login}
                 </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {user.role}
+                  {'user'}
                 </span>
                 </div>
 
@@ -31,7 +42,7 @@ export const AuthSection = () => {
             </div>
         ) : (
             <button
-                onClick={() => login({id: '1', name: 'Адміністратор', role: UserRole.ADMIN, email: 'admin@hq.ua'})}
+                onClick={() => setToLogin(true)}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
             >
                 Увійти

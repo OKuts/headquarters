@@ -1,7 +1,7 @@
 import {createBrowserRouter} from 'react-router'
-import {AboutPage, Main, MainLayout, Work} from '../pages'
-// import {taskLoader} from './loaders/taskLoader.ts'
-
+import {AboutPage, Main, MainLayout, TodoPage, Work} from '../pages'
+import {AuthForm} from '../components/total/navbar/AuthForm.tsx'
+import {departmentsLoader, taskLoader} from './loaders'
 
 export const router = createBrowserRouter([
         {
@@ -11,18 +11,26 @@ export const router = createBrowserRouter([
                 {
                     path: '/about',
                     element: <AboutPage/>,
-                    // loader: taskLoader,
+                },
+                {
+                    path: '/todo',
+                    element: <TodoPage/>,
+                    loader: taskLoader,
                 },
                 {
                     path: '/main',
                     element: <Main/>,
-                    // loader: healthLoader, // Прив'язуємо лоадер до маршруту
                     errorElement: <div>Ой! Користувача не існує.</div>, // Обробка помилок
                 },
                 {
                     path: '/work',
                     element: <Work/>,
                     errorElement: <div>Ой! Користувача не існує.</div>, // Обробка помилок
+                },
+                {
+                    path: '/auth',
+                    element: <AuthForm/>,
+                    loader: departmentsLoader
                 },
             ]
         }

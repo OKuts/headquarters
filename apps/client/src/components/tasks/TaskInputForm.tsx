@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
-import {Calendar, Clock, Hash, PlusCircle} from 'lucide-react'
+import {Calendar, Clock, Hash, LogOut, PlusCircle} from 'lucide-react'
 import {ETaskType, EWeek} from '@headquarters/shared'
 import {createTask} from '../../utils/api/createTask.ts'
 
-export const TaskInputForm = () => {
+type Props = {
+    setIsAdd: (value: boolean) => void,
+}
+
+export const TaskInputForm: React.FC<Props> = ({setIsAdd}) => {
     const [taskName, setTaskName] = useState('')
     const [taskDescription, setTaskDescription] = useState('')
     const [repeatType, setRepeatType] = useState<ETaskType>(ETaskType.ONCE)
@@ -11,27 +15,38 @@ export const TaskInputForm = () => {
 
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
+        const curValue = !value && repeatType === ETaskType.WEEKLY ? '1' : value
         const taskData = {
             title: taskName,
             type: repeatType,
-            deadline: value,
+            deadline: curValue,
             description: taskDescription,
         }
         setValue('')
         setRepeatType(ETaskType.ONCE)
         setTaskDescription('')
         setTaskName('')
-        const result = await createTask(taskData)
-        console.log(result)
+        setIsAdd(false)
+        await createTask(taskData)
     }
 
+    const handlerOut = () => {
+        setValue('')
+        setRepeatType(ETaskType.ONCE)
+        setTaskDescription('')
+        setTaskName('')
+        setIsAdd(false)
+    }
 
     return (
         <div
             className="max-w-md mx-auto p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 transition-colors">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2">
-                <PlusCircle className="text-blue-500"/> Додати нове завдання
-            </h2>
+            <div className={'flex justify-between'}>
+                <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2">
+                    <PlusCircle className="text-blue-500"/> Додати нове завдання
+                </h2>
+                <LogOut onClick={handlerOut} size={20}/>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Назва завдання */}
@@ -105,7 +120,7 @@ export const TaskInputForm = () => {
 
                 {/* Динамічне поле введення */}
                 <div className="pt-2">
-                    {repeatType === 'once' && (
+                    {repeatType === ETaskType.ONCE && (
                         <div>
                             <label className="block text-xs text-gray-500 mb-1">Оберіть конкретну дату</label>
                             <input
@@ -118,7 +133,7 @@ export const TaskInputForm = () => {
                         </div>
                     )}
 
-                    {repeatType === 'monthly' && (
+                    {repeatType === ETaskType.MONTHLY && (
                         <div>
                             <label className="block text-xs text-gray-500 mb-1">Число місяця (1-31)</label>
                             <input
@@ -134,7 +149,7 @@ export const TaskInputForm = () => {
                         </div>
                     )}
 
-                    {repeatType === 'weekly' && (
+                    {repeatType === ETaskType.WEEKLY && (
                         <div>
                             <label className="block text-xs text-gray-500 mb-1">День тижня</label>
                             <select
@@ -144,7 +159,8 @@ export const TaskInputForm = () => {
                                 className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                             >
                                 {Object.entries(EWeek).map(([key, value], i) =>
-                                    <option key={value} value={value} disabled={!i} className="dark:bg-gray-900">{key}</option>)}
+                                    <option key={value} value={value} disabled={!i}
+                                            className="dark:bg-gray-900">{key}</option>)}
                             </select>
                         </div>
                     )}

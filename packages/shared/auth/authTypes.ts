@@ -1,14 +1,11 @@
 // packages/shared/src/types/auth.ts
-export enum UserRole {
+export enum EUserRole {
     ADMIN = 'ADMIN',
     EDITOR = 'EDITOR',
     VIEWER = 'VIEWER'
 }
 
 export interface User {
-    id: string;
-    email: string;
-    name: string;
-    role: UserRole;
-    organizationId?: string; // Наприклад, для бюджетних установ
+    login: string;
+    role?: EUserRole
 }
