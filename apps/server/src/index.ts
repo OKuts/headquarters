@@ -1,22 +1,31 @@
 import express from 'express'
 import cors from 'cors'
 import {getEnv} from './utils/getEnv'
-import {loginUserApi, registerUserApi, taskAddApi, tasksGetApi} from './api'
+import {
+    departmentCreateServerApi,
+    departmentsGetServerApi,
+    isAdminControlApi,
+    loginUserServerApi,
+    registerUserServerApi,
+    taskAddServerApi,
+    tasksGetServerApi
+} from './api'
 import 'dotenv/config'
-import {departmentsGetApi} from './api/departmentsGetApi'
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 
 
-app.get('/api/tasks/get', tasksGetApi)
-app.get('/api/tasks/get', tasksGetApi)
-app.get('/api/departments/get', departmentsGetApi)
 
-app.post('/api/task/add', taskAddApi)
-app.post('/api/user/add', registerUserApi)
-app.post('/api/user/login', loginUserApi)
+app.get('/api/tasks/get', tasksGetServerApi)
+app.get('/api/departments/get', departmentsGetServerApi)
+
+app.post('/api/auth/verify-admin', isAdminControlApi)
+app.post('/api/task/add', taskAddServerApi)
+app.post('/api/user/add', registerUserServerApi)
+app.post('/api/user/login', loginUserServerApi)
+app.post('/api/department/create', departmentCreateServerApi)
 
 
 app.listen(3001, () => {

@@ -1,11 +1,10 @@
+import {TasksClass} from '../repositories'
 import { Request, Response } from 'express'
-import {DepartmentsClass} from '../repositories'
 
-export const departmentsGetApi = async (req: Request, res: Response) => {
+export const tasksGetServerApi = async (req: Request, res: Response) => {
     try {
-        const result = await DepartmentsClass.findAll()
-
-        console.log('ok', result)
+        console.log('tasksGetApi')
+        const result = await TasksClass.findAll()
         return res.status(201).json({
             data: result
         })

@@ -1,16 +1,16 @@
-// apps/web/src/store/useAuthStore.ts
 import { create } from 'zustand'
+import type {IDepartmentClient} from '@headquarters/shared'
+
 
 interface DepartmentsState {
-    departments: string[]
-    save: (departments: string[]) => void
+    departments: IDepartmentClient[]
+    saveDepartments: (departments: IDepartmentClient[]) => void
 }
 
-// 2. Передаємо інтерфейс у функцію create
 export const useDepartmentsStore = create<DepartmentsState>((set) => ({
     departments: [],
 
-    save: (departments) => set({
+    saveDepartments: (departments: IDepartmentClient[]) => set({
         departments,
     }),
 }))

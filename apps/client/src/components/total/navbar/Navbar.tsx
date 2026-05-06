@@ -2,7 +2,7 @@ import React from 'react'
 import {ToggleThemeButton} from './ToggleThemeButton.tsx'
 import {NavLink} from 'react-router'
 import {AuthSection} from './AuthSection.tsx'
-import {useAuthStore} from '../../../store/useAuthStore.ts'
+import {useAuthStore} from '../../../store'
 import money from '../../../assets/branding-image-ua-clear-white.png'
 
 const nav = [
@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
 
                 {/* Логотип проєкту */}
-                {isLoggedIn && <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                     <div
                         className="flex h-8 w-8 items-center justify-center rounded-lg  text-white font-bold">
                          <NavLink to={'/about'}>
@@ -29,11 +29,16 @@ const Navbar: React.FC = () => {
                         </NavLink>
                     </div>
                     <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Headquarters</span>
-                </div>}
+                </div>
 
                 <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4">
-                    {isLoggedIn && <div className="flex items-center gap-4">
-                        {nav.map(([to, name]) => <NavLink key={to} to={to}>{name}</NavLink>)}
+                    {isLoggedIn && <div className="flex items-center gap-4 ">
+                        {nav.map(([to, name]) => <NavLink
+                            className="px-3 py-1 rounded-md transition-all duration-200
+             hover:bg-gray-100 dark:hover:bg-gray-800
+             text-gray-700 dark:text-gray-300
+             hover:text-blue-500 "
+                            key={to} to={to}>{name}</NavLink>)}
                     </div>}
                 </div>
 

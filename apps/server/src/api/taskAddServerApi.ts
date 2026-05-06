@@ -1,10 +1,9 @@
 import {TasksClass} from '../repositories/tasksClass'
 import { Request, Response } from 'express'
 
-export const taskAddApi = async (req: Request, res: Response) => {
+export const taskAddServerApi = async (req: Request, res: Response) => {
     try {
 
-        console.log(req.body)
           // 2. Виклик функції репозиторію для збереження в MongoDB
         const result = await TasksClass.create({...req.body, createdAt: new Date()})
 

@@ -1,19 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import {type FieldValues, useForm} from 'react-hook-form'
-import {Eye, EyeOff, Loader2, Lock, User} from 'lucide-react'
+import {Eye, EyeOff, Lock, User} from 'lucide-react'
 import {useAuthStore, useDepartmentsStore} from '../../../store'
 import {ERoles} from '@headquarters/shared/models/UserModel.ts'
 import {useLoaderData} from 'react-router'
 import {departmentsLoader} from '../../../router/loaders'
+import type {IDepartmentClient} from '@headquarters/shared'
 
 export const AuthForm: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
-    const {login} = useAuthStore()
-    const {data, isLoading} = useLoaderData<typeof departmentsLoader>()
-    const {save, departments} = useDepartmentsStore()
-
-    console.log(data)
+    const {user, setCurrUser} = useAuthStore()
+    const {data}: {data: IDepartmentClient[], iaLoading: boolean} = useLoaderData<typeof departmentsLoader>()
+    const {saveDepartments, departments} = useDepartmentsStore()
 
     const {register, handleSubmit, formState: {errors}} = useForm()
 
@@ -23,7 +22,7 @@ export const AuthForm: React.FC = () => {
         console.log(`Performing ${mode}...`, data)
         const url = import.meta.env.VITE_API_URL
         const urlAdd = isLogin ? 'login' : 'add'
-        console.log(data)
+
         fetch(`${url}/api/user/${urlAdd}`, {
             method: 'post',
             headers: {
@@ -35,15 +34,16 @@ export const AuthForm: React.FC = () => {
         })
             .then(res => res.json())
             .then(req => {
-                console.log(data)
-                if (req.isLogin) login({login: data.login})
+                if (req.isLogin) setCurrUser(req)
             })
     }
 
     useEffect(() => {
-        if (data) save(data)
-    }, [data])
+        if (data) saveDepartments(data)
+    }, [data, saveDepartments])
 
+
+    console.log(user)
 
     return (
         <div
@@ -106,8 +106,8 @@ export const AuthForm: React.FC = () => {
                             {...register('department', {required: 'Оберіть підрозділ'})}
                             className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none text-slate-900 dark:text-white"
                         >
-                            <option value="">Оберіть...</option>
-                            {departments.map(department => <option value={department._id}>{department.department}</option>)}
+                            <option value="">Оберіть . . .</option>
+                            {departments.map(el => <option value={el.department}>{el.department}</option>)}
                         </select>
                         {errors.department && (
                             <span className="text-red-500 text-xs mt-1">{errors.department.message as string}</span>
@@ -147,10 +147,8 @@ export const AuthForm: React.FC = () => {
                             {...register('main', {required: 'Оберіть підрозділ'})}
                             className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none text-slate-900 dark:text-white"
                         >
-                            <option value="">Оберіть...</option>
-                            <option value="accounting">Бухгалтерія</option>
-                            <option value="administration">Адміністрація</option>
-                            <option value="it">IT відділ</option>
+                            <option value="">Оберіть старший підрозділ . . .</option>
+                            {departments.map(el => <option value={el.department}>{el.department}</option>)}
                         </select>
                         {errors.main && (
                             <span className="text-red-500 text-xs mt-1">{errors.main.message as string}</span>
@@ -186,10 +184,8 @@ export const AuthForm: React.FC = () => {
 
                 <button
                     type="submit"
-                    disabled={isLoading}
                     className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
                 >
-                    {isLoading && <Loader2 className="w-5 h-5 animate-spin"/>}
                     {isLogin ? 'Увійти' : 'Зареєструватися'}
                 </button>
             </form>

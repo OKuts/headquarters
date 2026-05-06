@@ -2,18 +2,20 @@ import React, {useState} from 'react'
 import {Calendar, Clock, Hash, LogOut, PlusCircle} from 'lucide-react'
 import {ETaskType, EWeek} from '@headquarters/shared'
 import {createTask} from '../../utils/api/createTask.ts'
+import {useForm} from 'react-hook-form'
 
 type Props = {
     setIsAdd: (value: boolean) => void,
 }
 
 export const TaskInputForm: React.FC<Props> = ({setIsAdd}) => {
+    const {register, handleSubmit, formState: {errors}} = useForm()
     const [taskName, setTaskName] = useState('')
     const [taskDescription, setTaskDescription] = useState('')
     const [repeatType, setRepeatType] = useState<ETaskType>(ETaskType.ONCE)
     const [value, setValue] = useState('')
 
-    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmitOld = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         const curValue = !value && repeatType === ETaskType.WEEKLY ? '1' : value
         const taskData = {
@@ -48,7 +50,7 @@ export const TaskInputForm: React.FC<Props> = ({setIsAdd}) => {
                 <LogOut onClick={handlerOut} size={20}/>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmitOld} className="space-y-4">
                 {/* Назва завдання */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -163,6 +165,22 @@ export const TaskInputForm: React.FC<Props> = ({setIsAdd}) => {
                                             className="dark:bg-gray-900">{key}</option>)}
                             </select>
                         </div>
+                    )}
+                </div>
+                {/* Select: Доручити */}
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        Доручити
+                    </label>
+                    <select
+                        {...register('department', {required: 'Оберіть виконавця'})}
+                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none text-slate-900 dark:text-white"
+                    >
+                        <option value="">Оберіть виконавця . . .</option>
+                        {['1', '2'].map(el => <option value={el}>{el}</option>)}
+                    </select>
+                    {errors.department && (
+                        <span className="text-red-500 text-xs mt-1">{errors.department.message as string}</span>
                     )}
                 </div>
 

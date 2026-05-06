@@ -1,14 +1,15 @@
+import type {IDepartment} from '@headquarters/shared'
 
-export const createTask = async (taskData: { title: string; type: 'once' | 'monthly' | 'weekly'; deadline: string }) => {
+export const createDepartment = async (data: IDepartment) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/task/add`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/department/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 // Якщо ви використовуєте авторизацію через токени:
                 // 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            body: JSON.stringify(taskData),
+            body: JSON.stringify(data),
         })
 
         if (!response.ok) {
