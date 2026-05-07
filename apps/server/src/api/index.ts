@@ -1,7 +1,0 @@
-export * from './registerUserServerApi'
-export * from './taskAddServerApi'
-export * from './loginUserServerApi'
-export * from './tasksGetServerApi'
-export * from './departmentsGetServerApi'
-export * from './isAdminControlServerApi'
-export * from './departmentsCreateServerApi'

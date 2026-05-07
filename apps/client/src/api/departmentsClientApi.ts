@@ -1,16 +1,19 @@
-import type {IDepartment} from '@headquarters/shared'
+import type {IDepartmentsRequest} from '@headquarters/shared'
 
-export const createDepartment = async (data: IDepartment) => {
+export const departmentsClientApi = async (send: IDepartmentsRequest) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/department/create`, {
-            method: 'POST',
+        const {method, data, add} = send
+        const url = `${import.meta.env.VITE_API_URL}/api/departments/${add}`
+        const obj = {
+            method,
             headers: {
                 'Content-Type': 'application/json',
                 // Якщо ви використовуєте авторизацію через токени:
                 // 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(data),
-        })
+        }
+        const response = await fetch(url, obj)
 
         if (!response.ok) {
             throw new Error(`Помилка: ${response.status}`)

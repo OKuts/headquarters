@@ -1,28 +1,30 @@
 import {AlertCircle, X} from 'lucide-react'
 import {useForm} from 'react-hook-form'
-import {createDepartment} from '../../utils/api/createDepartment.ts'
 import type {IDepartment} from '@headquarters/shared'
 import {type FC} from 'react'
+import {departmentsClientApi} from '../../api'
+import {useDepartmentsStore} from '../../store'
 
 type Props = {
     setIsAdd: (isAdd: boolean)=> void
 }
 
 export const CreateDepartment: FC<Props> = ({setIsAdd}) => {
-
-
+    const {departments, saveDepartments} = useDepartmentsStore()
     const {register, handleSubmit, formState: {errors},} = useForm<IDepartment>({
         mode: 'onTouched' // Помилка з'явиться відразу після взаємодії
     })
 
-    const onSubmit = async (data: IDepartment) => {
-        console.log('Дані форми:', data)
-        const result = await createDepartment(data)
-        console.log(result)
-    }
-
     const onClose = () => {
         setIsAdd(false)
+    }
+
+    const onSubmit = async (formData: IDepartment) => {
+        const {data} = await departmentsClientApi({method: 'POST', data: formData})
+        if (data.upsertedCount) {
+            saveDepartments([...departments, {_id: data.upsertedId, department: formData.department}])
+            onClose()
+        }
     }
 
     return (
