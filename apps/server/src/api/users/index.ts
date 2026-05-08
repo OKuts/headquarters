@@ -1,6 +1,4 @@
-export * from './users/registerUserServerApi'
-export * from './taskAddServerApi'
-export * from './users/loginUserServerApi'
-export * from './tasksGetServerApi'
-export * from './users/isAdminControlServerApi'
+export * from './registerUserServerApi'
+export * from './loginUserServerApi'
+export * from './isAdminControlServerApi'
 

@@ -1,4 +1,4 @@
-import {TasksClass} from '../repositories/tasksClass'
+import {TasksClass} from '../../repositories/tasksClass'
 import { Request, Response } from 'express'
 
 export const taskAddServerApi = async (req: Request, res: Response) => {

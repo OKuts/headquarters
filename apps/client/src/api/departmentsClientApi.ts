@@ -2,8 +2,9 @@ import type {IDepartmentsRequest} from '@headquarters/shared'
 
 export const departmentsClientApi = async (send: IDepartmentsRequest) => {
     try {
-        const {method, data, add} = send
-        const url = `${import.meta.env.VITE_API_URL}/api/departments/${add}`
+        const {method, data} = send
+
+        const url = `${import.meta.env.VITE_API_URL}/api/departments`
         const obj = {
             method,
             headers: {

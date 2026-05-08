@@ -2,12 +2,11 @@ import { Request, Response } from 'express'
 import {DepartmentsClass} from '../../repositories'
 import {ObjectId} from 'mongodb'
 
-export const departmentDeleteServerApi = async (req: Request, res: Response) => {
+export const departmentsPatchServerApi = async (req: Request, res: Response) => {
     try {
-        const {_id} = req.body
-        const result = await DepartmentsClass.delete(new ObjectId(_id))
-
-        console.log('departmentDeleteApi')
+        const {_id, ...rest} = req.body
+        console.log('departmentPatchApi', _id, rest)
+        const result = await DepartmentsClass.patch(new ObjectId(_id), rest)
         return res.status(201).json({
             data: result
         })

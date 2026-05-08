@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import {DepartmentsClass} from '../repositories'
+import {DepartmentsClass} from '../../repositories'
 
 export const departmentsGetServerApi = async (req: Request, res: Response) => {
     try {

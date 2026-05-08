@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Calendar, Clock, Hash, LogOut, PlusCircle} from 'lucide-react'
 import {ETaskType, EWeek} from '@headquarters/shared'
-import {createTask} from '../../utils/api/createTask.ts'
+import {createTask} from '../../api/createTask.ts'
 import {useForm} from 'react-hook-form'
 
 type Props = {

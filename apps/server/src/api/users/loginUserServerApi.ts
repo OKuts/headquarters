@@ -1,4 +1,4 @@
-import {UsersClass} from '../repositories' // ваш інстанс бази
+import {UsersClass} from '../../repositories' // ваш інстанс бази
 import {Request, Response} from 'express'
 
 export const loginUserServerApi = async (req: Request, res: Response) => {

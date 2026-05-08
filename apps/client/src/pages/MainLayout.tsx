@@ -1,8 +1,18 @@
 import {Outlet, useNavigation} from 'react-router'
 import Navbar from '../components/total/navbar/Navbar.tsx'
+import {useEffect} from 'react'
+import {useDepartmentsStore} from '../store'
+import {departmentsClientApi} from '../api'
 
 export const MainLayout = () => {
     const navigation = useNavigation()
+    const {saveDepartments} = useDepartmentsStore()
+
+    useEffect(() => {
+        departmentsClientApi({method: 'GET'}).then(data => {
+            saveDepartments(data.data)
+        })
+    }, [saveDepartments])
 
     return (
         <div className=" min-h-screen h-screen overflow-y-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden

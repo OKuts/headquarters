@@ -1,2 +1,2 @@
-export * from './createTask'
-export * from './departmentsClientApi'
+export * from './createTask.ts'
+export * from './departmentsClientApi.ts'
