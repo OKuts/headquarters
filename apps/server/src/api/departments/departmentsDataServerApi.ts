@@ -1,13 +1,16 @@
 import { Request, Response } from 'express'
 import {DepartmentsClass} from '../../repositories'
 
-export const departmentCreateServerApi = async (req: Request, res: Response) => {
+export const departmentDataServerApi = async (req: Request, res: Response) => {
     try {
-
+        const {_id, data} = req.body
+        console.log('------------------------------------')
         console.log(req.body)
-        const result = await DepartmentsClass.create(req.body)
+        const result = _id
+            ? await DepartmentsClass.findOne(_id)
+            : await DepartmentsClass.create(data)
 
-        console.log('departmentCreateApi')
+        console.log('---------------------------departmentCreateApi')
         return res.status(201).json({
             data: result
         })

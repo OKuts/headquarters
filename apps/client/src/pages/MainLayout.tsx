@@ -4,6 +4,7 @@ import {useEffect} from 'react'
 import {useDepartmentsStore} from '../store'
 import {departmentsClientApi} from '../api'
 
+
 export const MainLayout = () => {
     const navigation = useNavigation()
     const {saveDepartments} = useDepartmentsStore()

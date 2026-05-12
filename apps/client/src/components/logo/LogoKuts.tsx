@@ -19,18 +19,18 @@ export const LogoKuts= ({setIsAdmin, isAdmin, setIsAdd}: Props) => {
             <div>
                 <h3 className={'ml-5 text-xl font-bold tracking-tight text-gray-900 dark:text-white'}>Oleksandr
                     Kuts
-                    {isAdmin && <span className={'text-blue-600'}>
+                    {isAdmin && <>
+                    <span className={'text-blue-600'}>
                          {' (admin)'}
-                    </span>}
+                    </span>
+                        <div className={'flex pt-2 cursor-default dark:text-gray-400'} onClick={() => setIsAdd(true)}>
+                            <PlusCircle/>
+                            <span className={'text-xl ml-2 font-bold tracking-tight text-gray-900 dark:text-gray-400'}>Add unit</span>
+                        </div>
+                    </>}
                 </h3>
             </div>
         </div>
         {into && !isAdmin && <PasswordConfirm onSuccess={setIsAdmin} onCancel={setInto}/>}
-        {isAdmin && <>
-            <div className={'flex'} onClick={() => setIsAdd(true)}>
-                <PlusCircle/>
-                <span className={'text-xl ml-2 font-bold tracking-tight text-gray-900 dark:text-white'}>Add unit</span>
-            </div>
-        </>}
     </>
 }

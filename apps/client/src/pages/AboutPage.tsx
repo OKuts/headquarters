@@ -16,10 +16,10 @@ export const AboutPage = () => {
 
     return (
         <div>
-            <LogoKuts setIsAdmin={setIsAdmin} isAdmin={isAdmin} setIsAdd={setIsAdd} />
+            <LogoKuts setIsAdmin={setIsAdmin} isAdmin={isAdmin} setIsAdd={setIsEdit} />
             {isAdd && <TaskInputForm setIsAdd={setIsAdd}/>}
             {isEdit && <InputEditDepartmentName setIsEdit={setIsEdit} />}
-            <DepartmentsList setIsAdd={setIsAdd} isAdmin={isAdmin}/>
+            <DepartmentsList setIsEdit={setIsEdit} isAdmin={isAdmin}/>
         </div>
     )
 }

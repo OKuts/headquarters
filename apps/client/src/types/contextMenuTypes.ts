@@ -1,6 +1,6 @@
 import React from 'react'
 
-export type ActionType = 'EDIT' | 'DELETE' | 'COPY' | 'ADD_MAIN' | 'SELECT_SUB';
+export type ActionType = 'EDIT' | 'DELETE' | 'ADD_MAIN' | 'DELETE_MAIN';
 
 export interface MenuOption {
     label: string;

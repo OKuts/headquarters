@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Calendar, Clock, Hash, LogOut, PlusCircle} from 'lucide-react'
 import {ETaskType, EWeek} from '@headquarters/shared'
-import {createTask} from '../../api/createTask.ts'
+import {createTask} from '../../api'
 import {useForm} from 'react-hook-form'
 
 type Props = {
@@ -15,8 +15,8 @@ export const TaskInputForm: React.FC<Props> = ({setIsAdd}) => {
     const [repeatType, setRepeatType] = useState<ETaskType>(ETaskType.ONCE)
     const [value, setValue] = useState('')
 
-    const handleSubmitOld = async (e: React.SubmitEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const handleSubmitOld = async () => {
+        // e.preventDefault()
         const curValue = !value && repeatType === ETaskType.WEEKLY ? '1' : value
         const taskData = {
             title: taskName,
@@ -50,7 +50,7 @@ export const TaskInputForm: React.FC<Props> = ({setIsAdd}) => {
                 <LogOut onClick={handlerOut} size={20}/>
             </div>
 
-            <form onSubmit={handleSubmitOld} className="space-y-4">
+            <form onSubmit={handleSubmit(handleSubmitOld)} className="space-y-4">
                 {/* Назва завдання */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

@@ -4,7 +4,7 @@ import cors from 'cors'
 import {taskAddServerApi, tasksGetServerApi} from './api/tasks'
 import {isAdminControlApi, loginUserServerApi, registerUserServerApi} from './api/users'
 import {
-    departmentCreateServerApi,
+    departmentDataServerApi,
     departmentDeleteServerApi,
     departmentsGetServerApi,
     departmentsPatchServerApi
@@ -19,7 +19,7 @@ app.use(express.json())
 
 // departments
 app.get('/api/departments', departmentsGetServerApi)
-app.post('/api/departments', departmentCreateServerApi)
+app.post('/api/departments', departmentDataServerApi)
 app.delete('/api/departments', departmentDeleteServerApi)
 app.patch('/api/departments', departmentsPatchServerApi)
 

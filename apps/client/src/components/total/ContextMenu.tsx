@@ -1,24 +1,22 @@
-import {useState, useRef, useEffect} from 'react'
-import {Edit, Trash2, MoreVertical, ArrowUpFromLine, ArrowDownFromLine} from 'lucide-react'
-import type {ActionType, MenuOption} from '../../types/contextMenuTypes.ts' // Іконки для наочності
-
-// 1. Визначаємо типи та сталий список дій
-
+import {Fragment, useEffect, useRef, useState} from 'react'
+import {ArrowUpFromLine, BrushCleaning, Edit, MoreVertical, Trash2} from 'lucide-react'
+import type {ActionType, MenuOption} from '../../types/contextMenuTypes.ts'
+import type {IDepartmentUnitId} from '@headquarters/shared'
 
 const MENU_OPTIONS: MenuOption[] = [
-    { label: 'Редагувати назву', value: 'EDIT', icon: <Edit size={16} /> },
-    { label: 'Обрати старший підрозділ', value: 'ADD_MAIN', icon: <ArrowUpFromLine size={16} /> },
-    { label: 'Обрати підлеглі підрозділи', value: 'SELECT_SUB', icon: <ArrowDownFromLine size={16} /> },
-    { label: 'Видалити', value: 'DELETE', icon: <Trash2 size={16} />, color: 'text-red-600' },
+    {label: 'Редагувати назву', value: 'EDIT', icon: <Edit size={16}/>},
+    {label: 'Обрати старший підрозділ', value: 'ADD_MAIN', icon: <ArrowUpFromLine size={16}/>},
+    {label: 'Видалити старший підрозділ', value: 'DELETE_MAIN', icon: <BrushCleaning size={16}/>},
+    {label: 'Видалити підрозділ', value: 'DELETE', icon: <Trash2 size={16}/>, color: 'text-red-600'},
 ]
 
 type Props = {
-    id: string,
+    dept: IDepartmentUnitId,
     onAction: (onAction: ActionType, id: string) => void
 }
 
 // 2. Основний компонент
-export const ActionMenu = ({ onAction, id } : Props)  => {
+export const ActionMenu = ({onAction, dept}: Props) => {
     const [isOpen, setIsOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
 
@@ -40,26 +38,26 @@ export const ActionMenu = ({ onAction, id } : Props)  => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-                <MoreVertical size={20} />
+                <MoreVertical size={20}/>
             </button>
 
             {/* Саме меню (позиційоване відносно батьківського div) */}
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-70 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+                <div
+                    className="absolute right-0 mt-2 w-70 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
                     <div className="py-1">
-                        {MENU_OPTIONS.map((option) => (
-                            <button
-                                key={option.value}
+                        {MENU_OPTIONS.map((option, i) => <Fragment key={i}>
+                            {(i !== 2 || dept.main) && <button
                                 onClick={() => {
-                                    onAction(option.value, id)
+                                    onAction(option.value, dept._id)
                                     setIsOpen(false)
                                 }}
                                 className={`w-full flex items-center px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${option.color || 'text-gray-700'}`}
                             >
                                 <span className="mr-3">{option.icon}</span>
                                 {option.label}
-                            </button>
-                        ))}
+                            </button>}
+                        </Fragment>)}
                     </div>
                 </div>
             )}
