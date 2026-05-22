@@ -10,7 +10,7 @@ export const MainLayout = () => {
     const {saveDepartments} = useDepartmentsStore()
 
     useEffect(() => {
-        departmentsClientApi({method: 'GET'}).then(data => {
+        departmentsClientApi({_id: '', method: 'GET'}).then(data => {
             saveDepartments(data.data)
         })
     }, [saveDepartments])

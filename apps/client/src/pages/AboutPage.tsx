@@ -1,25 +1,17 @@
 import {useNavigation,} from 'react-router'
-import {TaskInputForm} from '../components/tasks'
-import {useState} from 'react'
-import {LogoKuts} from '../components/logo'
-import {DepartmentsList, InputEditDepartmentName} from '../components/department'
+import {DepartmentsList} from '../components/department'
+import {useAuthStore} from '../store'
 
 export const AboutPage = () => {
     const navigation = useNavigation()
-
-    const [isAdd, setIsAdd] = useState<boolean>(false)
-    const [isEdit, setIsEdit] = useState<boolean>(false)
-    const [isAdmin, setIsAdmin] = useState<boolean>(false)
-
+    const {user} = useAuthStore()
 
     if (navigation.state === 'loading') return null
 
     return (
         <div>
-            <LogoKuts setIsAdmin={setIsAdmin} isAdmin={isAdmin} setIsAdd={setIsEdit} />
-            {isAdd && <TaskInputForm setIsAdd={setIsAdd}/>}
-            {isEdit && <InputEditDepartmentName setIsEdit={setIsEdit} />}
-            <DepartmentsList setIsEdit={setIsEdit} isAdmin={isAdmin}/>
+            About
+            {user && <DepartmentsList setIsEdit={()=>{}}/>}
         </div>
     )
 }

@@ -1,17 +1,13 @@
 import {Fragment, useEffect, useRef, useState} from 'react'
-import {ArrowUpFromLine, BrushCleaning, Edit, MoreVertical, Trash2} from 'lucide-react'
-import type {ActionType, MenuOption} from '../../types/contextMenuTypes.ts'
-import type {IDepartmentUnitId} from '@headquarters/shared'
+import {MoreVertical} from 'lucide-react'
+import type {ActionType} from '../../types/contextMenuTypes.ts'
+import {MENU_OPTIONS} from '../../data'
+import type {IDepartment} from '@headquarters/shared'
 
-const MENU_OPTIONS: MenuOption[] = [
-    {label: 'Редагувати назву', value: 'EDIT', icon: <Edit size={16}/>},
-    {label: 'Обрати старший підрозділ', value: 'ADD_MAIN', icon: <ArrowUpFromLine size={16}/>},
-    {label: 'Видалити старший підрозділ', value: 'DELETE_MAIN', icon: <BrushCleaning size={16}/>},
-    {label: 'Видалити підрозділ', value: 'DELETE', icon: <Trash2 size={16}/>, color: 'text-red-600'},
-]
+
 
 type Props = {
-    dept: IDepartmentUnitId,
+    dept: IDepartment
     onAction: (onAction: ActionType, id: string) => void
 }
 

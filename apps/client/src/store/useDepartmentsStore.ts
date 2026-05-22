@@ -1,17 +1,17 @@
 import {create} from 'zustand'
-import type {IDepartmentId, IDepartmentUnitId} from '@headquarters/shared'
+import type {IDepartment, IDepartmentName} from '@headquarters/shared'
 
 
 interface DepartmentsState {
     currId: string
-    departments: IDepartmentUnitId[]
+    departments: IDepartment[]
 
-    saveDepartment: (department: IDepartmentUnitId) => void
-    saveDepartments: (departments: IDepartmentUnitId[]) => void
-    updateDepartment: (department: IDepartmentUnitId) => void
-    addMainDepartment: (id: string, main: IDepartmentId) => void
-    removeMainSubDepartment: (id: string, unit: IDepartmentUnitId) => void
-    addSubDepartment: (id: string, sub: IDepartmentId) => void
+    saveDepartment: (department: IDepartmentName) => void
+    saveDepartments: (departments: IDepartment[]) => void
+    updateDepartment: (department: IDepartment) => void
+    addMainDepartment: (id: string, main: IDepartmentName) => void
+    removeMainSubDepartment: (id: string, unit: IDepartmentName) => void
+    addSubDepartment: (id: string, sub: IDepartmentName) => void
     deleteDepartment: (id: string) => void
     setCurrId: (id: string) => void
 }
@@ -20,9 +20,9 @@ export const useDepartmentsStore = create<DepartmentsState>((set) => ({
     currId: '',
     departments: [],
 
-    saveDepartments: (departments: IDepartmentUnitId[]) => set({departments}),
+    saveDepartments: (departments: IDepartment[]) => set({departments}),
 
-    saveDepartment: (department: IDepartmentUnitId) => set((state) => ({
+    saveDepartment: (department: IDepartment) => set((state) => ({
         departments: [...state.departments, department]
     })),
 
@@ -30,25 +30,25 @@ export const useDepartmentsStore = create<DepartmentsState>((set) => ({
         departments: state.departments.filter(el => el._id !== id)
     })),
 
-    addMainDepartment: (id: string, main: IDepartmentId) => set((state) => ({
+    addMainDepartment: (id: string, main: IDepartmentName) => set((state) => ({
         departments: state.departments.map((el) =>
             el._id === id ? {...el, main: {...main}} : el
         )
     })),
 
-    removeMainSubDepartment: (id: string, unit: IDepartmentUnitId) => set((state) => ({
+    removeMainSubDepartment: (id: string, unit: IDepartmentName) => set((state) => ({
         departments: state.departments.map((el) =>
             el._id === id ? unit : el
         )
     })),
 
-    addSubDepartment: (id: string, sub: IDepartmentId) => set((state) => ({
+    addSubDepartment: (id: string, sub: IDepartmentName) => set((state) => ({
         departments: state.departments.map((el) =>
             el._id === id ? {...el, sub: [...(el?.sub || []), sub]} : el
         )
     })),
 
-    updateDepartment: (data: IDepartmentUnitId) => set((state) => ({
+    updateDepartment: (data: IDepartment) => set((state) => ({
         departments: state.departments.map((el) => el._id === data._id ? {...data} : el)
     })),
 

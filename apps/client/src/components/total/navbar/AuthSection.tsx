@@ -1,4 +1,4 @@
-import {useAuthStore} from '../../../store/useAuthStore.ts'
+import {useAuthStore} from '../../../store'
 import {LogOut, User} from 'lucide-react'
 import {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router'
@@ -16,6 +16,8 @@ export const AuthSection = () => {
         }
     }, [toLogin, isLoggedIn, navigate])
 
+    console.log(user)
+
     return <>
         {isLoggedIn ? (
             <div className="flex items-center gap-4">
@@ -24,7 +26,7 @@ export const AuthSection = () => {
                   {user?.login}
                 </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {'user'}
+                  {user?.name}
                 </span>
                 </div>
 

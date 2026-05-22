@@ -1,4 +1,4 @@
-import {ObjectId} from 'mongodb'
+import {IDepartment} from './DepartnentModel'
 
 export enum ERoles {
     BOSS = 'Керівник',
@@ -6,43 +6,40 @@ export enum ERoles {
     USER = 'Спеціаліст',
 }
 
-
-
-export interface IUserWithoutId {
-    login: string
-    name: string
-    role: ERoles
+export interface IUserAuth {
     password: string
-    main: ObjectId | null
-    department: ObjectId | null
+    login: string
 }
 
-export interface IUser extends IUserClientWithoutPassword {
-    _id: ObjectId
-}
-
-export interface IUserClientWithoutPassword {
-    _id: string // MongoDB ID
+export interface IUserPersonData {
     login: string
     name: string
+    inn: string
     role: ERoles
-    main: string
+}
+
+export interface IUserRegister extends IUserPersonData {
+    password: string
     department: string
 }
 
-export interface IUser extends IUserClientWithoutPassword{
-    password: string
+
+export interface IUserClient extends IUserPersonData{
+    _id: string
+    department: IDepartment
 }
-
-
 
 export interface ILoginMessage {
     message: string
     isLogin: boolean
-    user: IUserClientWithoutPassword | null
+    user: IUserClient | null
 }
 
-export interface IAdminPassword {
+export interface IAdminReq {
+    _id: string
     password: string
+    admin: string
 }
+
+
 

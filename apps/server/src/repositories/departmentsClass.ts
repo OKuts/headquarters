@@ -1,5 +1,5 @@
 import {mongoConnection} from '../utils/mongodb'
-import {IAddParams, IDepartment, IDepartmentUnit, IId} from '@headquarters/shared'
+import {IAddParams, IDepartment, IDepartmentName, IDepartmentUnit} from '@headquarters/shared'
 import {DeleteResult, ObjectId, UpdateFilter} from 'mongodb'
 
 export class DepartmentsClass {
@@ -10,15 +10,16 @@ export class DepartmentsClass {
         return db.collection<IDepartment>(this.collectionName).find().toArray()
     }
 
-    static async findId(department: string): Promise<IId | null> {
-        const db = await mongoConnection.getDb()
-        const data = await db.collection<IDepartment>(this.collectionName).findOne({department})
-        return data?._id || null
-    }
+    // static async findId(department: string): Promise<ObjectId| null> {
+    //     if (!department) return null
+    //     const db = await mongoConnection.getDb()
+    //     const data = await db.collection<IDepartment>(this.collectionName).findOne({department})
+    //     return data?._id || null
+    // }
 
-    static async findOne(_id: string): Promise<IDepartment | null> {
+    static async findOne(_id: ObjectId): Promise<IDepartment | null> {
         const db = await mongoConnection.getDb()
-        return await db.collection<IDepartment>(this.collectionName).findOne({_id: new ObjectId(_id)})
+        return await db.collection<IDepartment>(this.collectionName).findOne({_id})
     }
 
     static async delete(_id: ObjectId): Promise<DeleteResult> {
@@ -34,7 +35,6 @@ export class DepartmentsClass {
             data.sub.forEach((el,i) => {
                 const [, value] = Object.entries(el)[0]
                 data.sub[i]._id = new ObjectId(value)
-
             })
         }
         if (data && data.main) data.main._id = new ObjectId(data.main._id)
@@ -54,13 +54,12 @@ export class DepartmentsClass {
         }
     }
 
-    static async create(data: IDepartment) {
+    static async create(data: IDepartmentName) {
         const db = await mongoConnection.getDb()
-
-        return await db.collection<IDepartment>(this.collectionName).findOneAndUpdate(
-            {department: data.department},
-            {$setOnInsert: {department: data.department}},
-            {upsert: true, returnDocument: 'after'}
-        )
+            return await db.collection(this.collectionName).findOneAndUpdate(
+                {department: data.department},
+                {$setOnInsert: {department: data.department}},
+                {upsert: true, returnDocument: 'after'}
+            )
     }
 }

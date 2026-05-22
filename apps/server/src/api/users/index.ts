@@ -1,4 +1,3 @@
-export * from './registerUserServerApi'
-export * from './loginUserServerApi'
+export * from './userServerApi'
 export * from './isAdminControlServerApi'
 

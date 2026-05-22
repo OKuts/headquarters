@@ -1,89 +1,94 @@
 import {type FC, useState} from 'react'
 import {ModalWrap} from '../total/ModalWrap.tsx'
+import {Eye, EyeOff, Lock, User} from 'lucide-react'
+import {type FieldValues, useForm} from 'react-hook-form'
+import {userLogger} from '../../utils/logger/logger.ts'
+import type {IAdmin} from '@headquarters/shared/models/AdminsModel.ts'
 
 interface Props {
-    onSuccess: (isAdmin: boolean) => void; // Функція, яка виконається при успішному паролі
-    onCancel: (into: boolean) => void;
-    actionLabel?: string;
+    onSuccess: (admin: string) => void // Функція, яка виконається при успішному паролі
+    onCancel: (into: IAdmin | null) => void
+    into: IAdmin
 }
 
-export const PasswordConfirm: FC<Props> = ({onSuccess, onCancel, actionLabel = 'Підтвердити повноваження'}: Props) => {
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
+export const PasswordConfirm: FC<Props> = ({onSuccess, onCancel, into }: Props) => {
+    const [showPassword, setShowPassword] = useState(false)
+    const {register, handleSubmit, formState: {errors}} = useForm()
 
-    const handleVerify = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setLoading(true)
-        setError('')
-
+    const onSubmit = async (data: FieldValues) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/verify-admin`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({password})
+                body: JSON.stringify({...data, _id: into._id})
             })
             if (response.ok) {
-                const data = await response.json()
-                onSuccess(data.isAdmin)
+                const result = await response.json()
+                if (result.isAdmin) onSuccess(data.admin)
             } else {
-                setError('Доступ відхилено: невірний пароль')
+                userLogger.show('Доступ відхилено', 'error')
             }
         } catch (_) {
-            setError('Помилка з\'єднання з сервером')
-        } finally {
-            setLoading(false)
+            userLogger.show('Помилка з\'єднання з сервером', 'error')
         }
     }
 
 
     return (
-        <ModalWrap onClose={() => onCancel(false)} title={'Перевірка доступу'}>
-            <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl animate-in fade-in zoom-in duration-200">
-                <form onSubmit={handleVerify} className="space-y-4">
-                    {/* Поле вводу пароля */}
-                    <div className="bg-cyan-100 p-4 rounded-md border border-cyan-300">
-                        <label className="block text-sm font-medium text-blue-600 mb-1">
-                            Пароль
-                        </label>
-                        <input
-                            required
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={`mt-1 block text-red-600  w-full px-3 py-2 border rounded-md shadow-sm outline-none focus:ring-2 transition-all ${
-                                error
-                                    ? 'border-red-500 focus:ring-red-200'
-                                    : 'border-cyan-300-300 focus:ring-amber-500 focus:border-amber-500'
-                            }`}
-                            placeholder="••••••••"
-                        />
-                        {error && (
-                            <p className="text-red-600 text-xs mt-2 font-medium animate-pulse">
-                                {error}
-                            </p>
-                        )}
+        <ModalWrap onClose={() => onCancel(null)} title={`Перевірка доступу адміністратора ${into.name}`}>
+            <div
+                className="m-auto w-full max-w-md p-8 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800">
+                <form onSubmit={handleSubmit((data) => onSubmit(data))}
+                      className="space-y-5">
+                    {/* Login */}
+                    <div>
+                        <label
+                            className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Admin</label>
+                        <div className="relative">
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
+                            <input
+                                {...register('admin', {
+                                    required: 'Login адміністратора обов’язковий',
+                                    pattern: {value: /.{2,}/i, message: 'Від 2 символів'}
+                                })}
+                                type="text"
+                                className="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="kuts"/>
+                        </div>
+                        {errors.admin &&
+                            <span className="text-red-500 text-xs mt-1">{errors.admin.message as string}</span>}
+                    </div>
+                    {/*Password Field*/}
+                    <div>
+                        <label
+                            className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Пароль</label>
+                        <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
+                            <input
+                                {...register('password', {
+                                    required: 'Пароль обов’язковий',
+                                    minLength: {value: 6, message: 'Мінімум 6 символів'}
+                                })}
+                                type={showPassword ? 'text' : 'password'}
+                                className="w-full pl-11 pr-12 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="••••••••"/>
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                            >
+                                {showPassword ? <EyeOff className="w-5 h-5"/> : <Eye className="w-5 h-5"/>}
+                            </button>
+                        </div>
+                        {errors.password &&
+                            <span className="text-red-500 text-xs mt-1">{errors.password.message as string}</span>}
                     </div>
 
-                    {/* Кнопка підтвердження */}
                     <button
                         type="submit"
-                        disabled={loading || !password}
-                        className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+                        className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
                     >
-                        {loading ? (
-                            <span className="flex items-center justify-center">
-              <svg className="animate-spin h-5 w-5 mr-2 text-white" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"
-                        fill="none"/>
-                <path className="opacity-75" fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-              </svg>
-              Перевірка...
-            </span>
-                        ) : (
-                            <span className={'font-bold'}>{actionLabel}</span>
-                        )}
+                        Перевірити права доступу
                     </button>
                 </form>
             </div>

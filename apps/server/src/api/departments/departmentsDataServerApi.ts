@@ -4,7 +4,7 @@ import {DepartmentsClass} from '../../repositories'
 export const departmentDataServerApi = async (req: Request, res: Response) => {
     try {
         const {_id, data} = req.body
-        console.log('------------------------------------')
+        console.log('------------------------------------departmentDataServerApi')
         console.log(req.body)
         const result = _id
             ? await DepartmentsClass.findOne(_id)

@@ -4,12 +4,7 @@ import {NavLink} from 'react-router'
 import {AuthSection} from './AuthSection.tsx'
 import {useAuthStore} from '../../../store'
 import money from '../../../assets/branding-image-ua-clear-white.png'
-
-const nav = [
-    ['/todo', 'Tasks'],
-    ['/main', 'Main'],
-    ['/work', 'Work'],
-]
+import {nav} from '../../../data'
 
 const Navbar: React.FC = () => {
     // Вибираємо стан із типізованих сторів
@@ -28,7 +23,9 @@ const Navbar: React.FC = () => {
                             <img src={money} alt=""/>
                         </NavLink>
                     </div>
+                    <NavLink to={'/admin'}>
                     <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Headquarters</span>
+                    </NavLink>
                 </div>
 
                 <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4">

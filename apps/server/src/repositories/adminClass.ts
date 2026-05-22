@@ -1,17 +1,22 @@
 import {mongoConnection} from '../utils/mongodb'
 import bcrypt from 'bcrypt'
-import {IAdminPassword} from '@headquarters/shared/models/UserModel'
+import {IAdminReq} from '@headquarters/shared/models/UserModel'
+import {ObjectId} from 'mongodb'
 
 export class AdminClass {
     private static collectionName = 'admins'
 
-    static async isAdmin(password: string): Promise<boolean> {
+    static async isAdmin(data: IAdminReq): Promise<boolean> {
         const db = await mongoConnection.getDb()
-        const existingAdmins = await db.collection<IAdminPassword>(this.collectionName).find().toArray()
-        const passwords = existingAdmins.map(el => el.password)
-        const promises = passwords.map(hash => bcrypt.compare(password, hash))
-        const results = await Promise.all(promises)
+        console.log(data)
+        const currAdmin = await db.collection(this.collectionName).findOne({_id: new ObjectId(data._id)})
 
-        return results.includes(true)
+        console.log(currAdmin)
+        return currAdmin ? bcrypt.compare(data.password, currAdmin.password) : false
+    }
+
+    static async all() {
+        const db = await mongoConnection.getDb()
+        return await db.collection(this.collectionName).find({}, {projection: {password: 0, admin: 0}}).toArray()
     }
 }

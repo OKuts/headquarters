@@ -1,30 +1,31 @@
 import {AlertCircle} from 'lucide-react'
 import {useForm} from 'react-hook-form'
-import type {IDepartmentUnit} from '@headquarters/shared'
+
 import {departmentsClientApi} from '../../api'
 import {useDepartmentsStore} from '../../store'
 import {ModalWrap} from '../total/ModalWrap.tsx'
+import type {IDepartment} from '@headquarters/shared'
 
 type Props = {
-    setIsEdit: (isEdit: boolean) => void
+    setAdd: (value: string) => void
 }
 
-export const InputEditDepartmentName = ({setIsEdit}: Props) => {
+export const InputEditDepartmentName = ({setAdd}: Props) => {
     const {currId, departments, saveDepartment, updateDepartment, setCurrId} = useDepartmentsStore()
-    const {register, handleSubmit, formState: {errors},} = useForm<IDepartmentUnit>({
+    const {register, handleSubmit, formState: {errors},} = useForm<IDepartment>({
         mode: 'onTouched', // Помилка з'явиться відразу після взаємодії
         defaultValues: {department: currId ? departments.filter(el => el._id === currId)[0].department : ''}
     })
 
     const onClose = () => {
-        setIsEdit(false)
+        setAdd('')
         setCurrId('')
     }
 
-    const onSubmit = async (formData: IDepartmentUnit) => {
+    const onSubmit = async (formData: IDepartment) => {
         const send = currId
             ? {method: 'PATCH', _id: currId,  data: {...formData}}
-            : {method: 'POST', _id: '', data: {...formData}}
+            : {method: 'POST', _id: '', data: { ...formData}}
         const {data} = await departmentsClientApi(send)
         if (currId) {
             updateDepartment(data)
@@ -33,7 +34,6 @@ export const InputEditDepartmentName = ({setIsEdit}: Props) => {
         }
         onClose()
     }
-
 
     return (
         <ModalWrap onClose={onClose} title={'Назва підрозділу'}>

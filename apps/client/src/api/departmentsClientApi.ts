@@ -1,6 +1,6 @@
-import type {IDepartmentsRequest} from '@headquarters/shared'
+import type {IDepartmentRequest} from '@headquarters/shared'
 
-export const departmentsClientApi = async (send: IDepartmentsRequest) => {
+export const departmentsClientApi = async (send: IDepartmentRequest) => {
     try {
         const {method, data, add, _id} = send
 

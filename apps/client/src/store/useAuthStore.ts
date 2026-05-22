@@ -1,13 +1,13 @@
 // apps/web/src/store/useAuthStore.ts
 import { create } from 'zustand'
-import type {ILoginMessage} from '@headquarters/shared/models/UserModel.ts' // Імпорт типів
+import type {IUserClient} from '@headquarters/shared/models/UserModel.ts' // Імпорт типів
 
 // 1. Описуємо інтерфейс нашого сховища
 interface AuthState {
-    user: ILoginMessage | null
+    user: IUserClient | null
     isLoggedIn: boolean
     // Функції (actions) теж типізуємо
-    setCurrUser: (userData: ILoginMessage) => void
+    setCurrUser: (userData: IUserClient) => void
     logout: () => void
 }
 

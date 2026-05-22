@@ -1,49 +1,44 @@
 import React, {useEffect, useState} from 'react'
 import {type FieldValues, useForm} from 'react-hook-form'
-import {Eye, EyeOff, Lock, User} from 'lucide-react'
+import {Eye, EyeOff, Lock, User, UserKey} from 'lucide-react'
 import {useAuthStore, useDepartmentsStore} from '../../../store'
 import {ERoles} from '@headquarters/shared/models/UserModel.ts'
 import {useLoaderData} from 'react-router'
 import {departmentsLoader} from '../../../router/loaders'
-import type {IDepartmentClient} from '@headquarters/shared'
+import {userLogger} from '../../../utils/logger/logger.ts'
+import type {IDepartment} from '@headquarters/shared'
+import {authClientApi} from '../../../api/authClientApi.ts'
 
 export const AuthForm: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
-    const {user, setCurrUser} = useAuthStore()
-    const {data}: {data: IDepartmentClient[], iaLoading: boolean} = useLoaderData<typeof departmentsLoader>()
+    const {setCurrUser} = useAuthStore()
+    const {data}: { data: IDepartment[], iaLoading: boolean } = useLoaderData<typeof departmentsLoader>()
     const {saveDepartments, departments} = useDepartmentsStore()
 
-    const {register, handleSubmit, formState: {errors}} = useForm()
+    const {register, handleSubmit, reset, formState: {errors}} = useForm()
 
     const toggleMode = () => setIsLogin(!isLogin)
 
-    const onSubmit = async (data: FieldValues, mode: string) => {
-        console.log(`Performing ${mode}...`, data)
-        const url = import.meta.env.VITE_API_URL
-        const urlAdd = isLogin ? 'login' : 'add'
-
-        fetch(`${url}/api/user/${urlAdd}`, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json', // Обов'язково для JSON
-                // Якщо потрібна авторизація:
-                // 'Authorization': `Bearer ${import.meta.env.VITE_AUTH_TOKEN}`
-            },
-            body: JSON.stringify(data)
-        })
+    const onSubmit = async (data: FieldValues) => {
+        const {login, name, password, department, inn, role} = data
+        authClientApi(isLogin ? {login, password} : {login, name, password, department, inn, role})
             .then(res => res.json())
-            .then(req => {
-                if (req.isLogin) setCurrUser(req)
+            .then(res => {
+                setIsLogin(res.isLogin)
+                if (res.isLogin) {
+                    setCurrUser(res.user)
+                    userLogger.show(res.message, 'success')
+                } else {
+                    userLogger.show(res.message, 'error')
+                }
+                reset()
             })
     }
 
     useEffect(() => {
         if (data) saveDepartments(data)
     }, [data, saveDepartments])
-
-
-    console.log(user)
 
     return (
         <div
@@ -57,7 +52,7 @@ export const AuthForm: React.FC = () => {
                 </p>
             </div>
 
-            <form onSubmit={handleSubmit((data) => onSubmit(data, isLogin ? 'login' : 'register'))}
+            <form onSubmit={handleSubmit((data) => onSubmit(data))}
                   className="space-y-5">
                 {/* Login */}
                 <div>
@@ -79,6 +74,23 @@ export const AuthForm: React.FC = () => {
                 </div>
 
                 {!isLogin && <>
+                    {/* inn */}
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">РНОКПП (паспорт)</label>
+                        <div className="relative">
+                            <UserKey className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
+                            <input
+                                {...register('inn', {
+                                    required: 'Дані обов\'язкові',
+                                    pattern: {value: /.{8,10}/i, message: 'Від 8 до 10 символів'}
+                                })}
+                                type="text"
+                                className="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="inn/passport"/>
+                        </div>
+                        {errors.inn &&
+                            <span className="text-red-500 text-xs mt-1">{errors.inn.message as string}</span>}
+                    </div>
                     {/* Name */}
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Прізвище,
@@ -107,7 +119,7 @@ export const AuthForm: React.FC = () => {
                             className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none text-slate-900 dark:text-white"
                         >
                             <option value="">Оберіть . . .</option>
-                            {departments.map(el => <option value={el.department}>{el.department}</option>)}
+                            {departments.map(el => <option value={el._id}>{el.department}</option>)}
                         </select>
                         {errors.department && (
                             <span className="text-red-500 text-xs mt-1">{errors.department.message as string}</span>
@@ -136,22 +148,6 @@ export const AuthForm: React.FC = () => {
                         </div>
                         {errors.role && (
                             <span className="text-red-500 text-xs mt-1">{errors.role.message as string}</span>
-                        )}
-                    </div>
-                    {/* Select: Старший підрозділ */}
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                            Старший підрозділ
-                        </label>
-                        <select
-                            {...register('main', {required: 'Оберіть підрозділ'})}
-                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none text-slate-900 dark:text-white"
-                        >
-                            <option value="">Оберіть старший підрозділ . . .</option>
-                            {departments.map(el => <option value={el.department}>{el.department}</option>)}
-                        </select>
-                        {errors.main && (
-                            <span className="text-red-500 text-xs mt-1">{errors.main.message as string}</span>
                         )}
                     </div>
                 </>
