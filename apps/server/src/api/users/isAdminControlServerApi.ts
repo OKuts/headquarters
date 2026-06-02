@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import {AdminClass} from '../../repositories/adminClass'
+import {AdminClass} from '../../repositories'
 
 export const isAdminControlApi = async (req: Request, res: Response) => {
 

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {type FieldValues, useForm} from 'react-hook-form'
 import {Eye, EyeOff, Lock, User, UserKey} from 'lucide-react'
-import {useAuthStore, useDepartmentsStore} from '../../../store'
+import {useAuthStore, useDepartmentsStore} from '../../store'
 import {ERoles} from '@headquarters/shared/models/UserModel.ts'
 import {useLoaderData} from 'react-router'
-import {departmentsLoader} from '../../../router/loaders'
-import {userLogger} from '../../../utils/logger/logger.ts'
+import {departmentsLoader} from '../../router/loaders'
+import {userLogger} from '../../utils/logger/logger.ts'
 import type {IDepartment} from '@headquarters/shared'
-import {authClientApi} from '../../../api/authClientApi.ts'
+import {authClientApi} from '../../api'
 
 export const AuthForm: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -15,7 +15,6 @@ export const AuthForm: React.FC = () => {
     const {setCurrUser} = useAuthStore()
     const {data}: { data: IDepartment[], iaLoading: boolean } = useLoaderData<typeof departmentsLoader>()
     const {saveDepartments, departments} = useDepartmentsStore()
-
     const {register, handleSubmit, reset, formState: {errors}} = useForm()
 
     const toggleMode = () => setIsLogin(!isLogin)
@@ -76,7 +75,8 @@ export const AuthForm: React.FC = () => {
                 {!isLogin && <>
                     {/* inn */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">РНОКПП (паспорт)</label>
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">РНОКПП
+                            (паспорт)</label>
                         <div className="relative">
                             <UserKey className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
                             <input

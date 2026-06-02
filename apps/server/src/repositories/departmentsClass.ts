@@ -1,5 +1,5 @@
 import {mongoConnection} from '../utils/mongodb'
-import {IAddParams, IDepartment, IDepartmentName, IDepartmentUnit} from '@headquarters/shared'
+import {IAddParams, IDepartment, IDepartmentName} from '@headquarters/shared'
 import {DeleteResult, ObjectId, UpdateFilter} from 'mongodb'
 
 export class DepartmentsClass {
@@ -10,24 +10,22 @@ export class DepartmentsClass {
         return db.collection<IDepartment>(this.collectionName).find().toArray()
     }
 
-    // static async findId(department: string): Promise<ObjectId| null> {
-    //     if (!department) return null
-    //     const db = await mongoConnection.getDb()
-    //     const data = await db.collection<IDepartment>(this.collectionName).findOne({department})
-    //     return data?._id || null
-    // }
-
     static async findOne(_id: ObjectId): Promise<IDepartment | null> {
         const db = await mongoConnection.getDb()
         return await db.collection<IDepartment>(this.collectionName).findOne({_id})
     }
 
-    static async delete(_id: ObjectId): Promise<DeleteResult> {
+    static async delete({_id}: {_id:ObjectId}): Promise<DeleteResult> {
+
         const db = await mongoConnection.getDb()
-        return await db.collection<IDepartment>(this.collectionName).deleteOne({_id})
+
+
+
+
+        return await db.collection<IDepartment>(this.collectionName).deleteOne(_id)
     }
 
-    static async patch(_id: ObjectId, data: IDepartmentUnit, add: IAddParams) {
+    static async patch(_id: ObjectId, data: IDepartment, add: IAddParams) {
         const db = await mongoConnection.getDb()
         const [key, value] = add ? Object.entries(add)[0] : ['', '']
 

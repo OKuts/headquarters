@@ -3,7 +3,9 @@ export interface IPersonData {
     inn: string,
 }
 
-export interface IPerson extends IPersonData {
+export interface IPersonId {
     _id: string
+    access?: boolean
 }
 
+export interface IPerson extends IPersonData, IPersonId {}

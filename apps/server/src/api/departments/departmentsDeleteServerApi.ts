@@ -7,7 +7,7 @@ export const departmentDeleteServerApi = async (req: Request, res: Response) => 
         const id = req.body
 
         console.log(`DepartmentDeleteServerApi id ${id}`)
-        const result = await DepartmentsClass.delete(new ObjectId(req.body._id))
+        const result = await DepartmentsClass.delete({_id: new ObjectId(req.body._id)})
 
         console.log('departmentDeleteApi')
         return res.status(201).json({

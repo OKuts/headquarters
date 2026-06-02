@@ -1,6 +1,6 @@
 import {Moon, Sun} from 'lucide-react'
 import React from 'react'
-import {useThemeStore} from '../../../store/useThemeStore.ts'
+import {useThemeStore} from '../../store/useThemeStore.ts'
 
 export const ToggleThemeButton: React.FC = () => {
     const toggleTheme = useThemeStore((state) => state.toggleTheme)

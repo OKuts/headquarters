@@ -1,5 +1,5 @@
-import {useAuthStore} from '../../../store'
-import {LogOut, User} from 'lucide-react'
+import {useAuthStore} from '../../store'
+import {LogOut, UserRoundPen} from 'lucide-react'
 import {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router'
 
@@ -16,23 +16,19 @@ export const AuthSection = () => {
         }
     }, [toLogin, isLoggedIn, navigate])
 
-    console.log(user)
-
     return <>
         {isLoggedIn ? (
             <div className="flex items-center gap-4">
-                <div className="hidden flex-col items-end md:flex">
-                <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  {user?.login}
-                </span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {user?.name}
-                </span>
-                </div>
+                {user && <div className="hidden flex-col items-end md:flex">
+                    <div className={'flex justify-around'}>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">{user?.login}</span>
+                    </div>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{user?.name}</span>
+                </div>}
 
                 <div
                     className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-                    <User size={20} className="text-gray-600 dark:text-gray-300"/>
+                    <UserRoundPen size={20} className="text-gray-600 dark:text-gray-300" />
                 </div>
 
                 <button

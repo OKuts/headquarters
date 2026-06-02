@@ -4,6 +4,7 @@ import {Admins} from '../components/logo'
 import {DepartmentsList, InputEditDepartmentName} from '../components/department'
 import {WatchSelect} from '../elements'
 import {InputPersonName, PersonList} from '../components/person'
+import {WorkersList} from '../components/workers'
 
 
 export const AdminPage = () => {
@@ -14,14 +15,15 @@ export const AdminPage = () => {
     if (navigation.state === 'loading') return null
 
     const inputMaps: Record<string, JSX.Element> = {
-        unit: <InputEditDepartmentName setAdd={setAdd}/>,
-        person: <InputPersonName setAdd={setAdd}/>,
+        units: <InputEditDepartmentName setAdd={setAdd}/>,
+        persons: <InputPersonName setAdd={setAdd}/>,
     }
 
     const watchMaps: Record<string, JSX.Element> = {
-        all: <></>,
-        unit: <DepartmentsList setAdd={setAdd} watch={watch}/>,
-        person: <PersonList setAdd={setAdd} watch={watch}/>,
+        all: <DepartmentsList setAdd={setAdd} watch={watch}/>,
+        units: <DepartmentsList setAdd={setAdd} watch={watch}/>,
+        persons: <PersonList setAdd={setAdd} watch={watch}/>,
+        workers: <WorkersList />,
     }
 
     return <div>

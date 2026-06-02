@@ -4,7 +4,6 @@ export const departmentsClientApi = async (send: IDepartmentRequest) => {
     try {
         const {method, data, add, _id} = send
 
-        console.log(method)
         const url = `${import.meta.env.VITE_API_URL}/api/departments`
         const obj = {
             method,

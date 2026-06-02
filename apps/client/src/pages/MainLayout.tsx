@@ -1,5 +1,5 @@
 import {Outlet, useNavigation} from 'react-router'
-import Navbar from '../components/total/navbar/Navbar.tsx'
+import Navbar from '../components/navbar/Navbar.tsx'
 import {useEffect} from 'react'
 import {useDepartmentsStore} from '../store'
 import {departmentsClientApi} from '../api'

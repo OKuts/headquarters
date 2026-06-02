@@ -2,9 +2,9 @@ import React from 'react'
 import {ToggleThemeButton} from './ToggleThemeButton.tsx'
 import {NavLink} from 'react-router'
 import {AuthSection} from './AuthSection.tsx'
-import {useAuthStore} from '../../../store'
-import money from '../../../assets/branding-image-ua-clear-white.png'
-import {nav} from '../../../data'
+import {useAuthStore} from '../../store'
+import money from '../../assets/branding-image-ua-clear-white.png'
+import {nav} from '../../data'
 
 const Navbar: React.FC = () => {
     // Вибираємо стан із типізованих сторів

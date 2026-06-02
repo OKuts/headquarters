@@ -2,6 +2,7 @@ import {type FieldValues, useForm} from 'react-hook-form'
 import { User, UserKey} from 'lucide-react'
 import {personsClientApi} from '../../api/personClientApi.ts'
 import {ModalWrap} from '../total/ModalWrap.tsx'
+import type {IPersonData} from '@headquarters/shared/models/PersonModel.ts'
 
 type Props = {
     setAdd: (value: string) => void,
@@ -12,7 +13,8 @@ export const InputPersonName = ({setAdd}: Props) => {
     const {register, handleSubmit, formState: {errors}} = useForm()
 
     const onSubmit = async (data: FieldValues) => {
-        personsClientApi(data)
+
+        personsClientApi(data as IPersonData, 'POST')
             .then(response => {
                 console.log(response)
                 setAdd('')
