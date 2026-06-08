@@ -13,6 +13,7 @@ export interface IDepartmentFull extends IDepartmentName, IId {}
 export interface IDepartment extends IDepartmentName, IId {
     main?: string
     sub?: IDepartmentFull[] | IId[]
+    isExist: boolean
 }
 
 export interface IAddParams {

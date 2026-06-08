@@ -93,8 +93,6 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
 
     if (!filteredDepartments) return null
 
-    console.log(filteredDepartments)
-
     return (<>
             <AddSearchWrapper setSearchTerm={setSearchTerm} setAdd={setAdd} watch={watch} text={'Підрозділи'}/>
             <div className="p-6 max-w-6xl mx-auto">
