@@ -1,8 +1,9 @@
 import {Fragment, useMemo, useState} from 'react'
 import {useWorkerData} from '../../hooks'
 import {SearchInput} from '../../elements'
-import {ActionMenu} from '../total/ContextMenu.tsx'
 import {useAdminStore} from '../../store'
+import {ActionMenu} from '../total'
+import {options, WORKERS_OPTIONS} from '../../data'
 
 export const WorkersList = () => {
     const {admin} = useAdminStore()
@@ -47,7 +48,7 @@ export const WorkersList = () => {
                                     <td className="px-6 py-4 font-medium text-slate-900" key={el}>
                                         {person[el] || ''}
                                     </td>
-                                    {el === 'role' && admin && <td><ActionMenu onAction={onAction} dept={person}/></td>}
+                                    {el === 'role' && admin && <td><ActionMenu onAction={onAction} dept={person} optionList={WORKERS_OPTIONS} type={options.WORKERS}/></td>}
                                 </Fragment>
                             )}
                         </tr>

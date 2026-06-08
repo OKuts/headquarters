@@ -2,7 +2,7 @@ import type {IDepartmentRequest} from '@headquarters/shared'
 
 export const departmentsClientApi = async (send: IDepartmentRequest) => {
     try {
-        const {method, data, add, _id} = send
+        const {method, data, action = {}, _id} = send
 
         const url = `${import.meta.env.VITE_API_URL}/api/departments`
         const obj = {
@@ -12,7 +12,7 @@ export const departmentsClientApi = async (send: IDepartmentRequest) => {
                 // Якщо ви використовуєте авторизацію через токени:
                 // 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            body: JSON.stringify(add ? {data, add, _id} : {_id, data}),
+            body: JSON.stringify({data, action, _id}),
         }
 
         const response = method === 'GET' ? await fetch(url) : await fetch(url, obj)

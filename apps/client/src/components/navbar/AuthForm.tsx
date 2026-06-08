@@ -14,7 +14,7 @@ export const AuthForm: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false)
     const {setCurrUser} = useAuthStore()
     const {data}: { data: IDepartment[], iaLoading: boolean } = useLoaderData<typeof departmentsLoader>()
-    const {saveDepartments, departments} = useDepartmentsStore()
+    const {initDepartments, departments} = useDepartmentsStore()
     const {register, handleSubmit, reset, formState: {errors}} = useForm()
 
     const toggleMode = () => setIsLogin(!isLogin)
@@ -36,8 +36,8 @@ export const AuthForm: React.FC = () => {
     }
 
     useEffect(() => {
-        if (data) saveDepartments(data)
-    }, [data, saveDepartments])
+        if (data) initDepartments(data)
+    }, [data, initDepartments])
 
     return (
         <div

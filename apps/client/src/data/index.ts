@@ -1,2 +1,2 @@
-export * from './departmentData'
 export * from './menu'
+export * from './optionsData'

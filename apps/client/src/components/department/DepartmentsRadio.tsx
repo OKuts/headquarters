@@ -1,18 +1,19 @@
-import {ModalWrap} from '../total/ModalWrap'
+import {ModalWrap} from '../total'
 import {useDepartmentsStore} from '../../store'
 import {useMemo} from 'react'
 import {useForm} from 'react-hook-form'
 import {departmentsClientApi} from '../../api'
 import {userLogger} from '../../utils/logger/logger'
 import {getDepartment} from '../../utils/departments/getDepartment'
-import {isCircleMainDepartment} from '../../utils/departments/isCircleMainDepartment.ts'
+import {isCircleMainDepartment} from '../../utils/departments/isCircleMainDepartment'
+import type {IDepartment} from '@headquarters/shared'
 
 interface RadioProps {
     setIsRadioUnit: (value: boolean) => void;
 }
 
 export const DepartmentsRadio = ({setIsRadioUnit}: RadioProps) => {
-    const {departments, currId, updateDepartment, setCurrId} = useDepartmentsStore()
+    const {departments, currId, saveDepartmentName, updateDepartment, setCurrId} = useDepartmentsStore()
     const {register, handleSubmit, formState: {errors}} = useForm({defaultValues: {index: -1}})
 
     const availableMainDepartments = useMemo(() =>
@@ -23,23 +24,22 @@ export const DepartmentsRadio = ({setIsRadioUnit}: RadioProps) => {
         const mainDepartment = availableMainDepartments[data.index]
         const currDepartment = getDepartment(currId, departments)
 
-
         if (mainDepartment && currDepartment ) {
+
             const isNotCircle = isCircleMainDepartment(currDepartment, mainDepartment, departments)
-            console.log('-------------------------------------')
-            console.log(isNotCircle)
+
             if (isNotCircle) {
-                if (!currDepartment.main || currDepartment.main._id !== mainDepartment._id) {
-                    currDepartment.main = structuredClone(mainDepartment)
-                    const result = await departmentsClientApi({method: 'PATCH', _id: currId, data: currDepartment})
+                if (!currDepartment.main || currDepartment.main !== mainDepartment._id) {
+
+                    const result = await departmentsClientApi({
+                        method: 'PATCH', _id: currId, data: mainDepartment, action: {main: 'update'}})
                     if (result) {
-                        updateDepartment(result.data)
-                        const temp = structuredClone(mainDepartment)
-                        temp.sub = [...(temp.sub || []), {_id: currId, department: currDepartment.department}]
-                        const resultTwo = await departmentsClientApi({
-                            method: 'PATCH', _id: mainDepartment._id, data: {...temp}
+                        result.data.forEach((item: IDepartment) => {
+                            if (item) {
+                                updateDepartment(item)
+                                saveDepartmentName({[item._id]: item.department})
+                            }
                         })
-                        if (resultTwo) updateDepartment(resultTwo.data)
                         setIsRadioUnit(false)
                         setCurrId('')
                         userLogger.show('Операція успішна', 'success')

@@ -7,13 +7,13 @@ import {departmentsClientApi} from '../api'
 
 export const MainLayout = () => {
     const navigation = useNavigation()
-    const {saveDepartments} = useDepartmentsStore()
+    const {initDepartments} = useDepartmentsStore()
 
     useEffect(() => {
         departmentsClientApi({_id: '', method: 'GET'}).then(data => {
-            saveDepartments(data.data)
+            initDepartments(data.data)
         })
-    }, [saveDepartments])
+    }, [initDepartments])
 
     return (
         <div className=" min-h-screen h-screen overflow-y-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden

@@ -1,6 +1,5 @@
 import {useMemo, useState} from 'react'
 import {useAdminStore, useDepartmentsStore} from '../../store'
-import {ActionMenu} from '../total/ContextMenu.tsx'
 import type {ActionType} from '../../types/contextMenuTypes.ts'
 import {departmentsClientApi} from '../../api'
 import {DepartmentsRadio} from './DepartmentsRadio.tsx'
@@ -9,6 +8,9 @@ import {userLogger} from '../../utils/logger/logger.ts'
 import {AddSearchWrapper} from '../../elements/AddSearchWrapper.tsx'
 import {WorkersUnitList} from '../workers'
 import {useWorkerData} from '../../hooks'
+import {ActionMenu} from '../total'
+import {DEPARTMENTS_OPTIONS, options} from '../../data'
+import type {IDepartment} from '@headquarters/shared'
 
 type Props = {
     setAdd: (isAdd: string) => void
@@ -16,7 +18,7 @@ type Props = {
 }
 
 export const DepartmentsList = ({setAdd, watch}: Props) => {
-    const {departments, deleteDepartment, setCurrId, updateDepartment} = useDepartmentsStore()
+    const {departments, departmentsNames, deleteDepartment, setCurrId, updateDepartment} = useDepartmentsStore()
     const {workers} = useWorkerData()
     const {admin} = useAdminStore()
     const [searchTerm, setSearchTerm] = useState('')
@@ -45,12 +47,10 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
         if (currentDepartment) {
             switch (actionType) {
                 case 'DELETE': {
-                    console.log(workers)
                     if (currentDepartment && (!currentDepartment.sub || currentDepartment.sub.length === 0)) {
-
-
-                        const {data} = await departmentsClientApi({method: 'DELETE', ...{_id}})
-                        if (data.deletedCount) {
+                        const {data} = await departmentsClientApi({method: 'DELETE', _id, data: {_id: currentDepartment.main || ''}})
+                        updateDepartment(data[1])
+                        if (data[0].deletedCount) {
                             deleteDepartment(_id)
                             setCurrId('')
                             userLogger.show(`Ви видалили підрозділ: ${currentDepartment.department}`, 'success')
@@ -65,35 +65,35 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
                     setCurrId(_id)
                 }
                     break
-                case 'ADD_MAIN':
                 case 'DELETE_MAIN': {
                     if (currentDepartment && currentDepartment.main) {
                         const result = await departmentsClientApi({
                             method: 'PATCH',
-                            _id: currentDepartment.main._id,
-                            add: {sub: _id}
+                            _id,
+                            data: {_id: currentDepartment.main},
+                            action: {main: 'delete'}
                         })
                         if (result) {
-                            updateDepartment(result.data)
-                            userLogger.show(`Старший підроділ ${currentDepartment.main.department} припинив зв'язок: `, 'success')
-                            const {data} = await departmentsClientApi({method: 'PATCH', ...{_id}, add: {main: ''}})
-                            if (data) {
-                                updateDepartment(data)
-                                userLogger.show(`Ви відкріпили підрозділ: ${currentDepartment.department}`, 'success')
-                            }
+                            result.data.forEach((item: IDepartment) => {
+                                updateDepartment(item)
+                            })
+                            userLogger.show(`Старший підроділ ${departmentsNames[currentDepartment.main]} припинив зв'язок: `, 'success')
+                            userLogger.show(`Ви відкріпили підрозділ: ${currentDepartment.department}`, 'success')
                         }
-                    }
-                    if (actionType === 'ADD_MAIN') {
-                        setIsRadioUnit(true)
-                        setCurrId(_id)
                     }
                 }
                     break
+                case 'ADD_MAIN': {
+                    setIsRadioUnit(true)
+                    setCurrId(_id)
+                }
             }
         }
     }
 
     if (!filteredDepartments) return null
+
+    console.log(filteredDepartments)
 
     return (<>
             <AddSearchWrapper setSearchTerm={setSearchTerm} setAdd={setAdd} watch={watch} text={'Підрозділи'}/>
@@ -107,16 +107,19 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
                         <div
                             className="flex justify-between text-lg pl-8 font-semibold text-blue-700 mb-2 underline underline-offset-4 decoration-blue-200">
                             {dept.department}
-                            {admin && watch === 'units' && <ActionMenu onAction={onAction} dept={dept}/>}
+                            {admin && watch === 'units' &&
+                                <ActionMenu onAction={onAction} dept={dept} optionList={DEPARTMENTS_OPTIONS}
+                                            type={options.DEPARTMENTS}/>}
                         </div>
                         {dept?.main && <div className="flex items-center pl-16 text-gray-600 text-sm">
                             <span className="font-medium mr-1">Підпорядкований:</span>
-                            {dept?.main.department}
+                            {dept && dept.main ? departmentsNames[dept.main] : ''}
                         </div>}
 
                         {dept?.sub && dept.sub.length > 0 && <div className="pl-20 text-gray-600 text-sm">
                             <div className="font-medium mr-1">Підлеглі підрозділи:</div>
-                            {dept.sub.map((unit, i) => <div key={i} className={'ml-4'}>{unit.department}</div>)}
+                            {dept.sub.map((unit, i) => <div key={i} className={'ml-4'}>
+                                {departmentsNames[unit._id]}</div>)}
                         </div>}
                         {watch === 'all' && <WorkersUnitList workers={currWorkers[dept.department]}/>}
                     </div>

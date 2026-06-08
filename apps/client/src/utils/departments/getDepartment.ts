@@ -1,4 +1,4 @@
-import type {IDepartmentUnitId} from '@headquarters/shared'
+import type {IDepartment} from '@headquarters/shared'
 
-export const getDepartment = (id: string, departments: IDepartmentUnitId[]) =>
+export const getDepartment = (id: string, departments: IDepartment[]) =>
     departments.find(department => id === department._id)

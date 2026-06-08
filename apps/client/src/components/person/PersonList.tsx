@@ -15,10 +15,10 @@ export const PersonList = ({setAdd, watch}: Props) => {
     const {admin} = useAdminStore()
     const [searchTerm, setSearchTerm] = useState('')
     const [persons, setPersons] = useState<IPerson[]>([])
-    const [isAll, setIsAll] = useState<boolean>(true)
+    const [isAll, setIsAll] = useState<boolean>(false)
     const [mayDelete, setMayDelete] = useState<string>('')
 
-    const  filteredPersons = useMemo(() => persons.filter(person =>
+    const filteredPersons = useMemo(() => persons.filter(person =>
         (isAll || person.access) && (!searchTerm || person.name.toLowerCase().includes(searchTerm.toLowerCase()))
     ), [isAll, persons, searchTerm])
 
@@ -45,7 +45,7 @@ export const PersonList = ({setAdd, watch}: Props) => {
                 setMayDelete('')
             } else {
                 setMayDelete(_id)
-                userLogger.show('Для видалення співробітника натисніть ще раз', 'warning')
+                userLogger.show('Для зміни статусу співробітника натисніть ще раз' , 'warning')
             }
         } else {
             userLogger.show('Підтвердіть права адміністратора', 'error')
@@ -65,7 +65,8 @@ export const PersonList = ({setAdd, watch}: Props) => {
                         <th scope="col" className="px-6 py-4">name</th>
                         <th scope="col" className="px-6 py-4 text-center flex items-center justify-center">
                             access
-                            <Check onClick={() => setIsAll(!isAll)} strokeWidth={4} className={`ml-2 ${isAll ? 'text-green-500' : 'text-gray-500'}`}/>
+                            <Check onClick={() => setIsAll(!isAll)} strokeWidth={4}
+                                   className={`ml-2 ${isAll ? 'text-green-500' : 'text-gray-500'}`}/>
                         </th>
                     </tr>
                     </thead>
