@@ -8,6 +8,7 @@ import {departmentsLoader} from '../../router/loaders'
 import {userLogger} from '../../utils/logger/logger.ts'
 import type {IDepartment} from '@headquarters/shared'
 import {authClientApi} from '../../api'
+import {getName} from '../../utils/persons/getName'
 
 export const AuthForm: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -21,7 +22,7 @@ export const AuthForm: React.FC = () => {
 
     const onSubmit = async (data: FieldValues) => {
         const {login, name, password, department, inn, role} = data
-        authClientApi(isLogin ? {login, password} : {login, name, password, department, inn, role})
+        authClientApi(isLogin ? {login, password} : {login, name: getName(name), password, department, inn, role})
             .then(res => res.json())
             .then(res => {
                 setIsLogin(res.isLogin)

@@ -21,8 +21,8 @@ export const WorkersList = () => {
         , [workers, searchTerm]
     )
 
-    const onAction = (data) => {
-        console.log(data)
+    const onAction = (type, id) => {
+        console.log(type, id)
     }
 
     return <>
@@ -30,7 +30,7 @@ export const WorkersList = () => {
             <SearchInput setSearchTerm={setSearchTerm}/>
         </div>
         <div className="w-full max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100">
-            <div className="overflow-x-auto border border-slate-200 rounded-lg">
+            <div className="border border-slate-200 rounded-lg">
                 <table className="min-w-full divide-y divide-slate-200 bg-white text-left text-sm text-slate-600">
                     <thead className="bg-slate-50 text-xs font-semibold tracking-wider text-slate-700">
                     <tr>
@@ -45,10 +45,13 @@ export const WorkersList = () => {
                     {filteredWorkers.map((person) => (
                         <tr key={person._id} className={'transition-colors'}>
                             {(['inn', 'name', 'department', 'role'] as const).map((el) => <Fragment key={el}>
-                                    <td className="px-6 py-4 font-medium text-slate-900" key={el}>
-                                        {person[el] || ''}
-                                    </td>
-                                    {el === 'role' && admin && <td><ActionMenu onAction={onAction} dept={person} optionList={WORKERS_OPTIONS} type={options.WORKERS}/></td>}
+                                    <td className="px-6 py-4 font-medium text-slate-900">{person[el] || ''}</td>
+                                    {el === 'role' && admin &&
+                                        <td>
+                                            <ActionMenu onAction={onAction} id={person._id} optionList={WORKERS_OPTIONS}
+                                                        type={options.WORKERS}/>
+                                        </td>
+                                    }
                                 </Fragment>
                             )}
                         </tr>

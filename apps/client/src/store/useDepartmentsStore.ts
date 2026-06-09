@@ -1,5 +1,5 @@
 import {create} from 'zustand'
-import type {IDepartment, IDepartmentName} from '@headquarters/shared'
+import type {IDepartment} from '@headquarters/shared'
 
 
 interface DepartmentsState {
@@ -11,9 +11,6 @@ interface DepartmentsState {
     initDepartments: (departments: IDepartment[]) => void
     saveDepartment: (department: IDepartment) => void
     updateDepartment: (department: IDepartment) => void
-    addMainDepartment: (id: string, main: IDepartmentName) => void
-    removeMainSubDepartment: (id: string, unit: IDepartmentName) => void
-    addSubDepartment: (id: string, sub: IDepartmentName) => void
     deleteDepartment: (id: string) => void
     setCurrId: (id: string) => void
 }
@@ -41,26 +38,6 @@ export const useDepartmentsStore = create<DepartmentsState>((set) => ({
     deleteDepartment: (id: string) => set((state) => ({
         departments: state.departments.filter(el => el._id !== id)
     })),
-
-    addMainDepartment: (id: string, main: IDepartmentName) => set((state) => ({
-        departments: state.departments.map((el) =>
-            el._id === id ? {...el, main: {...main}} : el
-        )
-    })),
-
-    removeMainSubDepartment: (id: string, unit: IDepartmentName) => set((state) => ({
-        departments: state.departments.map((el) =>
-            el._id === id ? unit : el
-        )
-    })),
-
-    addSubDepartment: (id: string, sub: IDepartmentName) => set((state) => ({
-        departments: state.departments.map((el) =>
-            el._id === id ? {...el, sub: [...(el?.sub || []), sub]} : el
-        )
-    })),
-
-
 
     setCurrId: (id: string) => set({currId: id})
 }))

@@ -106,7 +106,7 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
                             className="flex justify-between text-lg pl-8 font-semibold text-blue-700 mb-2 underline underline-offset-4 decoration-blue-200">
                             {dept.department}
                             {admin && watch === 'units' &&
-                                <ActionMenu onAction={onAction} dept={dept} optionList={DEPARTMENTS_OPTIONS}
+                                <ActionMenu onAction={onAction} id ={dept._id} main={dept.main} optionList={DEPARTMENTS_OPTIONS}
                                             type={options.DEPARTMENTS}/>}
                         </div>
                         {dept?.main && <div className="flex items-center pl-16 text-gray-600 text-sm">
