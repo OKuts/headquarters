@@ -26,6 +26,9 @@ export class PersonalClass {
 
     static async patch(_id: string, access: boolean) {
         const db = await mongoConnection.getDb()
+
+
+
         return db.collection(this.collectionName).findOneAndUpdate(
             {_id: new ObjectId(_id)}, {$set: {access}}, {upsert: true, returnDocument: 'after'})
     }

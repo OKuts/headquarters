@@ -1,6 +1,6 @@
-import type {IPersonData, IPersonId} from '@headquarters/shared/models/PersonModel.ts'
+import type {IPerson, IPersonData} from '@headquarters/shared/models/PersonModel.ts'
 
-export const personsClientApi = async (data: IPersonData | IPersonId, method: string) => {
+export const personsClientApi = async (data: IPersonData | Omit<IPerson, 'name'>, method: string) => {
     try {
         const url = `${import.meta.env.VITE_API_URL}/api/personal`
         const obj = {

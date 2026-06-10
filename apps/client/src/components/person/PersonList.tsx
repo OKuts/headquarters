@@ -34,10 +34,10 @@ export const PersonList = ({setAdd, watch}: Props) => {
     }, [])
 
     // Обробник зміни доступу
-    const handleToggleAccess = async (_id: string, access: boolean) => {
+    const handleToggleAccess = async (_id: string, access: boolean, inn: string) => {
         if (admin) {
             if (mayDelete === _id) {
-                personsClientApi({_id, access: !access}, 'PATCH')
+                personsClientApi({_id, access: !access, inn}, 'PATCH')
                     .then(res => {
                         userLogger.show(res.message, 'success')
                         setPersons(prevState => [...prevState.map(el => el._id === res.out._id ? res.out : el)])
@@ -102,7 +102,7 @@ export const PersonList = ({setAdd, watch}: Props) => {
                                         <input
                                             type="checkbox"
                                             checked={person.access}
-                                            onChange={() => handleToggleAccess(person._id, person.access ?? false)}
+                                            onChange={() => handleToggleAccess(person._id, person.access ?? false, person.inn)}
                                             className="sr-only peer"
                                         />
                                         <div

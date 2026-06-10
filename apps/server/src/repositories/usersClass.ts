@@ -1,5 +1,5 @@
 import {mongoConnection} from '../utils/mongodb'
-import {ERoles, IUserAuth, IUserRegister,} from '@headquarters/shared/models/UserModel'
+import {IUserAuth, IUserRegister,} from '@headquarters/shared/models/UserModel'
 import bcrypt from 'bcrypt'
 import {DepartmentsClass} from './departmentsClass'
 import {InsertOneResult, ObjectId} from 'mongodb'
@@ -7,6 +7,12 @@ import {PersonalClass} from './personalClass'
 
 export class UsersClass {
     private static collectionName = 'users'
+
+    static async removeByInn(inn: string) {
+        const db = await mongoConnection.getDb()
+        return await db.collection(this.collectionName).deleteOne({inn})
+    }
+
 
     static async allAccess() {
         const db = await mongoConnection.getDb()

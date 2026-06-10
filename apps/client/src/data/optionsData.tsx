@@ -1,5 +1,5 @@
 import type {MenuOption} from '../types/contextMenuTypes.ts'
-import {ArrowUpFromLine, BrushCleaning, Edit, Trash2} from 'lucide-react'
+import {ArrowLeftRight, ArrowUpDown, ArrowUpFromLine, BrushCleaning, Edit, Trash2} from 'lucide-react'
 
 export const options = {
     DEPARTMENTS: 'DEPARTMENTS',
@@ -16,7 +16,6 @@ export const DEPARTMENTS_OPTIONS: MenuOption[] = [
 ]
 
 export const WORKERS_OPTIONS: MenuOption[] = [
-    {label: 'Редагувати роль', value: 'EDIT', icon: <Edit size={16}/>},
-    {label: 'Змінити підрозділ', value: 'EDIT', icon: <Edit size={16}/>},
-    {label: 'Видалити співробітника', value: 'DELETE', icon: <Trash2 size={16}/>, color: 'text-red-600'},
+    {label: 'Редагувати роль', value: 'EDIT', icon: <ArrowUpDown size={16}/>},
+    {label: 'Змінити підрозділ', value: 'EDIT', icon: <ArrowLeftRight size={16}/>},
 ]
