@@ -24,4 +24,11 @@ export interface ITask {
     doc?: string
 }
 
+export interface ITaskForm {
+    title: string;       // Назва завдання
+    description: string; // Короткий опис
+    executionType: 'date' | 'monthly' | 'weekly'; // Тип виконання
+    date?: string;       // Конкретна дата (необов'язкове, якщо тип зміниться)
+    assignee: string;    // Виконавець
+}
 

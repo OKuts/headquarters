@@ -1,6 +1,11 @@
-export const getName = (name: string): string => {
+const getBigFirst = (word: string) => {
+    return word ? `${word[0].toUpperCase()}${word.slice(1).toLowerCase()}` : ''
+}
 
-    const parts = name.split(' ').filter(el => el)
+export const getName = (man: string): string => {
 
-    return `${parts[0].toUpperCase()} ${parts.slice(1).join(' ')}`
+    const [surname, name, ...rest] = man.split(' ').filter(el => el)
+    const byFather = rest.length > 0 ? rest.join(' ').toLowerCase() : ''
+
+    return `${surname.toUpperCase()} ${getBigFirst(name)} ${getBigFirst(byFather)}`
 }

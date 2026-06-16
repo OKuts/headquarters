@@ -17,7 +17,7 @@ class UserLogger {
         this.container.id = 'user-logs-container'
         this.container.style.cssText = `
       position: fixed;
-      top: 20px;
+      top: 300px;
       right: 20px;
       z-index: 10000;
       display: flex;

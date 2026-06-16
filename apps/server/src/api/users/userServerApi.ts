@@ -6,11 +6,13 @@ export const userServerApi = async (req: Request, res: Response) => {
     console.log('User auth')
     console.log(req.body)
     const {name} = req.body
-    const {message, isLogin, user} =  name ? await UsersClass.registerUser(req.body) : await UsersClass.loginUser(req.body)
+
+
+    const data =  name ? await UsersClass.registerUser(req.body) : await UsersClass.loginUser(req.body)
 
     return res.status(201).json({
-        message,
-        isLogin,
-        user
+        message: data?.message,
+        isLogin: data?.isLogin,
+        user: data?.user,
     })
 }

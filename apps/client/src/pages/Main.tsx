@@ -1,6 +1,10 @@
+import {useAuthStore} from '../store'
+
 export const Main = () => {
-    return (
-        <div>Main</div>
-    )
+    const {user} = useAuthStore()
+
+    return <>
+        {user && <div>Main</div>}
+    </>
 }
 

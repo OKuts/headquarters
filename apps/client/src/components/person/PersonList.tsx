@@ -45,7 +45,7 @@ export const PersonList = ({setAdd, watch}: Props) => {
                 setMayDelete('')
             } else {
                 setMayDelete(_id)
-                userLogger.show('Для зміни статусу співробітника натисніть ще раз' , 'warning')
+                userLogger.show('Для зміни статусу співробітника натисніть ще раз', 'warning')
             }
         } else {
             userLogger.show('Підтвердіть права адміністратора', 'error')
@@ -59,15 +59,16 @@ export const PersonList = ({setAdd, watch}: Props) => {
         <div className="w-full max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100">
             <div className="overflow-x-auto border border-slate-200 rounded-lg">
                 <table className="min-w-full divide-y divide-slate-200 bg-white text-left text-sm text-slate-600">
+
                     <thead className="bg-slate-50 text-xs font-semibold tracking-wider text-slate-700">
                     <tr>
                         <th scope="col" className="px-6 py-4">inn</th>
                         <th scope="col" className="px-6 py-4">name</th>
-                        <th scope="col" className="px-6 py-4 text-center flex items-center justify-center">
+                        {admin && <th scope="col" className="px-6 py-4 text-center flex items-center justify-center">
                             access
-                            <Check onClick={() => setIsAll(!isAll)} strokeWidth={4}
+                             <Check onClick={() => setIsAll(!isAll)} strokeWidth={4}
                                    className={`ml-2 ${isAll ? 'text-green-500' : 'text-gray-500'}`}/>
-                        </th>
+                        </th>}
                     </tr>
                     </thead>
 
@@ -96,20 +97,11 @@ export const PersonList = ({setAdd, watch}: Props) => {
                                     </div>
                                 </div>
                             </td>
-                            <td className="px-6 py-4">
-                                <div className="flex justify-center">
-                                    <label className="relative inline-flex items-center cursor-pointer select-none">
-                                        <input
-                                            type="checkbox"
-                                            checked={person.access}
-                                            onChange={() => handleToggleAccess(person._id, person.access ?? false, person.inn)}
-                                            className="sr-only peer"
-                                        />
-                                        <div
-                                            className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                                    </label>
-                                </div>
-                            </td>
+                            {admin && <td className="px-6 py-4 hover:cursor-pointer"
+                                onClick={() => handleToggleAccess(person._id, person.access ?? false, person.inn)}>
+                                <Check strokeWidth={4}
+                                       className={`ml-2 ${person.access ? 'text-green-500' : 'text-gray-500'}`}/>
+                            </td>}
                         </tr>
                     ))}
                     </tbody>

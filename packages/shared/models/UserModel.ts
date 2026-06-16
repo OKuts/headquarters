@@ -1,3 +1,5 @@
+import {IDepartmentFull} from './DepartnentModel'
+
 export enum ERoles {
     BOSS = 'Керівник',
     SUB = 'Заступник',
@@ -24,7 +26,7 @@ export interface IUserRegister extends IUserPersonData {
 
 export interface IUserClient extends IUserPersonData{
     _id: string
-    department: string
+    department: string | IDepartmentFull
 }
 
 export interface ILoginMessage {

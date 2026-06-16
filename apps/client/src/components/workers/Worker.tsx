@@ -13,7 +13,7 @@ export const Worker = ({workers, boss, text}: Props) => {
                 <span className={'flex min-w-25 '}>{text}</span>
                 <span className={'flex  text-blue-600 font-semibold'}>{boss}</span>
             </div>}
-            {workers && workers.map(sub =>  <div className={'flex'}>
+            {workers && workers.map((sub) =>  <div className={'flex'} key={sub}>
                 <span className={'flex min-w-25 '}>{text}</span>
                 <span className={'flex text-blue-600 font-semibold'}>{sub}</span>
             </div>)}

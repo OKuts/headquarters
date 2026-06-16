@@ -1,5 +1,6 @@
 export const nav = [
-    ['/todo', 'Tasks'],
+    ['/todo', 'Todo'],
+    ['/tasks', 'Tasks'],
     ['/main', 'Main'],
     ['/work', 'Work'],
 ]

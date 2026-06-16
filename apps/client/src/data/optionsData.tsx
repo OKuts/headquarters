@@ -16,6 +16,5 @@ export const DEPARTMENTS_OPTIONS: MenuOption[] = [
 ]
 
 export const WORKERS_OPTIONS: MenuOption[] = [
-    {label: 'Редагувати роль', value: 'EDIT', icon: <ArrowUpDown size={16}/>},
-    {label: 'Змінити підрозділ', value: 'EDIT', icon: <ArrowLeftRight size={16}/>},
+    {label: 'Редагувати підрозділ/роль', value: 'EDIT', icon: <ArrowUpDown size={16}/>},
 ]

@@ -1,6 +1,6 @@
 import {PlusCircle} from 'lucide-react'
 import React from 'react'
-import {useAuthStore} from '../../store/useAuthStore.ts'
+import {useAuthStore} from '../../store'
 
 type Props = {
     setIsAdd: (value: boolean) => void,

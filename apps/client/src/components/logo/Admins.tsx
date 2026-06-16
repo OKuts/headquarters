@@ -19,7 +19,12 @@ export const Admins = () => {
         adminsClientApi()
             .then(data => data.json())
             .then(data => setAdmins(data.data))
-    }, [])
+        return () => {
+            setAdmin('')
+        }
+    }, [setAdmin])
+
+    console.log(into)
 
     return <>
         <div className={'flex'}>

@@ -1,5 +1,5 @@
 import {createBrowserRouter} from 'react-router'
-import {AboutPage, AdminPage, Main, MainLayout, TodoPage, Work} from '../pages'
+import {AboutPage, AdminPage, Main, MainLayout, TasksPage, TodoPage, Work} from '../pages'
 import {AuthForm} from '../components/navbar/AuthForm.tsx'
 import {departmentsLoader, taskLoader} from './loaders'
 
@@ -19,6 +19,10 @@ export const router = createBrowserRouter([
                 {
                     path: '/todo',
                     element: <TodoPage/>,
+                },
+                {
+                    path: '/tasks',
+                    element: <TasksPage/>,
                     loader: taskLoader,
                 },
                 {

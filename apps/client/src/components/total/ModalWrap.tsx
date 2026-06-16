@@ -1,13 +1,12 @@
-import {type ReactNode, useEffect} from 'react'
+import {type MouseEvent, type ReactNode, useEffect} from 'react'
+import {createPortal} from 'react-dom' // 1. Імпортуємо Портал
 
 interface ModalProps {
     onClose: () => void;
-    title: string;
     children: ReactNode;
 }
 
-
-export const ModalWrap = ({children, onClose, title}: ModalProps) => {
+export const ModalWrap = ({children, onClose}: ModalProps) => {
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === 'Escape') onClose()
@@ -16,26 +15,18 @@ export const ModalWrap = ({children, onClose, title}: ModalProps) => {
         return () => window.removeEventListener('keydown', handleEsc)
     }, [onClose])
 
-    return <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity"
-        onClick={onClose}>
+    return createPortal(
         <div
-            className="relative w-full max-w-lg bg-white shadow-2xl rounded-xl overflow-hidden animate-in fade-in zoom-in duration-200"
-            onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-                <h3 className="text-lg font-semibold text-slate-800">
-                    {title || 'Повідомлення'}
-                </h3>
-                <button
-                    onClick={onClose}
-                    className="text-slate-400 hover:text-slate-600 transition-colors"
-                >
-                    ✕
-                </button>
-            </div>
-            <div className="p-6">
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity"
+            onClick={onClose}
+        >
+            <div
+                className="relative w-full max-w-lg rounded-xl overflow-hidden animate-in fade-in zoom-in duration-200"
+                onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+            >
                 {children}
             </div>
-        </div>
-    </div>
+        </div>,
+        document.body
+    )
 }

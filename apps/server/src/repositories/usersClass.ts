@@ -84,6 +84,8 @@ export class UsersClass {
 
         const {access} = await PersonalClass.isAccess(inn, name)
 
+        console.log(access, inn, name)
+
         if (access) {
             const passwordHash = await bcrypt.hash(password || '', 10)
 

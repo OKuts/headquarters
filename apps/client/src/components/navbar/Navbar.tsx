@@ -1,14 +1,14 @@
-import React from 'react'
 import {ToggleThemeButton} from './ToggleThemeButton.tsx'
 import {NavLink} from 'react-router'
 import {AuthSection} from './AuthSection.tsx'
 import {useAuthStore} from '../../store'
 import money from '../../assets/branding-image-ua-clear-white.png'
 import {nav} from '../../data'
+import {linkMain} from '../../stylesFn/linkStyles.ts'
 
-const Navbar: React.FC = () => {
-    // Вибираємо стан із типізованих сторів
-    const {isLoggedIn} = useAuthStore()
+export const Navbar = () => {
+    const {user} = useAuthStore()
+
 
     return (
         <nav
@@ -19,24 +19,22 @@ const Navbar: React.FC = () => {
                 <div className="flex items-center gap-2">
                     <div
                         className="flex h-8 w-8 items-center justify-center rounded-lg  text-white font-bold">
-                         <NavLink to={'/about'}>
+                        <NavLink to={'/about'}>
                             <img src={money} alt=""/>
                         </NavLink>
                     </div>
                     <NavLink to={'/admin'}>
-                    <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Headquarters</span>
+                        <span
+                            className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Headquarters</span>
                     </NavLink>
                 </div>
 
                 <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4">
-                    {isLoggedIn && <div className="flex items-center gap-4 ">
-                        {nav.map(([to, name]) => <NavLink
-                            className="px-3 py-1 rounded-md transition-all duration-200
-             hover:bg-gray-100 dark:hover:bg-gray-800
-             text-gray-700 dark:text-gray-300
-             hover:text-blue-500 "
-                            key={to} to={to}>{name}</NavLink>)}
-                    </div>}
+                    {user && nav.map(([to, name]: string[]) => (
+                        <NavLink key={to} to={to} className={({isActive}) => linkMain(isActive)}>
+                            {name}
+                        </NavLink>
+                    ))}
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -49,4 +47,3 @@ const Navbar: React.FC = () => {
     )
 }
 
-export default Navbar

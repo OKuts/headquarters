@@ -1,13 +1,13 @@
 import {Fragment, useEffect, useRef, useState} from 'react'
 import {MoreVertical} from 'lucide-react'
-import type {ActionType, MenuOption} from '../../types/contextMenuTypes.ts'
+import type {ActionDepartmentType, ActionUserType, MenuOption} from '../../types/contextMenuTypes.ts'
 import {options, type TOptions} from '../../data'
 
 
 type Props = {
     id: string
     main?: string
-    onAction: (onAction: ActionType, id: string) => void
+    onAction: (onAction: ActionDepartmentType | ActionUserType, id: string) => void
     optionList: MenuOption[]
     type: TOptions
 }
@@ -35,7 +35,7 @@ export const ActionMenu = ({onAction, main, id, optionList, type}: Props) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-                <MoreVertical size={20}/>
+                 <MoreVertical size={20}/>
             </button>
 
             {/* Саме меню (позиційоване відносно батьківського div) */}
