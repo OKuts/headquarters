@@ -6,6 +6,8 @@ export enum ERoles {
     USER = 'Спеціаліст',
 }
 
+export type ERolesKeys = keyof typeof ERoles
+
 export interface IUserAuth {
     password: string
     login: string

@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 
-import {taskAddServerApi, tasksGetServerApi} from './api/tasks'
+import {todoPostServerApi, tasksGetServerApi} from './api/todo'
 import {isAdminControlApi, userServerApi, usersGetServerApi} from './api/users'
 import {
     departmentDataServerApi,
@@ -30,7 +30,8 @@ app.patch('/api/departments', departmentsPatchServerApi)
 
 // tasks
 app.get('/api/tasks/get', tasksGetServerApi)
-app.post('/api/task/add', taskAddServerApi)
+app.post('/api/task/add', todoPostServerApi)
+app.post('/api/todo', todoPostServerApi)
 
 // users
 

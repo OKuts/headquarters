@@ -1,10 +1,10 @@
-import {TasksClass} from '../../repositories'
+import {TodoClass} from '../../repositories'
 import { Request, Response } from 'express'
 
 export const tasksGetServerApi = async (req: Request, res: Response) => {
     try {
         console.log('tasksGetApi')
-        const result = await TasksClass.findAll()
+        const result = await TodoClass.findAll()
         return res.status(201).json({
             data: result
         })

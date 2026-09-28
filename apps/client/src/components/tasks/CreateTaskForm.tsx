@@ -16,12 +16,12 @@ export const CreateTaskForm = ({setIsAdd}: Props) => {
         formState: { errors }
     } = useForm<ITaskForm>({
         defaultValues: {
-            executionType: 'date', // За замовчуванням обрано "Дата"
+            type: 'date', // За замовчуванням обрано "Дата"
             assignee: ''
         }
     })
 
-    const currentExecutionType = watch('executionType')
+    const currentType = watch('type')
 
     // Функція обробки успішного сабміту
     const onSubmit: SubmitHandler<ITaskForm> = (data) => {
@@ -63,15 +63,15 @@ export const CreateTaskForm = ({setIsAdd}: Props) => {
                 <label className="text-sm font-semibold text-gray-300">Тип виконання</label>
 
                 {/* Прихований інпут для реєстрації поля в react-hook-form */}
-                <input type="hidden" {...register('executionType')} />
+                <input type="hidden" {...register('type')} />
 
                 <div className="grid grid-cols-3 gap-3">
                     {/* Кнопка: Дата */}
                     <button
                         type="button"
-                        onClick={() => setValue('executionType', 'date')}
+                        onClick={() => setValue('type', 'date')}
                         className={`flex flex-col items-center justify-center p-3 rounded-lg border text-xs font-medium transition-all gap-1
-              ${currentExecutionType === 'date'
+              ${currentType === 'date'
                             ? 'border-blue-500 bg-blue-500/10 text-blue-400'
                             : 'border-gray-700 bg-[#1f293d]/50 text-gray-400 hover:bg-[#1f293d]'}`}
                     >
@@ -82,9 +82,9 @@ export const CreateTaskForm = ({setIsAdd}: Props) => {
                     {/* Кнопка: Щомісяця */}
                     <button
                         type="button"
-                        onClick={() => setValue('executionType', 'monthly')}
+                        onClick={() => setValue('type', 'monthly')}
                         className={`flex flex-col items-center justify-center p-3 rounded-lg border text-xs font-medium transition-all gap-1
-              ${currentExecutionType === 'monthly'
+              ${currentType === 'monthly'
                             ? 'border-blue-500 bg-blue-500/10 text-blue-400'
                             : 'border-gray-700 bg-[#1f293d]/50 text-gray-400 hover:bg-[#1f293d]'}`}
                     >
@@ -95,9 +95,9 @@ export const CreateTaskForm = ({setIsAdd}: Props) => {
                     {/* Кнопка: Щотижня */}
                     <button
                         type="button"
-                        onClick={() => setValue('executionType', 'weekly')}
+                        onClick={() => setValue('type', 'weekly')}
                         className={`flex flex-col items-center justify-center p-3 rounded-lg border text-xs font-medium transition-all gap-1
-              ${currentExecutionType === 'weekly'
+              ${currentType === 'weekly'
                             ? 'border-blue-500 bg-blue-500/10 text-blue-400'
                             : 'border-gray-700 bg-[#1f293d]/50 text-gray-400 hover:bg-[#1f293d]'}`}
                     >
@@ -108,15 +108,15 @@ export const CreateTaskForm = ({setIsAdd}: Props) => {
             </div>
 
             {/* 4. Оберіть конкретну дату (Показується за умови, якщо обрано тип 'date') */}
-            {currentExecutionType === 'date' && (
+            {currentType === 'date' && (
                 <div className="flex flex-col gap-1.5 animate-fadeIn">
                     <label className="text-xs text-gray-400">Оберіть конкретну дату</label>
                     <input
                         type="date"
-                        {...register('date', { required: 'Оберіть дату виконання' })}
+                        {...register('deadline', { required: 'Оберіть дату виконання' })}
                         className="bg-[#1f293d] border border-gray-700 rounded-lg px-3 py-2.5 outline-none focus:border-blue-500 transition-all text-sm text-gray-300 w-full color-scheme-dark"
                     />
-                    {errors.date && <span className="text-xs text-red-400">{errors.date.message}</span>}
+                    {errors.deadline && <span className="text-xs text-red-400">{errors.deadline.message}</span>}
                 </div>
             )}
 

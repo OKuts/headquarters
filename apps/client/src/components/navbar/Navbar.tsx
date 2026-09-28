@@ -2,13 +2,12 @@ import {ToggleThemeButton} from './ToggleThemeButton.tsx'
 import {NavLink} from 'react-router'
 import {AuthSection} from './AuthSection.tsx'
 import {useAuthStore} from '../../store'
-import money from '../../assets/branding-image-ua-clear-white.png'
+import logo from '../../assets/17th.png'
 import {nav} from '../../data'
 import {linkMain} from '../../stylesFn/linkStyles.ts'
 
 export const Navbar = () => {
     const {user} = useAuthStore()
-
 
     return (
         <nav
@@ -20,12 +19,12 @@ export const Navbar = () => {
                     <div
                         className="flex h-8 w-8 items-center justify-center rounded-lg  text-white font-bold">
                         <NavLink to={'/about'}>
-                            <img src={money} alt=""/>
+                            <img src={logo} alt=""/>
                         </NavLink>
                     </div>
                     <NavLink to={'/admin'}>
                         <span
-                            className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Headquarters</span>
+                            className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Army Corps</span>
                     </NavLink>
                 </div>
 
