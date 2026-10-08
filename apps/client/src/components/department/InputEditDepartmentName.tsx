@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form'
 
 import {departmentsClientApi} from '../../api'
 import {useDepartmentsStore} from '../../store'
-import {ModalWrap} from '../total/ModalWrap.tsx'
+import {ModalWrap} from '../total'
 import type {IDepartment} from '@headquarters/shared'
 
 type Props = {

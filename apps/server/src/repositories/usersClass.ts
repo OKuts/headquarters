@@ -8,9 +8,9 @@ import {PersonalClass} from './personalClass'
 export class UsersClass {
     private static collectionName = 'users'
 
-    static async removeByInn(inn: string) {
+    static async removeByPhone(phone: string) {
         const db = await mongoConnection.getDb()
-        return await db.collection(this.collectionName).deleteOne({inn})
+        return await db.collection(this.collectionName).deleteOne({phone})
     }
 
 
@@ -21,8 +21,8 @@ export class UsersClass {
             {
                 $lookup: {
                     from: 'personal', // Ім'я колекції в базі даних (зазвичай у множині)
-                    localField: 'inn', // Поле з колекції users
-                    foreignField: 'inn', // Поле з колекції personal, яке вказує на user
+                    localField: 'phone', // Поле з колекції users
+                    foreignField: 'phone', // Поле з колекції personal, яке вказує на user
                     as: 'usersWithAccess' // Назва масиву, куди запишуться знайдені документи
                 },
             },
@@ -72,7 +72,7 @@ export class UsersClass {
     static async registerUser(data: IUserRegister) {
 
         const db = await mongoConnection.getDb()
-        const {login, password, name, department, role, inn} = data
+        const {login, password, name, department, role, phone} = data
 
         const existingUser = await db.collection(this.collectionName).findOne({login}, {projection: {password: 0}})
         if (existingUser) return {message: `Користувач ${existingUser.login} вже існує`, isLogin: false, user: null}
@@ -82,9 +82,9 @@ export class UsersClass {
             if (departmentBoss) return {message: 'Посада зайнята (зверніться до адміністратора)', isLogin: false, user: null}
         }
 
-        const {access} = await PersonalClass.isAccess(inn, name)
+        const {access} = await PersonalClass.isAccess(phone, name)
 
-        console.log(access, inn, name)
+        console.log(access, phone, name)
 
         if (access) {
             const passwordHash = await bcrypt.hash(password || '', 10)
@@ -93,7 +93,7 @@ export class UsersClass {
                 login,
                 password: passwordHash,
                 name,
-                inn,
+                phone,
                 department: new ObjectId(department),
                 role,
             })

@@ -23,10 +23,12 @@ export const AuthForm: React.FC = () => {
     const toggleMode = () => setIsLogin(!isLogin)
 
     const onSubmit = async (data: FieldValues) => {
-        const {login, name, password, department, inn, role} = data
-        authClientApi(isLogin ? {login, password} : {login, name: getName(name), password, department, inn, role})
+        const {login, name, password, department, phone, role} = data
+
+        authClientApi(isLogin ? {login, password} : {login, name: getName(name), password, department, phone, role})
             .then(res => res.json())
             .then(res => {
+                console.log(res)
                 setIsLogin(res.isLogin)
                 if (res.isLogin) {
                     setCurrUser(res.user)
@@ -81,23 +83,23 @@ export const AuthForm: React.FC = () => {
                     </div>
 
                     {!isLogin && <>
-                        {/* inn */}
+                        {/* phone */}
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">РНОКПП
                                 (паспорт)</label>
                             <div className="relative">
                                 <UserKey className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
                                 <input
-                                    {...register('inn', {
+                                    {...register('phone', {
                                         required: 'Дані обов\'язкові',
                                         pattern: {value: /.{8,10}/i, message: 'Від 8 до 10 символів'}
                                     })}
                                     type="text"
                                     className="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                    placeholder="inn/passport"/>
+                                    placeholder="phone/passport"/>
                             </div>
-                            {errors.inn &&
-                                <span className="text-red-500 text-xs mt-1">{errors.inn.message as string}</span>}
+                            {errors.phone &&
+                                <span className="text-red-500 text-xs mt-1">{errors.phone.message as string}</span>}
                         </div>
                         {/* Name */}
                         <div>

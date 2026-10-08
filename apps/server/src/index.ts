@@ -13,6 +13,7 @@ import {getEnv} from './utils/getEnv'
 import 'dotenv/config'
 import {adminsGetServerApi} from './api/admin/adminsGetServerApi'
 import {personalAddServerApi, personalGetServerApi, personalPatchServerApi} from './api/personal'
+import {importGetServerApi} from './api/import'
 
 const app = express()
 app.use(cors())
@@ -42,6 +43,9 @@ app.post('/api/user', userServerApi)
 app.get('/api/personal', personalGetServerApi)
 app.post('/api/personal', personalAddServerApi)
 app.patch('/api/personal', personalPatchServerApi)
+
+// import
+app.get('/api/losses', importGetServerApi)
 
 
 app.listen(3001, () => {

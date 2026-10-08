@@ -1,6 +1,6 @@
 export interface IPersonData {
     name: string,
-    inn: string,
+    phone: string,
 }
 
 export interface IPersonId {

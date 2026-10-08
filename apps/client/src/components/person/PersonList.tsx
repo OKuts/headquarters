@@ -34,10 +34,10 @@ export const PersonList = ({setAdd, watch}: Props) => {
     }, [])
 
     // Обробник зміни доступу
-    const handleToggleAccess = async (_id: string, access: boolean, inn: string) => {
+    const handleToggleAccess = async (_id: string, access: boolean, phone: string) => {
         if (admin) {
             if (mayDelete === _id) {
-                personsClientApi({_id, access: !access, inn}, 'PATCH')
+                personsClientApi({_id, access: !access, phone}, 'PATCH')
                     .then(res => {
                         userLogger.show(res.message, 'success')
                         setPersons(prevState => [...prevState.map(el => el._id === res.out._id ? res.out : el)])
@@ -52,17 +52,17 @@ export const PersonList = ({setAdd, watch}: Props) => {
         }
     }
 
-    if (persons.length === 0) return null
+    console.log(watch)
 
     return <>
         <AddSearchWrapper setSearchTerm={setSearchTerm} setAdd={setAdd} watch={watch} text={'Персонал'}/>
-        <div className="w-full max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100">
+        {persons.length > 0 && <div className="w-full max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100">
             <div className="overflow-x-auto border border-slate-200 rounded-lg">
                 <table className="min-w-full divide-y divide-slate-200 bg-white text-left text-sm text-slate-600">
 
                     <thead className="bg-slate-50 text-xs font-semibold tracking-wider text-slate-700">
                     <tr>
-                        <th scope="col" className="px-6 py-4">inn</th>
+                        <th scope="col" className="px-6 py-4">phone</th>
                         <th scope="col" className="px-6 py-4">name</th>
                         {admin && <th scope="col" className="px-6 py-4 text-center flex items-center justify-center">
                             access
@@ -81,7 +81,7 @@ export const PersonList = ({setAdd, watch}: Props) => {
                                     <div>
                                         <div
                                             className={`font-medium ${person.access ? 'text-slate-900' : 'text-slate-500 line-through'}`}>
-                                            {person.inn}
+                                            {person.phone}
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@ export const PersonList = ({setAdd, watch}: Props) => {
                                 </div>
                             </td>
                             {admin && <td className="px-6 py-4 hover:cursor-pointer"
-                                onClick={() => handleToggleAccess(person._id, person.access ?? false, person.inn)}>
+                                onClick={() => handleToggleAccess(person._id, person.access ?? false, person.phone)}>
                                 <Check strokeWidth={4}
                                        className={`ml-2 ${person.access ? 'text-green-500' : 'text-gray-500'}`}/>
                             </td>}
@@ -107,6 +107,6 @@ export const PersonList = ({setAdd, watch}: Props) => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>}
     </>
 }

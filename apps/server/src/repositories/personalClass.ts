@@ -7,14 +7,14 @@ export class PersonalClass {
 
     static async create(data: IPersonData) {
         const db = await mongoConnection.getDb()
-        const result = await db.collection(this.collectionName).findOne({inn: data.inn})
+        const result = await db.collection(this.collectionName).findOne({phone: data.phone})
 
         if (!result) {
             const person = await db.collection(this.collectionName).insertOne({...data, access: true})
             return {person, message: `${data.name} added to personal`}
         }
 
-        return {person: null, message: `${data.inn} is exist`}
+        return {person: null, message: `${data.phone} is exist`}
     }
 
     static async all() {
@@ -34,9 +34,9 @@ export class PersonalClass {
     }
 
 
-    static async isAccess(inn: string, name: string) {
+    static async isAccess(phone: string, name: string) {
         const db = await mongoConnection.getDb()
-        const result = await db.collection(this.collectionName).findOne({inn})
+        const result = await db.collection(this.collectionName).findOne({phone})
 
         if (result && result.name === name) return {access: result.access}
 

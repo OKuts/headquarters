@@ -1,5 +1,6 @@
 export * from './Main.tsx'
 export * from './Work'
+export * from './Prop'
 export * from './MainLayout'
 export * from './AboutPage'
 export * from './TasksPage.tsx'

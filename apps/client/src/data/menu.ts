@@ -3,4 +3,5 @@ export const nav = [
     ['/tasks', 'Tasks'],
     ['/main', 'Main'],
     ['/work', 'Work'],
+    ['/prop', 'Prop'],
 ]

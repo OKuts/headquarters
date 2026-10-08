@@ -16,7 +16,7 @@ export interface IUserAuth {
 export interface IUserPersonData {
     login: string
     name: string
-    inn: string
+    phone: string
     role: ERoles
 }
 

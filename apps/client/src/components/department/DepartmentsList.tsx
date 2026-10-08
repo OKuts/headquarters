@@ -33,11 +33,11 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
             acc[dept].push(workerData)
             return acc
         }, {} as Record<string, [string, string][]>)
-
     }, [workers])
 
     const filteredDepartments = useMemo(() => {
         if (departments.length) {
+            console.log(departments)
             return departments.filter(({department}) => department.toLowerCase().includes(searchTerm.toLowerCase()))
         } else return []
     }, [departments, searchTerm])

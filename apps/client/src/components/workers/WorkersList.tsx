@@ -27,7 +27,7 @@ export const WorkersList = () => {
                 <table className="min-w-full divide-y divide-slate-200 bg-white text-left text-sm text-slate-600">
                     <thead className="bg-slate-50 text-xs font-semibold tracking-wider text-slate-700">
                     <tr>
-                        <th scope="col" className="px-6 py-4">inn</th>
+                        <th scope="col" className="px-6 py-4">phone</th>
                         <th scope="col" className="px-6 py-4">name</th>
                         <th scope="col" className="px-6 py-4">department</th>
                         <th scope="col" className="px-6 py-4">role</th>
@@ -37,7 +37,7 @@ export const WorkersList = () => {
                     <tbody className="divide-y divide-slate-200">
                     {filteredWorkers.map((person) => (
                         <tr key={person._id} className={'transition-colors'}>
-                            {(['inn', 'name', 'department', 'role'] as const).map((el) =>
+                            {(['phone', 'name', 'department', 'role'] as const).map((el) =>
                                 <td key={el} className="px-6 py-4 font-medium text-slate-900">
                                     {typeof person[el] === 'string' ? person[el] : ''}
                                 </td>

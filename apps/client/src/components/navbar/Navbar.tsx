@@ -2,7 +2,7 @@ import {ToggleThemeButton} from './ToggleThemeButton.tsx'
 import {NavLink} from 'react-router'
 import {AuthSection} from './AuthSection.tsx'
 import {useAuthStore} from '../../store'
-import logo from '../../assets/17th.png'
+import logo from '../../assets/corps.png'
 import {nav} from '../../data'
 import {linkMain} from '../../stylesFn/linkStyles.ts'
 

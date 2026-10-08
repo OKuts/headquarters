@@ -1,7 +1,7 @@
 import {type FieldValues, useForm} from 'react-hook-form'
 import { User, UserKey} from 'lucide-react'
 import {personsClientApi} from '../../api/personClientApi.ts'
-import {ModalWrap} from '../total/ModalWrap.tsx'
+import {ModalWrap} from '../total'
 import type {IPersonData} from '@headquarters/shared/models/PersonModel.ts'
 
 type Props = {
@@ -29,20 +29,20 @@ export const InputPersonName = ({setAdd}: Props) => {
             <form onSubmit={handleSubmit((data) => onSubmit(data))}
                   className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">РНОКПП (паспорт)</label>
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Phone number</label>
                         <div className="relative">
                             <UserKey className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
                             <input
-                                {...register('inn', {
+                                {...register('phone', {
                                     required: 'Дані обов\'язкові',
                                     pattern: {value: /.{8,10}/i, message: 'Від 8 до 10 символів'}
                                 })}
                                 type="text"
                                 className="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                placeholder="inn/passport"/>
+                                placeholder="phone"/>
                         </div>
-                        {errors.inn &&
-                            <span className="text-red-500 text-xs mt-1">{errors.inn.message as string}</span>}
+                        {errors.phone &&
+                            <span className="text-red-500 text-xs mt-1">{errors.phone.message as string}</span>}
                     </div>
                     {/* Name */}
                     <div>

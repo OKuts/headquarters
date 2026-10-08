@@ -12,6 +12,8 @@ type Props = {
 export const AddSearchWrapper = ({setSearchTerm, setAdd, watch, text}: Props) => {
     const {admin} = useAdminStore()
 
+    console.log(admin, watch)
+
     return <div className={'flex justify-between items-center w-full mb-2'}>
         {admin && watch !== 'all' ? <AddCustomButton setAdd={setAdd} watch={watch} text={text}/> : <div/>}
         <SearchInput setSearchTerm={setSearchTerm}/>

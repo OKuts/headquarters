@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {PasswordConfirm} from './PasswordConfirm.tsx'
+import {PasswordConfirm} from './PasswordConfirm'
 import {useAdminStore} from '../../store'
 import {adminsClientApi} from '../../api'
 import type {IAdmin} from '@headquarters/shared/models/AdminsModel'
