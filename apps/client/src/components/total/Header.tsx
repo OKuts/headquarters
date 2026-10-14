@@ -6,7 +6,6 @@ type Props = {
 
 export const Header = ({list}: Props) => {
     return <thead>
-
     {list.map((item, j) =>
         <tr key={j}>
             {item.map((el, i) =>

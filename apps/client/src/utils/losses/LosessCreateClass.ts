@@ -7,6 +7,7 @@ export class LossesCreateClass {
                 eventYear: 0,
                 eventMonth: 0,
                 eventWeek: 0,
+                eventPreWeek: 0,
                 order: 0,
                 orderYear: 0,
                 orderPreMonth: 0,

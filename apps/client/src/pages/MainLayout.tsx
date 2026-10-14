@@ -21,11 +21,11 @@ export const MainLayout = () => {
     }, [initDepartments])
 
     return (
-        <div className=" min-h-screen h-screen overflow-y-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
-        bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white transition-colors duration-300">
+        <div className="min-h-screen h-screen overflow-y-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
+        bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white transition-colors duration-300 ">
             {/*{navigation.state === 'loading' && <p>Завантаження...</p>}*/}
             <Navbar/>
-            <main className="mx-auto max-w-7xl ">
+            <main className="container mx-auto max-w-7xl">
                 {user && <>
                     <div className={'flex justify-end'}>
                         <span className={'mr-2'}>{`${departmentData[0]}:`}</span>

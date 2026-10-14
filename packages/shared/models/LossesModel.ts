@@ -22,6 +22,7 @@ export interface ILossesTotalData {
     eventYear: number,
     eventMonth: number,
     eventWeek: number,
+    eventPreWeek: number,
     order: number,
     orderYear: number,
     orderPreMonth: number,

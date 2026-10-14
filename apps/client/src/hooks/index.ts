@@ -1,3 +1,3 @@
 export * from './useWorkersData'
 export * from './useTheme'
-export * from './useGetLossesData'
+export * from './useGetFilesData.ts'

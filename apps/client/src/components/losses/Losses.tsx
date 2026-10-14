@@ -1,27 +1,30 @@
-import {useGetLossesData} from '../../hooks'
+import {useGetFilesData} from '../../hooks'
 import {useEffect, useState} from 'react'
 import {LossesClass} from '../../utils/losses'
 import type {ILossesTotalArr} from '@headquarters/shared'
 import {Header} from '../total'
 import {outNum} from '../../utils/total/outNum.ts'
 import {lossesTotalHeader} from '../../data'
+import {SearchInput} from '../../elements'
 
 export const Losses = () => {
 
-    const {losses, isLoading, error} = useGetLossesData()
+    const {result, isLoading, error} = useGetFilesData('losses')
     const [totalLosses, setTotalLosses] = useState<ILossesTotalArr | null>(null)
+    const [searchUnit, setSearchUnit] = useState('')
 
     useEffect(() => {
-        if (losses) {
-            const lossesData: LossesClass = new LossesClass(losses)
-            setTotalLosses(lossesData.showTotal())
+        if (result) {
+            const lossesData: LossesClass = new LossesClass(result)
+            setTotalLosses(lossesData.showTotal(searchUnit))
         }
-    }, [losses])
+    }, [result, searchUnit])
 
     if (isLoading || error || !totalLosses) return
 
     return <>
-        <table className={'border border-collapse border-gray-200 mt-10'}>
+        <SearchInput setSearchTerm={setSearchUnit}/>
+        <table className={'border border-collapse border-gray-200 mt-10 relative left-1/2 -translate-x-1/2 max-w-none w-max'}>
             <Header list={lossesTotalHeader}/>
             <tbody>
             {Object.keys(totalLosses).map(unit => <tr key={unit}>
@@ -29,6 +32,10 @@ export const Losses = () => {
                 <td className={'border px-4 py-2 text-right' }>
                     {outNum(totalLosses[unit].event)}</td>
                 <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].order)}</td>
+                <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].orderPreMonth)}</td>
+                <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].orderMonth)}</td>
+                <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].orderPreWeek)}</td>
+                <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].orderWeek)}</td>
                 <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].minus)}</td>
                 <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].minusPreMonth)}</td>
                 <td className={'border px-4 py-2 text-right' }>{outNum(totalLosses[unit].minusMonth)}</td>

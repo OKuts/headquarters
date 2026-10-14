@@ -2,7 +2,8 @@ import 'dotenv/config'
 
 export const getEnv = () => {
     const db = process.env.DB
-    const folder = process.env.FOLDER
+    const losses = process.env.FOLDER_LOSSES
+    const money = process.env.FOLDER_MONEY
 
-    return {db, folder}
+    return {db, losses, money}
 }
