@@ -3,9 +3,9 @@ import {Fragment, useEffect, useState} from 'react'
 import {MoneyClass} from '../../utils/money'
 import {Header} from '../total'
 import {moneyTotalHeader} from '../../data'
-import {outNum} from '../../utils/total/outNum.ts'
-import {isMore} from '../../utils/total/isMore.ts'
+import {isMore, outNum} from '../../utils/total'
 import {SearchInput} from '../../elements'
+import {TdAdd} from './TdAdd.tsx'
 
 const getCn = (line: number[], j: number) => {
     switch (j) {
@@ -46,36 +46,16 @@ export const Money = () => {
                     Object.keys(show[unit][econ]).map((code, i) => {
                         isCode = true
                         return <tr key={i}>
-                            <td className={'border px-4 py-2 text-center'}>{`А${unit}`}</td>
-                            <td className={'border px-4 py-2 text-center'}>{econ}</td>
-                            <td className={'border px-4 py-2 text-center'}>{code}</td>
-                            {show[unit][econ][code].map((el, j) => <Fragment key={j}>
+                            <td className={'border px-1 py-1 text-center'}>{`А${unit}`}</td>
+                            <td className={'border px-1 py-1 text-center'}>{econ}</td>
+                            <td className={'border px-1 py-1 text-center'}>{code}</td>
+                            {show[unit][econ][code].map((el, j) =>
+                                <Fragment key={j}>
                                     <td
-                                        className={`whitespace-nowrap border px-2 py-2 text-right ${getCn(show[unit][econ][code], j)}`}
-                                        key={j}>
+                                        className={`whitespace-nowrap border px-1 py-1 text-right ${getCn(show[unit][econ][code], j)}`}>
                                         {outNum(el)}
                                     </td>
-                                    {[2, 6, 9, 12].includes(j) && <Fragment>
-                                        <td
-                                            className={'whitespace-nowrap border px-2 py-2 text-center'}
-                                            key={j}>
-                                            {outNum(el / show[unit][econ][code][j - (j < 9 ? 2 : 1)])}
-                                        </td>
-                                        <td
-                                            className={'whitespace-nowrap border px-2 py-2 text-center'}
-                                            key={j}>
-                                            {outNum(show[unit][econ][code][j - (j < 9 ? 2 : 1)] - el)}
-                                        </td>
-                                    </Fragment>}
-
-                                    {[3, 7, 10, 13].includes(j) && <Fragment>
-                                        <td
-                                            className={'whitespace-nowrap border px-2 py-2 text-right'}
-                                            key={j}>
-                                            {outNum(show[unit][econ][code][j - 2] - el)}
-                                        </td>
-                                    </Fragment>}
-
+                                    <TdAdd obj={show[unit][econ][code]} el={el} j={j}/>
                                 </Fragment>
                             )}
                         </tr>
@@ -83,33 +63,12 @@ export const Money = () => {
             })
             }
             <tr>
-                <td colSpan={3} className={'border px-4 py-2 text-center'}>Разом
+                <td colSpan={3} className={'border px-4 py-1 text-center font-bold'}>Разом
                 </td>
                 {show.total.map((el, j) => <Fragment key={j}>
-                    <td className={'whitespace-nowrap border px-4 py-2 text-right'}>
-                        {outNum(el)}
-                    </td>
-                    {[2, 6, 9, 12].includes(j) && <Fragment>
-                        <td
-                            className={'whitespace-nowrap border px-2 py-2 text-center'}
-                            key={j}>
-                            {outNum(el / show.total[j - (j < 9 ? 2 : 1)])}
-                        </td>
-                        <td
-                            className={'whitespace-nowrap border px-2 py-2 text-center'}
-                            key={j}>
-                            {outNum(show.total[j - (j < 9 ? 2 : 1)] - el)}
-                        </td>
-                    </Fragment>}
-                    {[3, 7, 10, 13].includes(j) && <Fragment>
-                        <td
-                            className={'whitespace-nowrap border px-2 py-2 text-right'}
-                            key={j}>
-                            {outNum(show.total[j - 2] - el)}
-                        </td>
-                    </Fragment>}
-                </Fragment>)
-                }
+                    <td className={'whitespace-nowrap border px-1 py-1 text-right'}>{outNum(el)}</td>
+                    <TdAdd obj={show.total} el={el} j={j}/>
+                </Fragment>)}
             </tr>
             </tbody>
         </table>
