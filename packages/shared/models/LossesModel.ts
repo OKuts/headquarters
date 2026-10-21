@@ -37,6 +37,15 @@ export interface ILossesTotalData {
     minusWeek: number,
 }
 
-export interface ILossesTotalArr  {
+export interface ILossesTotalArr {
     [key: string]: ILossesTotalData
 }
+
+export interface ILossesBuhData {
+    [key: string]: { plus: number, minus: number }
+
+}
+
+export type LossesBuhServerType = [number | string, number, number, number][]
+
+

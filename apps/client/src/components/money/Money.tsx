@@ -41,18 +41,14 @@ export const Money = () => {
             <tbody>
 
             {Object.keys(show).map((unit) => {
-                let isCode = false
                 return Object.keys(show[unit]).map((econ) =>
                     Object.keys(show[unit][econ]).map((code, i) => {
-                        isCode = true
                         return <tr key={i}>
                             <td className={'border px-1 py-1 text-center'}>{`А${unit}`}</td>
                             <td className={'border px-1 py-1 text-center'}>{econ}</td>
                             <td className={'border px-1 py-1 text-center'}>{code}</td>
-                            {show[unit][econ][code].map((el, j) =>
-                                <Fragment key={j}>
-                                    <td
-                                        className={`whitespace-nowrap border px-1 py-1 text-right ${getCn(show[unit][econ][code], j)}`}>
+                            {show[unit][econ][code].map((el, j) => <Fragment key={j}>
+                                    <td className={`whitespace-nowrap border px-1 py-1 text-right ${getCn(show[unit][econ][code], j)}`}>
                                         {outNum(el)}
                                     </td>
                                     <TdAdd obj={show[unit][econ][code]} el={el} j={j}/>

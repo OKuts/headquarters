@@ -47,6 +47,7 @@ app.patch('/api/personal', personalPatchServerApi)
 // import
 app.get('/api/losses', importGetServerApi)
 app.get('/api/money', importGetServerApi)
+app.get('/api/other', importGetServerApi)
 
 
 app.listen(3001, () => {

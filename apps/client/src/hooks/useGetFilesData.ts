@@ -14,7 +14,6 @@ export const useGetFilesData = (path: string) => {
                 const res = await fetch(url)
                 if (!res.ok) throw new Error('Помилка завантаження данних')
                 const data = await res.json()
-                console.log(data)
                 if (isMounted) setResult(data.data)
             } catch (err) {
                 if (isMounted) {
