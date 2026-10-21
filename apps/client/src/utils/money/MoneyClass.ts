@@ -15,13 +15,11 @@ export class MoneyClass {
                 if (this.data[unit].data.length === 0) this.data[unit].data =
                     [[' ', ' ', ...new Array(14).fill(0)]]
                 this.data[unit].data.forEach((line, j) => {
-                    const econ = String(line[0])
-                    const code = String(line[1])
-                    if (!out[unit][econ]) out[unit][econ] = {}
-                    if (!out[unit][econ][code]) out[unit][econ][code] = new Array(11).fill(0)
+                    const code = String(line[0])+ String(line[1])
+                    if (!out[unit][code]) out[unit][code] = new Array(11).fill(0)
                     line.forEach((el, i) => {
                         if (i > 1 && i < 13) {
-                            out[unit][econ][code][i - 2] += el
+                            out[unit][code][i - 2] += el
                             out.total[i - 2] += el
                         }
                     })

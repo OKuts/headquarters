@@ -33,6 +33,8 @@ export const Money = () => {
 
     if (isLoading || error || !show) return
 
+    console.log(show)
+
     return <>
         <SearchInput setSearchTerm={setSearchUnit}/>
         <table
@@ -40,23 +42,20 @@ export const Money = () => {
             <Header list={moneyTotalHeader}/>
             <tbody>
 
-            {Object.keys(show).map((unit) => {
-                return Object.keys(show[unit]).map((econ) =>
-                    Object.keys(show[unit][econ]).map((code, i) => {
-                        return <tr key={i}>
-                            <td className={'border px-1 py-1 text-center'}>{`А${unit}`}</td>
-                            <td className={'border px-1 py-1 text-center'}>{econ}</td>
-                            <td className={'border px-1 py-1 text-center'}>{code}</td>
-                            {show[unit][econ][code].map((el, j) => <Fragment key={j}>
-                                    <td className={`whitespace-nowrap border px-1 py-1 text-right ${getCn(show[unit][econ][code], j)}`}>
-                                        {outNum(el)}
-                                    </td>
-                                    <TdAdd obj={show[unit][econ][code]} el={el} j={j}/>
-                                </Fragment>
-                            )}
-                        </tr>
-                    }))
-            })
+            {Object.keys(show).filter(el => el !== 'total').map((unit) =>
+                Object.keys(show[unit]).map((code, i) =>
+                    <tr key={i}>
+                        {!i ? <td rowSpan={Object.keys(show[unit]).length} className={'border px-1 py-1 text-center'}>{`А${unit}`}</td> : null}
+                        <td className={'border px-1 py-1 text-center'}>{code.slice(0, 4)}</td>
+                        <td className={'border px-1 py-1 text-center'}>{code.slice(4)}</td>
+                        {show[unit][code].map((el, j) => <Fragment key={j}>
+                                <td className={`whitespace-nowrap border px-1 py-1 text-right ${getCn(show[unit][code], j)}`}>
+                                    {outNum(el)}
+                                </td>
+                                <TdAdd obj={show[unit][code]} el={el} j={j}/>
+                            </Fragment>
+                        )}
+                    </tr>))
             }
             <tr>
                 <td colSpan={3} className={'border px-4 py-1 text-center font-bold'}>Разом

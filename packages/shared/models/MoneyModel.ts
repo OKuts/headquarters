@@ -1,5 +1,3 @@
-import {TLossesLine} from './LossesModel'
-
 export type TMoneyLine = [
         string | null,
         string | null,
