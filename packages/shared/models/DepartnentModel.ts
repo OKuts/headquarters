@@ -1,3 +1,4 @@
+import {KeyString} from './TotalModel'
 
 export interface IId {
     _id: string
@@ -27,6 +28,14 @@ export interface IDepartmentRequest  {
     action?: {
         [key: string] : string
     }
+}
+
+export interface IDepartmentByWeight {
+    count: KeyString
+    top: KeyString
+    notCount: KeyString
+    notNot: KeyString
+    other: KeyString
 }
 
 

@@ -5,6 +5,7 @@ import {personsClientApi} from '../../api/personClientApi.ts'
 import {userLogger} from '../../utils/logger/logger.ts'
 import {useAdminStore} from '../../store'
 import {Check} from 'lucide-react'
+import {useSearchStore} from '../../store/useSearchStore.ts'
 
 type Props = {
     setAdd: (isAdd: string) => void
@@ -13,14 +14,19 @@ type Props = {
 
 export const PersonList = ({setAdd, watch}: Props) => {
     const {admin} = useAdminStore()
-    const [searchTerm, setSearchTerm] = useState('')
     const [persons, setPersons] = useState<IPerson[]>([])
     const [isAll, setIsAll] = useState<boolean>(false)
     const [mayDelete, setMayDelete] = useState<string>('')
 
+    const {searchValue, setSearch} = useSearchStore()
+
+    useEffect(() => {
+        setSearch('')
+    }, [setSearch])
+
     const filteredPersons = useMemo(() => persons.filter(person =>
-        (isAll || person.access) && (!searchTerm || person.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    ), [isAll, persons, searchTerm])
+        (isAll || person.access) && (!searchValue || person.name.toLowerCase().includes(searchValue.toLowerCase()))
+    ), [isAll, persons, searchValue])
 
     useEffect(() => {
         (async () => {
@@ -55,7 +61,7 @@ export const PersonList = ({setAdd, watch}: Props) => {
     console.log(watch)
 
     return <>
-        <AddSearchWrapper setSearchTerm={setSearchTerm} setAdd={setAdd} watch={watch} text={'Персонал'}/>
+        <AddSearchWrapper setAdd={setAdd} watch={watch} text={'Персонал'}/>
         {persons.length > 0 && <div className="w-full max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100">
             <div className="overflow-x-auto border border-slate-200 rounded-lg">
                 <table className="min-w-full divide-y divide-slate-200 bg-white text-left text-sm text-slate-600">

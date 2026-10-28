@@ -1,26 +1,30 @@
-import {useMemo, useState} from 'react'
+import {useEffect, useMemo} from 'react'
 import {useWorkerData} from '../../hooks'
 import {SearchInput} from '../../elements'
+import {useSearchStore} from '../../store/useSearchStore.ts'
 
 export const WorkersList = () => {
-    const [searchTerm, setSearchTerm] = useState('')
     const {workers} = useWorkerData()
+    const {searchValue, setSearch} = useSearchStore()
 
+    useEffect(() => {
+        setSearch('')
+    }, [setSearch])
 
     const filteredWorkers = useMemo(() => workers
             ? workers.filter(worker => (
                 typeof worker.department === 'string' &&
-                (!searchTerm
-                    || worker.name.toLowerCase().includes(searchTerm.toLowerCase())
-                    || (worker.department.toLowerCase().includes(searchTerm.toLowerCase()))))
+                (!searchValue
+                    || worker.name.toLowerCase().includes(searchValue.toLowerCase())
+                    || (worker.department.toLowerCase().includes(searchValue.toLowerCase()))))
             ).sort((a, b) => a.name > b.name ? 1 : -1)
             : []
-        , [workers, searchTerm]
+        , [workers, searchValue]
     )
 
     return <>
         <div className={'flex justify-between items-center w-full mb-2'}>
-            <SearchInput setSearchTerm={setSearchTerm}/>
+            <SearchInput />
         </div>
         <div className="w-full max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100">
             <div className="border border-slate-200 rounded-lg">

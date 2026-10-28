@@ -3,10 +3,11 @@ import {Navbar} from '../components/navbar/Navbar.tsx'
 import {useEffect, useMemo} from 'react'
 import {useAuthStore, useDepartmentsStore} from '../store'
 import {departmentsClientApi} from '../api'
-
+import {useSearchStore} from '../store/useSearchStore.ts'
 
 export const MainLayout = () => {
     const {initDepartments} = useDepartmentsStore()
+    const {setSearch} = useSearchStore()
     const {user} = useAuthStore()
 
     const departmentData = useMemo(() =>
@@ -19,6 +20,18 @@ export const MainLayout = () => {
             initDepartments(data.data)
         })
     }, [initDepartments])
+
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setSearch('')
+        }
+
+        window.addEventListener('keydown', handleKeyDown)
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [setSearch])
 
     return (
         <div className="min-h-screen h-screen overflow-y-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden

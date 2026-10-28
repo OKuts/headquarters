@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import {useAdminStore, useDepartmentsStore} from '../../store'
 import type {ActionType} from '../../types/contextMenuTypes.ts'
 import {departmentsClientApi} from '../../api'
@@ -11,6 +11,7 @@ import {useWorkerData} from '../../hooks'
 import {ActionMenu} from '../total'
 import {DEPARTMENTS_OPTIONS, options} from '../../data'
 import type {IDepartment} from '@headquarters/shared'
+import {useSearchStore} from '../../store/useSearchStore.ts'
 
 type Props = {
     setAdd: (isAdd: string) => void
@@ -21,8 +22,13 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
     const {departments, departmentsNames, deleteDepartment, setCurrId, updateDepartment} = useDepartmentsStore()
     const {workers} = useWorkerData()
     const {admin} = useAdminStore()
-    const [searchTerm, setSearchTerm] = useState('')
     const [isRadioUnit, setIsRadioUnit] = useState<boolean>(false)
+
+    const {searchValue, setSearch} = useSearchStore()
+
+    useEffect(() => {
+        setSearch('')
+    }, [setSearch])
 
     const currWorkers = useMemo(() => {
         if (!workers || !workers.length) return {}
@@ -37,10 +43,9 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
 
     const filteredDepartments = useMemo(() => {
         if (departments.length) {
-            console.log(departments)
-            return departments.filter(({department}) => department.toLowerCase().includes(searchTerm.toLowerCase()))
+            return departments.filter(({department}) => department.toLowerCase().includes(searchValue.toLowerCase()))
         } else return []
-    }, [departments, searchTerm])
+    }, [departments, searchValue])
 
     const onAction = async (actionType: ActionType, _id: string) => {
         const currentDepartment = getDepartment(_id, departments)
@@ -94,7 +99,7 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
     if (!filteredDepartments) return null
 
     return (<>
-            <AddSearchWrapper setSearchTerm={setSearchTerm} setAdd={setAdd} watch={watch} text={'Підрозділи'}/>
+            <AddSearchWrapper setAdd={setAdd} watch={watch} text={'Підрозділи'}/>
             <div className="p-6 max-w-6xl mx-auto">
 
                 {isRadioUnit && admin && <DepartmentsRadio setIsRadioUnit={setIsRadioUnit}/>}
@@ -114,12 +119,14 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
                             {dept && dept.main ? departmentsNames[dept.main] : ''}
                         </div>}
 
+                        {watch === 'all' && <WorkersUnitList workers={currWorkers[dept.department]}/>}
+
                         {dept?.sub && dept.sub.length > 0 && <div className="pl-20 text-gray-600 text-sm">
                             <div className="font-medium mr-1">Підлеглі підрозділи:</div>
                             {dept.sub.map((unit, i) => <div key={i} className={'ml-4'}>
                                 {departmentsNames[unit._id]}</div>)}
                         </div>}
-                        {watch === 'all' && <WorkersUnitList workers={currWorkers[dept.department]}/>}
+
                     </div>
                 ))}
                 {filteredDepartments.length === 0 && (

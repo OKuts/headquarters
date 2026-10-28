@@ -21,7 +21,7 @@ export const ModalWrap = ({children, onClose}: ModalProps) => {
             onClick={onClose}
         >
             <div
-                className="relative w-full max-w-lg rounded-xl overflow-hidden animate-in fade-in zoom-in duration-200"
+                className="relative w-full max-w-2xl rounded-xl overflow-hidden animate-in fade-in zoom-in duration-200"
                 onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
                 {children}

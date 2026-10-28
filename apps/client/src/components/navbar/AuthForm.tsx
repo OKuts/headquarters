@@ -10,6 +10,7 @@ import type {IDepartment} from '@headquarters/shared'
 import {authClientApi} from '../../api'
 import {getName} from '../../utils/persons/getName'
 import {ModalWrap} from '../total'
+import {InputBetween} from '../total/inputs'
 
 export const AuthForm: React.FC = () => {
     const navigate = useNavigate()
@@ -138,24 +139,12 @@ export const AuthForm: React.FC = () => {
 
                         {/*Radio Group*/}
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                Ваша роль
-                            </label>
-                            <div className="grid grid-cols-3 gap-3">
-                                {Object.values(ERoles).map((option) => (
-                                    <label key={option} className="relative flex cursor-pointer">
-                                        <input
-                                            {...register('role', {required: 'Оберіть тип посади'})}
-                                            type="radio"
-                                            value={option}
-                                            className="peer sr-only"/>
-                                        <div
-                                            className="w-full text-center py-2 px-3 text-sm font-medium text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20 peer-checked:text-blue-600 dark:peer-checked:text-blue-400 transition-all hover:bg-slate-100 dark:hover:bg-slate-700">
-                                            {option}
-                                        </div>
-                                    </label>
-                                ))}
-                            </div>
+                            <InputBetween
+                                list={Object.values(ERoles)}
+                                register={register}
+                                requiredText={'Оберіть тип посади'}
+                                label={'Ваша роль'}
+                                errors={errors}/>
                             {errors.role && (
                                 <span className="text-red-500 text-xs mt-1">{errors.role.message as string}</span>
                             )}

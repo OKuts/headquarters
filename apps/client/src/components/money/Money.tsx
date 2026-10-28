@@ -6,6 +6,7 @@ import {moneyTotalHeader} from '../../data'
 import {isMore, outNum} from '../../utils/total'
 import {SearchInput} from '../../elements'
 import {TdAdd} from './TdAdd.tsx'
+import {useSearchStore} from '../../store/useSearchStore.ts'
 
 const getCn = (line: number[], j: number) => {
     switch (j) {
@@ -20,23 +21,26 @@ const getCn = (line: number[], j: number) => {
 
 export const Money = () => {
 
+    const {searchValue, setSearch} = useSearchStore()
+
     const {result, isLoading, error} = useGetFilesData('money')
     const [show, setShow] = useState(null)
-    const [searchUnit, setSearchUnit] = useState('')
+
+    useEffect(() => {
+        setSearch('')
+    }, [setSearch])
 
     useEffect(() => {
         if (result) {
             const moneyData: MoneyClass = new MoneyClass(result)
-            setShow(moneyData.showTotal(searchUnit))
+            setShow(moneyData.showTotal(searchValue))
         }
-    }, [result, searchUnit])
+    }, [result, searchValue])
 
     if (isLoading || error || !show) return
 
-    console.log(show)
-
     return <>
-        <SearchInput setSearchTerm={setSearchUnit}/>
+        <SearchInput />
         <table
             className={'border border-collapse border-gray-200 mt-10 relative left-1/2 -translate-x-1/2 max-w-none w-max'}>
             <Header list={moneyTotalHeader}/>
@@ -45,7 +49,12 @@ export const Money = () => {
             {Object.keys(show).filter(el => el !== 'total').map((unit) =>
                 Object.keys(show[unit]).map((code, i) =>
                     <tr key={i}>
-                        {!i ? <td rowSpan={Object.keys(show[unit]).length} className={'border px-1 py-1 text-center'}>{`А${unit}`}</td> : null}
+                        {!i ? <td
+                                rowSpan={Object.keys(show[unit]).length}
+                                className={'border px-1 py-1 text-center font-bold'}>
+                                {`А${unit}`}
+                            </td>
+                            : null}
                         <td className={'border px-1 py-1 text-center'}>{code.slice(0, 4)}</td>
                         <td className={'border px-1 py-1 text-center'}>{code.slice(4)}</td>
                         {show[unit][code].map((el, j) => <Fragment key={j}>

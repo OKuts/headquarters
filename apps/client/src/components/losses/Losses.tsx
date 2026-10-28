@@ -7,33 +7,37 @@ import {outNum} from '../../utils/total'
 import {lossesTotalHeader} from '../../data'
 import {SearchInput} from '../../elements'
 import {FinClass} from '../../utils/fin/FinClass.ts'
+import {useSearchStore} from '../../store/useSearchStore.ts'
 
 export const Losses = () => {
-
     const {result, isLoading, error} = useGetFilesData('losses')
     const {result: buh} = useGetFilesData('other')
     const [totalLosses, setTotalLosses] = useState<ILossesTotalArr | null>(null)
     const [totalBuh, setTotalBuh] = useState<ILossesBuhData | null>(null)
-    const [searchUnit, setSearchUnit] = useState('')
+    const {searchValue, setSearch} = useSearchStore()
+
+    useEffect(() => {
+        setSearch('')
+    }, [setSearch])
 
     useEffect(() => {
         if (result) {
             const lossesData: LossesClass = new LossesClass(result)
-            setTotalLosses(lossesData.showTotal(searchUnit))
+            setTotalLosses(lossesData.showTotal(searchValue))
         }
-    }, [result, searchUnit])
+    }, [result, searchValue])
 
     useEffect(() => {
         if (buh) {
             const fin: FinClass = new FinClass(buh[''].data)
-            setTotalBuh(fin.showFinData(searchUnit))
+            setTotalBuh(fin.showFinData(searchValue))
         }
-    }, [buh, searchUnit])
+    }, [buh, searchValue])
 
     if (isLoading || error || !totalLosses) return
 
     return <>
-        <SearchInput setSearchTerm={setSearchUnit}/>
+        <SearchInput />
         <table className={'border border-collapse border-gray-200 mt-10 relative left-1/2 -translate-x-1/2 max-w-none w-max'}>
             <Header list={lossesTotalHeader}/>
             <tbody>

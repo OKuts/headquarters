@@ -1,3 +1,5 @@
 export * from './models/DepartnentModel'
 export * from './models/LossesModel'
 export * from './models/MoneyModel'
+export * from './models/TelegramModel'
+export * from './models/TotalModel'
