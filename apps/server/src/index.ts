@@ -14,6 +14,8 @@ import 'dotenv/config'
 import {adminsGetServerApi} from './api/admin/adminsGetServerApi'
 import {personalAddServerApi, personalGetServerApi, personalPatchServerApi} from './api/personal'
 import {importGetServerApi} from './api/import'
+import {createNewOrderServerApi} from './api/orders/createNewOrderServerApi'
+import {getOrdersServerApi} from './api/orders/getOrdersServerApi'
 
 const app = express()
 app.use(cors())
@@ -48,6 +50,10 @@ app.patch('/api/personal', personalPatchServerApi)
 app.get('/api/losses', importGetServerApi)
 app.get('/api/money', importGetServerApi)
 app.get('/api/other', importGetServerApi)
+
+app.post('/api/order', createNewOrderServerApi)
+app.get('/api/order', getOrdersServerApi)
+
 
 
 app.listen(3001, () => {

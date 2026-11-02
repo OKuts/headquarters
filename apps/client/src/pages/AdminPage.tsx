@@ -8,9 +8,8 @@ import {WorkersList} from '../components/workers'
 import {Losses} from '../components/losses'
 import {useAdminStore} from '../store'
 import {Money} from '../components/money/Money.tsx'
-import {Head, TelegramForm} from '../components/head'
-import {Sub} from '../components/sub'
-
+import {Orders} from '../components/orders'
+import {TelegramNavbar} from '../components/orders'
 
 export const AdminPage = () => {
     const navigation = useNavigation()
@@ -23,7 +22,7 @@ export const AdminPage = () => {
     const inputMaps: Record<string, JSX.Element> = {
         units: <InputEditDepartmentName setAdd={setAdd}/>,
         persons: <InputPersonName setAdd={setAdd}/>,
-        head: <TelegramForm setAdd={setAdd}/>,
+        orders: <TelegramNavbar setAdd={setAdd}/>,
     }
 
     const watchMaps: Record<string, JSX.Element> = {
@@ -33,19 +32,18 @@ export const AdminPage = () => {
         workers: <WorkersList />,
         losses: <Losses />,
         money: <Money />,
-        head: <Head setAdd={setAdd} watch={watch}/>,
-        sub: <Sub setAdd={setAdd} watch={watch}/>,
+        orders: <Orders setAdd={setAdd} watch={watch}/>,
     }
 
     return <div>
         <div className={'flex justify-between'}>
             <Admins/>
             <WatchSelect
-                list={admin ? Object.keys(watchMaps) : Object.keys(watchMaps).slice(0,-4)}
+                list={admin ? Object.keys(watchMaps) : Object.keys(watchMaps).slice(0,-3)}
                 setWatch={setWatch}
                 watch={watch}/>
         </div>
-        {inputMaps[add] || null}
         {watchMaps[watch] || null}
+        {inputMaps[add] || null}
     </div>
 }

@@ -24,8 +24,6 @@ export const Admins = () => {
         }
     }, [setAdmin])
 
-    console.log(into)
-
     return <>
         <div className={'flex'}>
             <div className={'min-w-35'}>Адміністратори:</div>

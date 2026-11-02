@@ -144,6 +144,7 @@ export const AuthForm: React.FC = () => {
                                 register={register}
                                 requiredText={'Оберіть тип посади'}
                                 label={'Ваша роль'}
+                                regName={'role'}
                                 errors={errors}/>
                             {errors.role && (
                                 <span className="text-red-500 text-xs mt-1">{errors.role.message as string}</span>

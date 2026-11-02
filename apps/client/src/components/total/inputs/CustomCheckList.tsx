@@ -6,9 +6,9 @@ export const CustomCheckList = ({label, list, units, setUnits, isChange}) => {
         if (temp[key]) {
             delete temp[key]
         } else {
-            temp[key] = {}
+            temp[key] = null
         }
-        isChange ? setUnits({[key]: {}}) : setUnits(temp)
+        isChange ? setUnits({[key]: null}) : setUnits(temp)
     }
 
     const getCn = (is: boolean) => {

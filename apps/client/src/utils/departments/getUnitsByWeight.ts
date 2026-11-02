@@ -2,6 +2,7 @@ import type {IDepartment, IDepartmentByWeight, KeyString} from '@headquarters/sh
 
 export const getUnitsByWeight = (departmentNames: KeyString, departments: IDepartment[]) => {
 
+    if (!departmentNames || departments.length === 0) return null
     const out: IDepartmentByWeight = {count: {}, top: {}, notCount: {}, notNot: {}, other: {},}
 
     const middleTop: string[] = []

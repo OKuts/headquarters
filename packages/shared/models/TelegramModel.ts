@@ -1,5 +1,6 @@
 export enum ELevel {
-    HEAD = 'Head',
-    WE = 'We',
-
+    FROM_TOP = 'На виконання',
+    MIDDLE_UP = 'Запит нагору',
+    MIDDLE_DOWN = 'Розпорядження',
+    FROM_DOWN = 'Запит частин',
 }

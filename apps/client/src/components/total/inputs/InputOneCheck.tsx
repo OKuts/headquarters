@@ -1,15 +1,22 @@
-export const InputOneCheck = ({register}) => {
+type Props = {
+    value: boolean
+    setValue: (value: boolean) => void
+    label: string
+}
+
+export const InputOneCheck = ({value, setValue, label}: Props) => {
 
 
-    return <div>
+    return <div className={'mr-10'}>
         <label
-            className="py-5 text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 cursor-pointer flex items-center gap-3">
+            className="py-5 font-medium text-slate-700 dark:text-slate-300 mb-2 cursor-pointer flex items-center gap-3">
             <input
-                {...register('isSub')}
+                onChange={() => {setValue(!value)}}
+                checked={value}
                 type="checkbox"
                 className="peer sr-only"
             />
-            <span>Завдання підлеглим частинам</span>
+            <span className={'whitespace-nowrap'}>{label}</span>
             <div
                 className="w-5 h-5 rounded border border-slate-600 bg-slate-800 peer-checked:bg-blue-600 peer-checked:border-blue-500 peer-checked:[&_svg]:opacity-100 transition-all flex items-center justify-center">
                 {/* Іконка галочки */}

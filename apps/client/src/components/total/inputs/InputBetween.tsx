@@ -1,4 +1,4 @@
-export const InputBetween = ({register, errors, list, requiredText, label}) => {
+export const InputBetween = ({register, errors, list, requiredText, label, regName}) => {
 
 
     return <>
@@ -9,7 +9,7 @@ export const InputBetween = ({register, errors, list, requiredText, label}) => {
             {list.map((option: string) => (
                 <label key={option} className="relative flex cursor-pointer">
                     <input
-                        {...register('source', {required: requiredText})}
+                        {...register(regName, {required: requiredText})}
                         type="radio"
                         value={option}
                         className="peer sr-only"/>
