@@ -1,5 +1,4 @@
 import {ObjectId} from 'mongodb'
-import {ELevel} from './TelegramModel'
 
 export interface DocumentEmpty {
     [key: string]: null
@@ -14,7 +13,6 @@ export interface Document {
 
 export interface IOrderDataItem {
     type: string
-    isSub: boolean
     description?: string
     unitsTop?: Document | DocumentEmpty
     main?: string
@@ -34,3 +32,4 @@ export interface IOrderReturn extends IOrderDataItem {
     createdAt: string
     _id : string | ObjectId
 }
+

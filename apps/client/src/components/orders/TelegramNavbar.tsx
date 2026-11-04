@@ -1,7 +1,7 @@
 import {ModalWrap} from '../total'
 import {type JSX, useState} from 'react'
 import {type DocumentEmpty, ELevel, type IDepartmentByWeight} from '@headquarters/shared'
-import {InputDocBetween, InputFromTop, InputMiddleUp} from '../total/inputs'
+import {InputDocBetween, InputFromDown, InputFromTop, InputMiddleDown, InputMiddleUp} from '../total/inputs'
 import {useDepartmentsStore} from '../../store'
 import {getUnitsByWeight} from '../../utils/departments'
 
@@ -13,7 +13,7 @@ export const TelegramNavbar = ({setAdd}: Props) => {
 
     const {departments, departmentsNames} = useDepartmentsStore()
 
-    const [docType, setDocType] = useState<{type: string, description: string}>({type: '', description: ''})
+    const [docType, setDocType] = useState<{ type: string, description: string }>({type: '', description: ''})
     const [unitsTop, setUnitsTop] = useState<DocumentEmpty | object>({})
     const [unitsDown, setUnitsDown] = useState<DocumentEmpty | object>({})
 
@@ -25,13 +25,16 @@ export const TelegramNavbar = ({setAdd}: Props) => {
         [ELevel.FROM_TOP]: <InputFromTop setAdd={setAdd} unitsTop={unitsTop} setUnitsTop={setUnitsTop}
                                          unitsDown={unitsDown} setUnitsDown={setUnitsDown} unitsByWeight={unitsByWeight}
                                          description={docType.description} type={'FROM_TOP'}/>,
-        [ELevel.FROM_DOWN]: <>ELevel.FROM_TOP</>,
+        [ELevel.FROM_DOWN]: <InputFromDown setAdd={setAdd} unitsDown={unitsDown} setUnitsDown={setUnitsDown}
+                                           unitsByWeight={unitsByWeight} description={docType.description}
+                                           type={'FROM_DOWN'}/>,
         [ELevel.MIDDLE_UP]: <InputMiddleUp setAdd={setAdd} unitsTop={unitsTop} setUnitsTop={setUnitsTop}
-                                          unitsDown={unitsDown} setUnitsDown={setUnitsDown} unitsByWeight={unitsByWeight}
-                                          description={docType.description} type={'MIDDLE_UP'}/>,
-        [ELevel.MIDDLE_DOWN]: <>ELevel.FROM_TOP</>,
+                                           unitsByWeight={unitsByWeight} description={docType.description}
+                                           type={'MIDDLE_UP'}/>,
+        [ELevel.MIDDLE_DOWN]: <InputMiddleDown setAdd={setAdd} unitsDown={unitsDown} setUnitsDown={setUnitsDown}
+                                               unitsByWeight={unitsByWeight} description={docType.description}
+                                               type={'MIDDLE_DOWN'}/>,
     }
-
 
 
     return <>
@@ -43,8 +46,6 @@ export const TelegramNavbar = ({setAdd}: Props) => {
                     handler={setDocType}
                 />
             </>
-
-
             }
         </ModalWrap>}
 

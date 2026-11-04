@@ -9,6 +9,8 @@ interface ModalProps {
 export const ModalWrap = ({children, onClose}: ModalProps) => {
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
+
+            console.log(e)
             if (e.key === 'Escape') onClose()
         }
         window.addEventListener('keydown', handleEsc)

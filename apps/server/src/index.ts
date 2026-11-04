@@ -16,6 +16,7 @@ import {personalAddServerApi, personalGetServerApi, personalPatchServerApi} from
 import {importGetServerApi} from './api/import'
 import {createNewOrderServerApi} from './api/orders/createNewOrderServerApi'
 import {getOrdersServerApi} from './api/orders/getOrdersServerApi'
+import {changeOrderServerApi} from './api/orders/changeOrderServerApi'
 
 const app = express()
 app.use(cors())
@@ -52,6 +53,7 @@ app.get('/api/money', importGetServerApi)
 app.get('/api/other', importGetServerApi)
 
 app.post('/api/order', createNewOrderServerApi)
+app.post('/api/order_change', changeOrderServerApi)
 app.get('/api/order', getOrdersServerApi)
 
 

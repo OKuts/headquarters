@@ -8,7 +8,7 @@ import {InputDocument} from './InputDocument.tsx'
 import {DateInput} from './DateInput.tsx'
 import {Calendar} from 'lucide-react'
 import {userLogger} from '../../../utils/logger/logger.ts'
-import {orderCreateApi} from '../../../api'
+import {orderApi} from '../../../api'
 import {useOrdersStore} from '../../../store/useOrdersStore.ts'
 
 type Props = {
@@ -33,9 +33,9 @@ export const InputFromTop = (
     const [step, setStep] = useState(0)
 
     const closeForm = async (data: FieldValues) => {
-        orderCreateApi({method: 'POST',
+        orderApi({method: 'POST',
             data: {...data, type, description, unitsTop, unitsDown}}) // внести в базу
-            .then(req => {orderCreateApi({method: 'GET', data: null})
+            .then(() => {orderApi({method: 'GET', data: null})
                 .then(list => {saveOrders(list.data)})  // переписую стор
             })
         setAdd('')
@@ -91,7 +91,7 @@ export const InputFromTop = (
                         {isReq && <div className={'flex'}>
                             <InputOneCheck value={isDown} setValue={setIsDown}
                                            label={'Завдання підлеглим частинам'}/>
-                            {isDown && <DateInput label="Отримати доповідь" name="weUntil" register={register}
+                            {isDown && <DateInput label="Отримати доповідь" name="subUntil" register={register}
                                                   icon={<Calendar size={20}/>}/>}
                         </div>}
                     </div>}

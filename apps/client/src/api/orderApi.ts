@@ -1,9 +1,9 @@
 
-export const orderCreateApi = async (send) => {
+export const orderApi = async (send, path = 'order') => {
     try {
         const {method, data} = send
 
-        const url = `${import.meta.env.VITE_API_URL}/api/order`
+        const url = `${import.meta.env.VITE_API_URL}/api/${path}`
 
         const response = method === 'GET'
             ? await fetch(url)

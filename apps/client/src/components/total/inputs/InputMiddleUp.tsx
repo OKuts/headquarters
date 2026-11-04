@@ -3,7 +3,7 @@ import {ModalWrap} from '../ModalWrap.tsx'
 import type {DocumentEmpty, IDepartmentByWeight} from '@headquarters/shared'
 import {CustomCheckList} from './CustomCheckList.tsx'
 import {InputDocument} from './InputDocument.tsx'
-import {orderCreateApi} from '../../../api'
+import {orderApi} from '../../../api'
 import {useOrdersStore} from '../../../store/useOrdersStore.ts'
 import {userLogger} from '../../../utils/logger/logger.ts'
 
@@ -12,29 +12,26 @@ type Props = {
     setAdd: (value: string) => void
     unitsTop: DocumentEmpty | object
     setUnitsTop: (units: DocumentEmpty) => void
-    unitsDown: DocumentEmpty | object
-    setUnitsDown: (units: DocumentEmpty) => void
     unitsByWeight: IDepartmentByWeight
     description: string
 }
 
 export const InputMiddleUp = (
-    {setAdd, unitsTop, setUnitsTop, unitsDown, setUnitsDown, unitsByWeight, type, description}: Props) => {
+    {setAdd, unitsTop, setUnitsTop, unitsByWeight, type, description}: Props) => {
 
     const {register, handleSubmit} = useForm()
     const {saveOrders} = useOrdersStore()
 
     const closeForm = (data: FieldValues) => {
-        orderCreateApi({
+        orderApi({
             method: 'POST',
-            data: {...data, type, description, unitsTop, unitsDown}
+            data: {...data, type, description, unitsTop}
         }) // внести в базу
-            .then(req => {
-                orderCreateApi({method: 'GET', data: null})
+            .then(() => {
+                orderApi({method: 'GET', data: null})
                     .then(list => {
                         saveOrders(list.data)  // переписую стор
                         setUnitsTop({})
-                        setUnitsDown({})
                     })
             })
         setAdd('')
