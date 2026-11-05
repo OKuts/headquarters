@@ -9,7 +9,7 @@ export const Header = ({list}: Props) => {
     {list.map((item, j) =>
         <tr key={j}>
             {item.map((el, i) =>
-                <th key={i} rowSpan={el[1]} colSpan={el[2]} className={'px-1 py-1 text-center border'}>
+                <th key={i} rowSpan={el[1]} colSpan={el[2]} className={'px-1 py-1 text-center border whitespace-pre-line'}>
                     {el[0]}
                 </th>)}
         </tr>

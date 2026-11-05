@@ -1,6 +1,5 @@
 import type {DocumentEmpty, KeyString} from '@headquarters/shared'
 
-
 type Props = {
     label: string
     list: KeyString

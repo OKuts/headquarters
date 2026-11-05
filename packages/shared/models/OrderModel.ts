@@ -17,8 +17,8 @@ export interface IOrderDataItem {
     unitsTop?: Document | DocumentEmpty
     main?: string
     mainDate?: string
-    mainAdd?: string
-    mainAddDate?: string
+    add?: string
+    addDate?: string
     weUntil?: string
     mainDown?: string
     mainDownDate?: string

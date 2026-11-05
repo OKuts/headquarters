@@ -88,12 +88,12 @@ export const InputFromTop = (
                                                  icon={<Calendar size={20}/>}/>}
                         </div>
 
-                        {isReq && <div className={'flex'}>
+                        <div className={'flex'}>
                             <InputOneCheck value={isDown} setValue={setIsDown}
-                                           label={'Завдання підлеглим частинам'}/>
+                                           label={'Підлеглим частинам'}/>
                             {isDown && <DateInput label="Отримати доповідь" name="subUntil" register={register}
                                                   icon={<Calendar size={20}/>}/>}
-                        </div>}
+                        </div>
                     </div>}
                     {step === 1 && <div>
                         <div className={'text-slate-800 dark:text-white'}>До підлеглих частин</div>
