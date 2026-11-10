@@ -1,4 +1,4 @@
-import {type ILossesData, type ILossesTotalArr} from '@headquarters/shared'
+import {type ILossesData, type ILossesTotalArr, type KeyString} from '@headquarters/shared'
 import {LossesCreateClass} from './LosessCreateClass.ts'
 import {checkDateWeekNative} from '../dates/checkDateWeekNative.ts'
 import {checkDateMonthNative} from '../dates/checkDateMonthNative.ts'
@@ -12,6 +12,7 @@ export class LossesClass {
 
     showTotal(searchUnit: string) {
         let out: ILossesTotalArr = {total: new LossesCreateClass().getNew()}
+        const mtd: KeyString = {}
 
         Object.keys(this.data).forEach((unit) => {
             if (!searchUnit || unit.slice(0,searchUnit.length) === searchUnit) {
@@ -67,12 +68,18 @@ export class LossesClass {
                                         out.total.minusPreMonth += el
                                     }
                                     break
+                                case 8:
+                                    if (date.slice(0, 10) === '2026-10-01') {
+                                        mtd[unit] = el
+                                    }
+                                    break
+
                             }
                         }
                     })
                 })
             }
         })
-        return out
+        return [out, mtd]
     }
 }

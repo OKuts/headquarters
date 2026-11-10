@@ -5,7 +5,7 @@ import {personsClientApi} from '../../api/personClientApi.ts'
 import {userLogger} from '../../utils/logger/logger.ts'
 import {useAdminStore} from '../../store'
 import {Check} from 'lucide-react'
-import {useSearchStore} from '../../store/useSearchStore.ts'
+import {useSearchStore} from '../../store'
 
 type Props = {
     setAdd: (isAdd: string) => void

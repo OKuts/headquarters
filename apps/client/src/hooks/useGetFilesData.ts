@@ -12,7 +12,7 @@ export const useGetFilesData = (path: string) => {
             try {
                 const url = `${import.meta.env.VITE_API_URL}/api/${path}`
                 const res = await fetch(url)
-                if (!res.ok) throw new Error('Помилка завантаження данних')
+                if (!res.ok) throw new Error('Помилка завантаження даних')
                 const data = await res.json()
                 if (isMounted) setResult(data.data)
             } catch (err) {

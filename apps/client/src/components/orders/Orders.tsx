@@ -1,14 +1,14 @@
 import {AddSearchWrapper} from '../../elements/AddSearchWrapper.tsx'
-import {useAdminStore, useDepartmentsStore} from '../../store'
+import {useAdminStore, useDepartmentsStore, useOrdersStore, useSearchStore} from '../../store'
 import {useEffect, useState} from 'react'
-import {useOrdersStore} from '../../store/useOrdersStore.ts'
 import {orderApi} from '../../api'
 import {Header, ModalWrap} from '../total'
 import {ordersHeader} from '../../data'
 import {getDocuments, getUnitsAnswer} from '../../utils/orders'
-import {ChangeUnitAnswer} from './ChangeUnitAnswer.tsx'
-import {useSearchStore} from '../../store/useSearchStore.ts'
-import {OrdersCell} from './OrdersCell.tsx'
+import {ChangeUnitAnswer} from './ChangeUnitAnswer'
+import {OrdersCell} from './OrdersCell'
+
+type OrderLine = [string, string, string, string, string, string, string | string[], string, string | string[], string ]
 
 type Props = {
     setAdd: (isAdd: string) => void
@@ -35,10 +35,10 @@ export const Orders = ({setAdd, watch}: Props) => {
             })
     }, [saveOrders])
 
-    const outArr = orders.map(obj => ([
-        obj._id,
-        obj.type,
-        obj.description,
+    const outArr : OrderLine[] = orders.map(obj => ([
+        String(obj._id) || '',
+        obj.type || '',
+        obj.description || '',
         obj.type === 'FROM_TOP' && obj.unitsTop ? `А${departmentsNames[Object.keys(obj.unitsTop)[0]]}` : '',
         (obj.type === 'FROM_TOP' || obj.type === 'MIDDLE_UP') ? getDocuments(obj, true) : '',
         obj.weUntil ? obj.weUntil : '',
@@ -49,16 +49,17 @@ export const Orders = ({setAdd, watch}: Props) => {
         obj.unitsDown ? getUnitsAnswer(obj.unitsDown, departmentsNames).map(el => el.replace('()', '')) : '',
         (obj.type === 'FROM_TOP' || obj.type === 'MIDDLE_DOWN') && obj.subUntil ? obj.subUntil : '',
     ]))
+
     const filteredOrders = searchValue
-        ? outArr.filter(line =>            line
-            .some(el => el && typeof el === 'string' && el.includes(searchValue)))
+        ? outArr.filter(line => line.some(el =>
+            el &&
+                ((typeof el === 'string' && el.includes(searchValue))
+                    || (Array.isArray(el))
+                    && el.some((value: string) => value.includes(searchValue)))))
             .reverse()
         : outArr.reverse()
 
-
     const handler = (_id: string, type: string) => {
-
-        console.log(_id, type)
         setCurrId(_id)
         setAnswerType(type)
     }
@@ -68,7 +69,7 @@ export const Orders = ({setAdd, watch}: Props) => {
         setAdd('')
     }
 
-    console.log(filteredOrders)
+    console.log(outArr)
 
     return <>
         {admin && <AddSearchWrapper setAdd={setAdd} watch={watch} text={'Додати розпорядження'}/>}
@@ -77,7 +78,7 @@ export const Orders = ({setAdd, watch}: Props) => {
             <Header list={ordersHeader}/>
             <tbody>
             {filteredOrders.map((line, i) => <tr key={i}>
-                {line.map((el, j) => j
+                {line.map((el, j: number) => j
                     ? <OrdersCell key={j} el={el} i={j} _id={line[0]} orderType={line[1]}
                                   handler={handler} n5={!!line[5]} n9={!!line[9]}/>
                     : <></>)}

@@ -38,7 +38,7 @@ export const MainLayout = () => {
         bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white transition-colors duration-300 ">
             {/*{navigation.state === 'loading' && <p>Завантаження...</p>}*/}
             <Navbar/>
-            <main className="container mx-auto max-w-7xl">
+            <main className="container mx-auto max-w-7xl mt-2">
                 {user && <>
                     <div className={'flex justify-end'}>
                         <span className={'mr-2'}>{`${departmentData[0]}:`}</span>

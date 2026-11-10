@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react'
 import {useAdminStore, useDepartmentsStore} from '../../store'
-import type {ActionType} from '../../types/contextMenuTypes.ts'
+import type {ActionType} from '../../types'
 import {departmentsClientApi} from '../../api'
 import {DepartmentsRadio} from './DepartmentsRadio.tsx'
 import {getDepartment} from '../../utils/departments'
@@ -11,7 +11,7 @@ import {useWorkerData} from '../../hooks'
 import {ActionMenu} from '../total'
 import {DEPARTMENTS_OPTIONS, options} from '../../data'
 import type {IDepartment} from '@headquarters/shared'
-import {useSearchStore} from '../../store/useSearchStore.ts'
+import {useSearchStore} from '../../store'
 
 type Props = {
     setAdd: (isAdd: string) => void

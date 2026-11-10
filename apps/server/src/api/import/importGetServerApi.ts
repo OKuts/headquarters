@@ -6,9 +6,12 @@ export const importGetServerApi = async (req, res): Promise<void> => {
     const way: string = req.url.split('/')[2]
     const folder: string = getEnv()[way]
 
+    console.log(folder)
+
     try {
         if (folder) {
             const files = fs.readdirSync(folder).filter(el => !el.includes('$'))
+
             const selectedFiles: { [key: string]: { file: string, data: [] } } = {}
             files.forEach((file) => {
                 const part = file.slice(15, 19)
@@ -24,7 +27,7 @@ export const importGetServerApi = async (req, res): Promise<void> => {
                     readSheet(`${folder}/${el.file}`))
             ])
             Object.keys(selectedFiles).forEach((key, i) => {
-                selectedFiles[key].data = result[i].value.slice(way === 'other' ? 0 : 6)
+                selectedFiles[key].data = result[i].value.slice(way === 'other' || way === 'properties' ? 0 : 6)
             })
             res.send({data: selectedFiles, msg: ''})
             

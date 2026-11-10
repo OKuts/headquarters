@@ -23,9 +23,6 @@ export const WorkersList = () => {
     )
 
     return <>
-        <div className={'flex justify-between items-center w-full mb-2'}>
-            <SearchInput />
-        </div>
         <div className="w-full max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100">
             <div className="border border-slate-200 rounded-lg">
                 <table className="min-w-full divide-y divide-slate-200 bg-white text-left text-sm text-slate-600">

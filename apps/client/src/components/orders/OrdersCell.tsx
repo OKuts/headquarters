@@ -8,7 +8,7 @@ type Props = {
     orderType: string
     handler: (id: string, type: string) => void
     n5: boolean
-    n8: boolean
+    n9: boolean
 }
 
 export const OrdersCell = ({el, i, _id, orderType, handler, n5, n9}: Props) => {
@@ -26,6 +26,7 @@ export const OrdersCell = ({el, i, _id, orderType, handler, n5, n9}: Props) => {
                 case 1 :
                     return <td className={'border px-1 py-1 text-center'}>{typeMaps[el]}</td>
                 case 2 :
+                    return <td className={'border px-1 py-1 whitespace-pre-line max-w-50'}>{el}</td>
                 case 4 :
                     return <td className={'border px-1 py-1 whitespace-pre-line'}>{el}</td>
                 case 3 :
@@ -51,10 +52,10 @@ export const OrdersCell = ({el, i, _id, orderType, handler, n5, n9}: Props) => {
                     </td>
                 case 8 :
                     return <td onClick={orderType === 'FROM_TOP' && n9 ? () => handler(_id, 'MIDDLE_DOWN') : () => null}
-                        className={n9 ? 'border px-1 py-1' : 'border px-1 py-1 flex-wrap gap-2'}>
-                        {el.map(el =>
-                            <div className={el.length < 48 && orderType === 'FROM_TOP' && n9 ? 'text-red-600' : ''}>
-                                {el.slice(24)}
+                        className={`border ${!n9 ? 'grid grid-cols-5 gap-1' : ''}`}>
+                        {el.map(value =>
+                            <div className={value.length < 48 && orderType === 'FROM_TOP' && n9 ? 'text-red-600 w-fit' : ''}>
+                                {value.slice(24)}
                             </div>)}
                     </td>
                 default:

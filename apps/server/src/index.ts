@@ -51,10 +51,16 @@ app.patch('/api/personal', personalPatchServerApi)
 app.get('/api/losses', importGetServerApi)
 app.get('/api/money', importGetServerApi)
 app.get('/api/other', importGetServerApi)
+app.get('/api/properties', importGetServerApi)
+
+
+
 
 app.post('/api/order', createNewOrderServerApi)
 app.post('/api/order_change', changeOrderServerApi)
 app.get('/api/order', getOrdersServerApi)
+
+
 
 
 

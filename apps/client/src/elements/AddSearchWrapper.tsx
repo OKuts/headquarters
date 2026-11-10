@@ -1,5 +1,4 @@
-import {AddCustomButton} from './AddCustomButton.tsx'
-import {SearchInput} from './SearchInput.tsx'
+import {AddCustomButton} from './AddCustomButton'
 import {useAdminStore} from '../store'
 
 type Props = {
@@ -13,6 +12,5 @@ export const AddSearchWrapper = ({setAdd, watch, text}: Props) => {
 
     return <div className={'flex justify-between items-center w-full mb-2'}>
         {admin && watch !== 'all' ? <AddCustomButton setAdd={setAdd} watch={watch} text={text}/> : <div/>}
-        <SearchInput />
     </div>
 }
