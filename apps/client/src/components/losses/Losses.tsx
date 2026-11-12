@@ -20,14 +20,11 @@ export const Losses = () => {
 
     if (isLoading || error || loading || isError) return null
 
-
     const lossesData: LossesClass = new LossesClass(result)
     const [totalLosses, mtd]: [ILossesTotalArr, KeyString] = lossesData.showTotal(searchValue)
 
-
     const fin: FinClass = new FinClass(buh[''].data)
     const totalBuh: ILossesBuhData = fin.showFinData(searchValue)
-
 
     return <>
         <table
@@ -56,6 +53,7 @@ export const Losses = () => {
             </tr>)}
             </tbody>
         </table>
+
         {modalData.show && <ModalWrap onClose={() => setIsModalData({show: false, unit: '', value: ''})}>
             <div className={'p-10 max-w-120 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white'}>
                 <p className={'pb-10 font-bold'}>{`А${modalData.unit}`}</p>

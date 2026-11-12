@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import {useEffect, useState} from 'react'
 import type {ILossesData} from '@headquarters/shared'
 
 export const useGetFilesData = (path: string) => {
@@ -6,14 +6,14 @@ export const useGetFilesData = (path: string) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
 
-    useEffect(() => {        let isMounted = true
-
-        const fetchResult = async () => {
+    useEffect(() => {
+        let isMounted = true;
+        (async () => {
             try {
                 const url = `${import.meta.env.VITE_API_URL}/api/${path}`
-                const res = await fetch(url)
+                const res: Response = await fetch(url)
                 if (!res.ok) throw new Error('Помилка завантаження даних')
-                const data = await res.json()
+                const data: any = await res.json()
                 if (isMounted) setResult(data.data)
             } catch (err) {
                 if (isMounted) {
@@ -26,13 +26,13 @@ export const useGetFilesData = (path: string) => {
             } finally {
                 if (isMounted) setIsLoading(false)
             }
+        })()
+
+        return () => {
+            isMounted = false
         }
-
-        fetchResult()
-
-        return () => { isMounted = false }
     }, [path, setIsLoading])
 
-    return { result, isLoading, error }
+    return {result, isLoading, error}
 }
 

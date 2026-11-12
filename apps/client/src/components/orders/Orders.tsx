@@ -77,7 +77,7 @@ export const Orders = ({setAdd, watch}: Props) => {
             className={'border border-collapse border-gray-200 mt-10 relative left-1/2 -translate-x-1/2 max-w-none w-max'}>
             <Header list={ordersHeader}/>
             <tbody>
-            {filteredOrders.map((line, i) => <tr key={i}>
+            {filteredOrders.map((line, i) => <tr key={i} className={'border'}>
                 {line.map((el, j: number) => j
                     ? <OrdersCell key={j} el={el} i={j} _id={line[0]} orderType={line[1]}
                                   handler={handler} n5={!!line[5]} n9={!!line[9]}/>

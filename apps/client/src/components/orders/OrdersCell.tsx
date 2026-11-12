@@ -44,7 +44,7 @@ export const OrdersCell = ({el, i, _id, orderType, handler, n5, n9}: Props) => {
             switch (i) {
                 case 6 :
                     return <td onClick={orderType === 'FROM_TOP' && n5 ? () => handler(_id, 'FROM_TOP') : () => null}
-                               className={'border px-1 py-1'}>
+                               className={'px-1 py-1'}>
                         {el.map(el =>
                             <div className={el.length < 48 && orderType === 'FROM_TOP' && n5 ? 'text-red-600' : ''}>
                                 {el.slice(24)}
@@ -52,7 +52,7 @@ export const OrdersCell = ({el, i, _id, orderType, handler, n5, n9}: Props) => {
                     </td>
                 case 8 :
                     return <td onClick={orderType === 'FROM_TOP' && n9 ? () => handler(_id, 'MIDDLE_DOWN') : () => null}
-                        className={`border ${!n9 ? 'grid grid-cols-5 gap-1' : ''}`}>
+                        className={`px-1 py-1 ${!n9 ? 'grid grid-cols-5 gap-1' : ''}`}>
                         {el.map(value =>
                             <div className={value.length < 48 && orderType === 'FROM_TOP' && n9 ? 'text-red-600 w-fit' : ''}>
                                 {value.slice(24)}
