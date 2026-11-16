@@ -8,8 +8,7 @@ import {WorkersList} from '../components/workers'
 import {Losses} from '../components/losses'
 import {useAdminStore} from '../store'
 import {Money} from '../components/money/Money.tsx'
-import {Orders} from '../components/orders'
-import {TelegramNavbar} from '../components/orders'
+import {Orders, TelegramNavbar} from '../components/orders'
 import {Prop} from '../components/properties/Prop.tsx'
 
 export const AdminPage = () => {
@@ -17,6 +16,8 @@ export const AdminPage = () => {
     const [add, setAdd] = useState<string>('')
     const [watch, setWatch] = useState<string>('all')
     const {admin} = useAdminStore()
+
+    console.log(admin)
 
     if (navigation.state === 'loading') return null
 
@@ -30,23 +31,25 @@ export const AdminPage = () => {
         all: <DepartmentsList setAdd={setAdd} watch={watch}/>,
         units: <DepartmentsList setAdd={setAdd} watch={watch}/>,
         persons: <PersonList setAdd={setAdd} watch={watch}/>,
-        workers: <WorkersList />,
+        workers: <WorkersList/>,
         losses: <Losses/>,
-        money: <Money />,
+        money: <Money/>,
         orders: <Orders setAdd={setAdd} watch={watch}/>,
-        property: <Prop />,
+        property: <Prop/>,
     }
 
-    return <div>
-        <div className={'flex justify-between sticky top-16 z-250 bg-slate-50 dark:bg-slate-800 pt-2 pb-2'}>
-            <Admins/>
-            <WatchSelect
-                list={admin ? Object.keys(watchMaps) : Object.keys(watchMaps).slice(0,-5)}
-                setWatch={setWatch}
-                watch={watch}/>
-            <SearchInput/>
+    return <>
+        <div className='w-screen ml-[calc(50%-50vw)] sticky z-40 top-16 bg-slate-50 dark:bg-slate-800'>
+            <div className={'container mx-auto max-w-7xl flex justify-between bg-slate-50 dark:bg-slate-800 pt-2 pb-2'}>
+                <Admins/>
+                <WatchSelect
+                    list={admin ? Object.keys(watchMaps) : Object.keys(watchMaps).slice(0, -5)}
+                    setWatch={setWatch}
+                    watch={watch}/>
+                <SearchInput/>
+            </div>
         </div>
         {watchMaps[watch] || null}
         {inputMaps[add] || null}
-    </div>
+    </>
 }

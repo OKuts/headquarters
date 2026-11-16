@@ -1,0 +1,1 @@
+export const getModernUnit = (unit: string) => /^\d{4}$/.test(unit) ? `А${unit}` : unit

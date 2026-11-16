@@ -7,14 +7,14 @@ export const TdAdd = ({obj, el, j}: {obj: any, el: number, j: number}) => {
             <td className={'whitespace-nowrap border px-1 py-1 text-right'}>
                 {outNum(el / obj[j - (j < 9 ? 2 : 1)])}
             </td>
-            <td className={'whitespace-nowrap border px-1 py-1 text-right'}>
+            <td className={`whitespace-nowrap border px-1 py-1 text-right ${obj[j - (j < 9 ? 2 : 1)] - el > 0 ? 'bg-blue-700' : ''}`}>
                 {outNum(obj[j - (j < 9 ? 2 : 1)] - el)}
             </td>
         </Fragment>}
 
         {[3, 7, 10, 13].includes(j) && <Fragment>
             <td
-                className={'whitespace-nowrap border px-1 py-1 text-right'}>
+                className={`whitespace-nowrap border px-1 py-1 text-right ${obj[j - 2] - el > 0 ? 'bg-blue-700' : ''}`}>
                 {outNum(obj[j - 2] - el)}
             </td>
         </Fragment>}

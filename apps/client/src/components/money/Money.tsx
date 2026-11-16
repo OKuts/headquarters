@@ -3,20 +3,9 @@ import {Fragment, useEffect} from 'react'
 import {MoneyClass} from '../../utils/money'
 import {Header} from '../total'
 import {moneyTotalHeader} from '../../data'
-import {isMore, outNum} from '../../utils/total'
+import {getModernUnit, outNum} from '../../utils/total'
 import {TdAdd} from './TdAdd.tsx'
 import {useSearchStore} from '../../store'
-
-const getCn = (line: number[], j: number) => {
-    switch (j) {
-        case 0 :
-        case 4 :
-        case 8 :
-            return isMore(line[j], line[j + 2]) ? 'bg-blue-700' : ''
-        default:
-            return ''
-    }
-}
 
 export const Money = () => {
 
@@ -44,13 +33,13 @@ export const Money = () => {
                     {!i ? <td
                             rowSpan={Object.keys(show[unit]).length}
                             className={'border px-1 py-1 text-center font-bold'}>
-                            {`А${unit}`}
+                            {getModernUnit(unit)}
                         </td>
                         : null}
                     <td className={'border px-1 py-1 text-center'}>{code.slice(0, 4)}</td>
                     <td className={'border px-1 py-1 text-center'}>{code.slice(4)}</td>
                     {show[unit][code].map((el, j) => <Fragment key={j}>
-                            <td className={`whitespace-nowrap border px-1 py-1 text-right ${getCn(show[unit][code], j)}`}>
+                            <td className={'whitespace-nowrap border px-1 py-1 text-right'}>
                                 {outNum(el)}
                             </td>
                             <TdAdd obj={show[unit][code]} el={el} j={j}/>

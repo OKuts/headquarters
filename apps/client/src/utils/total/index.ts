@@ -1,2 +1,2 @@
-export * from './isMore'
 export * from './outNum'
+export * from './getModernUnit'

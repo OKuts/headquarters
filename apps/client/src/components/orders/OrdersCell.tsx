@@ -26,16 +26,17 @@ export const OrdersCell = ({el, i, _id, orderType, handler, n5, n9}: Props) => {
                 case 1 :
                     return <td className={'border px-1 py-1 text-center'}>{typeMaps[el]}</td>
                 case 2 :
-                    return <td className={'border px-1 py-1 whitespace-pre-line max-w-50'}>{el}</td>
+                    return <td className={'border px-1 py-1 max-w-50'}>{el}</td>
                 case 4 :
-                    return <td className={'border px-1 py-1 whitespace-pre-line'}>{el}</td>
+                case 6 :
+                case 7 :
+                    return <td className={'border px-1 py-1 max-w-40 whitespace-pre-line'}>
+                        {el.split(' ').join('\n')}
+                    </td>
                 case 3 :
                 case 5 :
-                case 6 :
                 case 9 :
                     return <td className={'border px-1 py-1 text-center whitespace-pre-line'}>{el}</td>
-                case 7 :
-                    return <td className={'border px-1 py-1 whitespace-pre-line'}>{el}</td>
                 default:
                     return <></>
             }
@@ -44,17 +45,17 @@ export const OrdersCell = ({el, i, _id, orderType, handler, n5, n9}: Props) => {
             switch (i) {
                 case 6 :
                     return <td onClick={orderType === 'FROM_TOP' && n5 ? () => handler(_id, 'FROM_TOP') : () => null}
-                               className={'px-1 py-1'}>
+                               className={'px-1 py-1 max-w-50 whitespace-pre-line'}>
                         {el.map(el =>
                             <div className={el.length < 48 && orderType === 'FROM_TOP' && n5 ? 'text-red-600' : ''}>
                                 {el.slice(24)}
                             </div>)}
                     </td>
                 case 8 :
-                    return <td onClick={orderType === 'FROM_TOP' && n9 ? () => handler(_id, 'MIDDLE_DOWN') : () => null}
+                    return <td onClick={(orderType === 'FROM_TOP' || orderType === 'MIDDLE_DOWN' )&& n9 ? () => handler(_id, 'MIDDLE_DOWN') : () => null}
                         className={`px-1 py-1 ${!n9 ? 'grid grid-cols-5 gap-1' : ''}`}>
                         {el.map(value =>
-                            <div className={value.length < 48 && orderType === 'FROM_TOP' && n9 ? 'text-red-600 w-fit' : ''}>
+                            <div className={value.length < 45 && (orderType === 'FROM_TOP' || orderType === 'MIDDLE_DOWN') && n9 ? 'text-red-600 w-fit' : ''}>
                                 {value.slice(24)}
                             </div>)}
                     </td>

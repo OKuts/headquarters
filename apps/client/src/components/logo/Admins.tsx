@@ -27,9 +27,7 @@ export const Admins = () => {
     return <>
         <div className={'flex'}>
             <div className={'min-w-35'}>Адміністратори:</div>
-            {admins.map(el => <div key={el._id} className="flex mb-2 min-w-50"
-                                   onClick={(() => handler(el))}>
-
+            {admins.map(el => <div key={el._id} className="flex mb-2 min-w-50" onClick={(() => handler(el))}>
                 <div className={'ml-2 text-l flex font-bold tracking-tight text-gray-900 dark:text-white'}>
                     {el.name}
                     {el._id === (into && into._id) ? <Check strokeWidth={4} className={'ml-2 text-green-500'}/> : ''}

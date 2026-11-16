@@ -1,11 +1,11 @@
-import {useOrdersStore} from '../../store/useOrdersStore.ts'
 import {CustomCheckList, InputDocument} from '../total/inputs'
 import {useState} from 'react'
 import type {DocumentEmpty} from '@headquarters/shared'
-import {useDepartmentsStore} from '../../store'
+import {useDepartmentsStore, useOrdersStore} from '../../store'
 import {type FieldValues, useForm} from 'react-hook-form'
 import {userLogger} from '../../utils/logger/logger.ts'
 import {orderApi} from '../../api'
+import {getModernUnit} from '../../utils/total'
 
 type Props = {
     close: () => void
@@ -24,7 +24,7 @@ export const ChangeUnitAnswer = ({close, currId, answerType}: Props) => {
     const label = answerType === 'FROM_TOP' ? 'Наша відповідь' : 'Отримана доповідь'
     const temp = answerType === 'FROM_TOP' ? {...curOrder.unitsTop} : {...curOrder.unitsDown}
     const list = Object.keys(temp).reduce((res, el) => ({...res, [el]: departmentsNames[el]}), {})
-    const unit = answerType === 'FROM_TOP' ? `А${departmentsNames[Object.keys(list)[0]]}` : ''
+    const unit = answerType === 'FROM_TOP' ? getModernUnit(departmentsNames[Object.keys(list)[0]]) : ''
 
     const saveChange = async (value) => {
         orderApi({method: 'POST', data: {...value, _id: currId}}, 'order_change') // внести зміни в базу
@@ -32,7 +32,6 @@ export const ChangeUnitAnswer = ({close, currId, answerType}: Props) => {
                 .then(list => {saveOrders(list.data)})  // переписую стор
             })
     }
-
 
     const onSubmit = async (data: FieldValues) => {
         if (data.answerNum && data.answerDate) {

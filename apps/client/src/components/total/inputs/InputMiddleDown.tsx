@@ -66,7 +66,7 @@ export const InputMiddleDown = (
                         <InputDocument label={'Реєстраційний реквізити додаткові'} register={register}
                                        name={'addDown'}
                                        dateName={'addDownDate'}/>
-                            <DateInput label="Отримати доповідь" name="weUntil" register={register}
+                            <DateInput label="Отримати доповідь" name="subUntil" register={register}
                                                   icon={<Calendar size={20}/>}/>
                     </div>}
                     {step === 1 && <div>

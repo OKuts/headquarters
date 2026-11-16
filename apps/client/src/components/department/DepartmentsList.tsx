@@ -34,11 +34,11 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
         if (!workers || !workers.length) return {}
         return workers.reduce((acc, worker) => {
             const dept = worker.department
-            const workerData: [string, string] = [worker.name, worker.role]
+            const workerData: [string, string] = [worker.name, worker.role, worker.phone]
             if (!acc[dept]) acc[dept] = []
             acc[dept].push(workerData)
             return acc
-        }, {} as Record<string, [string, string][]>)
+        }, {} as Record<string, [string, string, string][]>)
     }, [workers])
 
     const filteredDepartments = useMemo(() => {
@@ -120,7 +120,6 @@ export const DepartmentsList = ({setAdd, watch}: Props) => {
                         </div>}
 
                         {watch === 'all' && <WorkersUnitList workers={currWorkers[dept.department]}/>}
-
                         {dept?.sub && dept.sub.length > 0 && <div className="pl-20 text-gray-600 text-sm">
                             <div className="font-medium mr-1">Підлеглі підрозділи:</div>
                             {dept.sub.map((unit, i) => <div key={i} className={'ml-4'}>

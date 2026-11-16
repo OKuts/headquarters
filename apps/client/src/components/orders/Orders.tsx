@@ -7,6 +7,7 @@ import {ordersHeader} from '../../data'
 import {getDocuments, getUnitsAnswer} from '../../utils/orders'
 import {ChangeUnitAnswer} from './ChangeUnitAnswer'
 import {OrdersCell} from './OrdersCell'
+import {getModernUnit} from '../../utils/total'
 
 type OrderLine = [string, string, string, string, string, string, string | string[], string, string | string[], string ]
 
@@ -39,7 +40,7 @@ export const Orders = ({setAdd, watch}: Props) => {
         String(obj._id) || '',
         obj.type || '',
         obj.description || '',
-        obj.type === 'FROM_TOP' && obj.unitsTop ? `А${departmentsNames[Object.keys(obj.unitsTop)[0]]}` : '',
+        obj.type === 'FROM_TOP' && obj.unitsTop ? getModernUnit(departmentsNames[Object.keys(obj.unitsTop)[0]]) : '',
         (obj.type === 'FROM_TOP' || obj.type === 'MIDDLE_UP') ? getDocuments(obj, true) : '',
         obj.weUntil ? obj.weUntil : '',
         (((obj.type === 'FROM_TOP' && obj.weUntil) || obj.type === 'MIDDLE_UP') && obj.unitsTop)
@@ -69,7 +70,7 @@ export const Orders = ({setAdd, watch}: Props) => {
         setAdd('')
     }
 
-    console.log(outArr)
+    console.log(filteredOrders)
 
     return <>
         {admin && <AddSearchWrapper setAdd={setAdd} watch={watch} text={'Додати розпорядження'}/>}

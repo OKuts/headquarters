@@ -3,20 +3,20 @@ import {useMemo} from 'react'
 import {Worker} from '.'
 
 type Props = {
-    workers: [string, string][]
+    workers: [string, string, string][]
 }
 
 export const WorkersUnitList = ({workers}: Props) => {
 
     const [bossName, subs, users] = useMemo(() => {
-        if (!workers || workers.length === 0) return ['', [], []]
-        return workers.reduce((acc, [name, role]) => {
-                if (role === ERoles.BOSS && !acc[0]) acc[0] = name
-                else if (role === ERoles.SUB) acc[1].push(name)
-                else if (role === ERoles.USER) acc[2].push(name)
+        if (!workers || workers.length === 0) return [[], [], []]
+        return workers.reduce((acc, [name, role, phone]) => {
+                if (role === ERoles.BOSS && acc[0].length === 0) acc[0] = [name, phone]
+                else if (role === ERoles.SUB) acc[1].push([name, phone])
+                else if (role === ERoles.USER) acc[2].push([name, phone])
                 return acc
             },
-            ['', [], []] as [string, string[], string[]]
+            [[], [], []] as [string[], string[][], string[][]]
         )
     }, [workers])
 

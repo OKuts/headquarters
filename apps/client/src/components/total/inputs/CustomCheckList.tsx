@@ -1,4 +1,5 @@
 import type {DocumentEmpty, KeyString} from '@headquarters/shared'
+import {getModernUnit} from '../../../utils/total'
 
 type Props = {
     label: string
@@ -35,7 +36,7 @@ export const CustomCheckList = ({label, list, units, setUnits, isChange}: Props)
                     className={getCn(Object.keys(units).includes(key))}
                     onClick={() => handler(key)}
                     key={key}>
-            {`А${item.slice(0, 4)}`}
+            { getModernUnit(item.slice(0, 4))}
         </span>)}
         </div>
     </div>
