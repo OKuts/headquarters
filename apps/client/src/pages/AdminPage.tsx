@@ -43,13 +43,13 @@ export const AdminPage = () => {
             <div className={'container mx-auto max-w-7xl flex justify-between bg-slate-50 dark:bg-slate-800 pt-2 pb-2'}>
                 <Admins/>
                 <WatchSelect
-                    list={admin ? Object.keys(watchMaps) : Object.keys(watchMaps).slice(0, -5)}
+                    list={admin ? Object.keys(watchMaps) : []}
                     setWatch={setWatch}
                     watch={watch}/>
                 <SearchInput/>
             </div>
         </div>
-        {watchMaps[watch] || null}
+        {admin && watchMaps[watch] || null}
         {inputMaps[add] || null}
     </>
 }

@@ -45,7 +45,7 @@ export class LossesClass {
                                     if (typeOfMonth === 'current_month' && date.slice(0, 10) !== '2026-10-01') {
                                         out[unit].orderMonth += el
                                         out.total.orderMonth += el
-                                    } else if (typeOfMonth === 'previous_month') {
+                                    } else if (typeOfMonth === 'previous_month' && date.slice(0, 10) !== '2026-10-01') {
                                         out[unit].orderPreMonth += el
                                         out.total.orderPreMonth += el
                                     }
@@ -63,7 +63,7 @@ export class LossesClass {
                                     if (typeOfMonth === 'current_month' && date.slice(0, 10) !== '2026-10-01') {
                                         out[unit].minusMonth += el
                                         out.total.minusMonth += el
-                                    } else if (typeOfMonth === 'previous_month') {
+                                    } else if (typeOfMonth === 'previous_month' && date.slice(0, 10) !== '2026-10-01') {
                                         out[unit].minusPreMonth += el
                                         out.total.minusPreMonth += el
                                     }

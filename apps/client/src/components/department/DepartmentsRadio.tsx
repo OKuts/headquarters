@@ -17,7 +17,9 @@ export const DepartmentsRadio = ({setIsRadioUnit}: RadioProps) => {
     const {register, handleSubmit, formState: {errors}} = useForm({defaultValues: {index: -1}})
 
     const availableMainDepartments = useMemo(() =>
-            departments.filter(department => currId !== department._id)
+            departments
+                .filter(department => currId !== department._id)
+                .sort((a,b) => a.department > b.department ? 1 : -1)
         , [departments, currId])
 
     const onSubmit = async (data: { index: number }) => {
@@ -56,36 +58,30 @@ export const DepartmentsRadio = ({setIsRadioUnit}: RadioProps) => {
     }
 
     return (
-        <ModalWrap onClose={() => setIsRadioUnit(false)} title={'Обрати старший підрозділ'}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {availableMainDepartments.map((el, i) =>
-                    <label key={el._id} htmlFor={el._id}
-                           className="group flex items-center gap-3 cursor-pointer select-none py-1">
-                        <div className="relative flex items-center justify-center">
-                            <input
-                                type="radio"
-                                id={el._id}
-                                value={i}
-                                {...register('index', {required: 'Оберіть один із варіантів'})}
-                                className="peer sr-only"
-                            />
-
-                            <div className="h-5 w-5 rounded-full border-2 border-slate-300 bg-white
-          transition-all duration-200
-          peer-checked:border-blue-600 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-400
-          group-hover:border-slate-400">
+        <ModalWrap onClose={() => setIsRadioUnit(false)}>
+            <form onSubmit={handleSubmit(onSubmit)} >
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {availableMainDepartments.map((el: IDepartment, i: number) => (
+                        <label key={el._id} htmlFor={el._id}
+                            className="group flex items-center gap-3 cursor-pointer select-none px-3 py-2.5 rounded-xl bg-slate-900/50 hover:bg-slate-800/80 border border-slate-800 hover:border-slate-700 transition-all duration-200"
+                        >
+                            <div className="relative flex items-center justify-center shrink-0">
+                                <input
+                                    type="radio"
+                                    id={el._id}
+                                    value={i}
+                                    {...register('index', { required: 'Оберіть один із варіантів' })}
+                                    className="peer sr-only"
+                                />
+                                <div className="h-5 w-5 rounded-full border-2 border-slate-600 bg-slate-900 transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-500/10 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-400 group-hover:border-slate-500"></div>
+                                <div className="absolute h-2.5 w-2.5 rounded-full bg-blue-500 scale-0 transition-transform duration-200 peer-checked:scale-100"></div>
                             </div>
-
-                            <div className="absolute h-2.5 w-2.5 rounded-full bg-blue-600
-          scale-0 transition-transform duration-200
-          peer-checked:scale-100">
-                            </div>
-                        </div>
-
-                        <span
-                            className="text-sm font-medium text-slate-700 group-hover:text-slate-900">{el.department}</span>
-                    </label>
-                )}
+                            <span className="text-sm font-medium text-slate-300 group-hover:text-white truncate">
+        {el.department}
+      </span>
+                        </label>
+                    ))}
+                </div>
                 {errors.index && (
                     <p className="text-red-500 text-sm mt-2 font-medium">
                         {errors.index.message}

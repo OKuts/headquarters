@@ -55,6 +55,7 @@ export const ChangeUnitAnswer = ({close, currId, answerType}: Props) => {
 
     return <div
         className="m-auto w-full p-8 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800">
+        <div className={'text-slate-800 dark:text-white pb-3'}>{orders.filter(el => el._id === currId)[0].description}</div>
         <form onSubmit={handleSubmit((data) => onSubmit(data))} className="space-y-5">
             {answerType === 'MIDDLE_DOWN'
                 ? <CustomCheckList

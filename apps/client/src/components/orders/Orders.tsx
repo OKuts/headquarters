@@ -54,9 +54,9 @@ export const Orders = ({setAdd, watch}: Props) => {
     const filteredOrders = searchValue
         ? outArr.filter(line => line.some(el =>
             el &&
-                ((typeof el === 'string' && el.includes(searchValue))
+                ((typeof el === 'string' && el.toLowerCase().includes(searchValue.toLowerCase()))
                     || (Array.isArray(el))
-                    && el.some((value: string) => value.includes(searchValue)))))
+                    && el.some((value: string) => value.toLowerCase().includes(searchValue.toLowerCase())))))
             .reverse()
         : outArr.reverse()
 
